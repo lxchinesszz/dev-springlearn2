@@ -1,22 +1,25 @@
 <template>
-  <div class="container animated bounceInRight">
+  <div class="container">
     <div id="searchTarget">
       <!--      查询源-->
-<!--      <div-->
-<!--        v-for="(scope, index) in categories"-->
-<!--        :class="-->
-<!--          index === currentToolIndex-->
-<!--            ? 'searchTargetCard searchTargetCardHover'-->
-<!--            : 'searchTargetCard'-->
-<!--        "-->
-<!--        @click="clickCurrentToolIndex(scope.id, index)"-->
-<!--        >{{ scope.name }}-->
-<!--      </div>-->
+      <div
+        v-for="(scope, index) in categories"
+        :key="index"
+        :class="
+          index === currentCategoryIndex
+            ? 'searchTargetCard searchTargetCardHover'
+            : 'searchTargetCard'
+        "
+        @click="clickCurrentCategoryIndex(index)"
+        >{{ scope.categoryName }}
+      </div>
+      <div class="searchTargetCard" @click="handleClick"><icon-edit /></div>
     </div>
     <div id="searchBox">
       <input
         id="searchInput"
         ref="searchInputRef"
+        v-model="searchInputText"
         type="text"
         :placeholder="placeholder"
       />
@@ -25,6 +28,7 @@
         type="primary"
         icon="el-icon-search"
         class="btn-15"
+        @click="search"
         >搜索
       </a-button>
     </div>
@@ -34,7 +38,7 @@
         v-for="(scope, index) in searchCardList"
         :key="index"
         class="searchSourceCard"
-        @click="clickCurrentSearchCardIndex(index)"
+        @click="clickCurrentSearchIndex(index)"
       >
         <div
           class="searchSource"
@@ -42,52 +46,105 @@
           >{{ scope.name }}
         </div>
       </div>
+      <div class="searchSourceCard" @click="handleAddSearch"><icon-edit /></div>
     </div>
+    <a-modal
+      v-model:visible="visible"
+      :body-style="{ 'display': 'flex', 'justify-content': 'center' }"
+      title="添加分组"
+      title-align="start"
+      :footer="false"
+      draggable
+      @cancel="handleCancel"
+      @before-ok="handleBeforeOk"
+    >
+      <a-input-search
+        ref="categoryInputElement"
+        v-model="form.name"
+        size="large"
+        placeholder="分栏不要太长哦"
+        button-text="提交"
+        search-button
+        :max-length="6"
+        show-word-limit
+      />
+    </a-modal>
+    <a-modal
+      v-model:visible="searchAddVisible"
+      title="添加搜索引擎"
+      title-align="start"
+      draggable
+      @cancel="handleCancel"
+      @ok="handleBeforeOk"
+    >
+      <a-form
+        :style="{ 'display': 'flex', 'justify-content': 'flex-start' }"
+        auto-label-width
+      >
+        <a-row :gutter="1">
+          <a-col :span="12">
+            <a-form-item field="value1" label="中文名" label-col-flex="50px">
+              <a-input
+                v-model="searchCardInfo.name"
+                placeholder="百度搜索"
+                :max-length="6"
+                show-word-limit
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12"> </a-col>
+        </a-row>
+        <a-row :gutter="2">
+          <a-col :span="24">
+            <a-form-item field="value5" label="SLogo" label-col-flex="50px">
+              <a-input
+                v-model="searchCardInfo.tip"
+                placeholder="百度一下你就知道"
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+        <a-row :gutter="2">
+          <a-col :span="24">
+            <a-form-item field="value5" label="域名" label-col-flex="50px">
+              <a-input
+                v-model="searchCardInfo.searchUrl"
+                placeholder="https://www.baidu.com/s?ie=UTF-8&wd="
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
 
   export default defineComponent({
     name: 'Search',
-    setup() {
-      const searchCardList = [
-        {
-          name: 'Google',
-          tip: '使用谷歌试试手气吧',
-          // djt: 1,
-          searchUrl: 'https://www.google.com/search?q=',
-        },
-        {
-          name: 'Baidu',
-          tip: '百度一下,你就知道',
-          searchUrl: 'https://www.baidu.com/s?ie=UTF-8&wd=',
-        },
-        {
-          name: 'Github',
-          tip: '全球最大的代码仓库平台',
-          searchUrl: 'https://github.com/search?q=',
-        },
-        {
-          name: 'Oschina',
-          tip: 'OSCHINA - 中文开源技术交流社区_开源中国',
-          searchUrl: 'https://www.oschina.net/search?q=',
-        },
-        {
-          name: 'CSDN',
-          tip: 'CSDN - 专业开发者社区',
-          searchUrl: 'https://so.csdn.net/so/search?q=',
-        },
-        {
-          name: 'Bilibi',
-          tip: '哔哩哔哩 (゜-゜)つロ 干杯~-bilibili',
-          searchUrl: 'https://search.bilibili.com/all?keyword=',
-        },
-      ];
+    props: ['categories', 'searchList'],
+    emits: ['changeCategory'],
+    setup(props, ctx) {
+      const searchCardInfo = reactive({
+        name: '',
+        tip: '',
+        searchUrl: '',
+      });
+      const categoryInputElement = ref<HTMLElement>();
+      const visible = ref(false);
+      const searchAddVisible = ref(false);
+      const form = reactive({
+        name: '',
+        post: '',
+      });
+      const searchInputText = ref('');
+      const searchCardList = reactive(props.searchList);
       const currentSearchCardIndex = ref(0);
+      const currentCategoryIndex = ref(0);
       const placeholder = ref('请输入你要搜索的关键字');
-      function clickCurrentSearchCardIndex(index: number) {
+      function clickCurrentSearchIndex(index: number) {
         currentSearchCardIndex.value = index;
         if (searchCardList[index].djt === 1) {
           console.log('填充土鸡汤');
@@ -95,17 +152,75 @@
           placeholder.value = searchCardList[index].tip;
         }
       }
+      function clickCurrentCategoryIndex(index: number) {
+        currentCategoryIndex.value = index;
+        ctx.emit('changeCategory', index);
+      }
+      function search() {
+        const url =
+          searchCardList[currentSearchCardIndex.value].searchUrl +
+          searchInputText.value;
+        window.open(url, '_blank');
+      }
+      const keyDown = (e) => {
+        if (e.keyCode === 13) {
+          search();
+        }
+      };
+      onMounted(() => {
+        window.addEventListener('keydown', keyDown);
+      });
+      onUnmounted(() => {
+        window.removeEventListener('keydown', keyDown, false);
+      });
+
+      const handleClick = () => {
+        visible.value = true;
+        console.log(categoryInputElement);
+      };
+
+      const handleAddSearch = () => {
+        searchAddVisible.value = true;
+      };
+      const handleBeforeOk = () => {
+        searchCardList.push(searchCardInfo);
+      };
+      const handleCancel = () => {
+        visible.value = false;
+      };
+
       return {
         searchCardList,
         currentSearchCardIndex,
         placeholder,
-        clickCurrentSearchCardIndex,
+        currentCategoryIndex,
+        search,
+        clickCurrentCategoryIndex,
+        clickCurrentSearchIndex,
+        searchInputText,
+        visible,
+        form,
+        handleClick,
+        handleBeforeOk,
+        handleCancel,
+        categoryInputElement,
+        searchAddVisible,
+        handleAddSearch,
+        searchCardInfo,
       };
     },
   });
 </script>
 
-<style scoped>
+<style lang="less" scoped>
+  :deep(.arco-modal-body) {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+  :deep(.arco-modal-header) {
+    display: none;
+  }
   .container {
     width: 100%;
     height: 100%;
@@ -118,13 +233,17 @@
     color: #1d2129;
     /*background: #3c7cbe;*/
     background-image: linear-gradient(
-      45deg, rgb(90, 54, 148) 0%, rgb(19, 189, 206) 33%, rgb(0, 148, 217) 66%, rgb(111, 199, 181) 100%);
+      45deg,
+      rgb(90, 54, 148) 0%,
+      rgb(19, 189, 206) 33%,
+      rgb(0, 148, 217) 66%,
+      rgb(111, 199, 181) 100%
+    );
     background-size: 400%;
     background-position: 0 100%;
     -webkit-animation: gradient 15s ease-in-out infinite;
     animation: bganimation 15s ease-in-out infinite;
   }
-
 
   @keyframes bganimation {
     0% {
@@ -137,7 +256,6 @@
       background-position: 0% 50%;
     }
   }
-
 
   #searchBox {
     width: 100%;
@@ -172,7 +290,7 @@
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    color: #2c3e50;
+    //color: #2c3e50;
   }
 
   #searchTarget {
