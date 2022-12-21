@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import ArcoVue from '@arco-design/web-vue';
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 import globalComponents from '@/components';
+import BaiduCalendar from 'vue-baidu-calendar';
 import router from './router';
 import store from './store';
 import directive from './directive';
@@ -19,5 +20,7 @@ app.use(router);
 app.use(store);
 app.use(globalComponents);
 app.use(directive);
+
+app.use(BaiduCalendar);
 
 app.mount('#app');

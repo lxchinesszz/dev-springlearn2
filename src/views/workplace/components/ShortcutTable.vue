@@ -39,12 +39,14 @@
           v-model="shortcutData[rowIndex].name"
           :max-length="6"
           show-word-limit
+          allow-clear
         />
       </template>
       <template #href="{ rowIndex }">
         <a-input
           v-model="shortcutData[rowIndex].href"
           placeholder="https://json.cn"
+          allow-clear
         >
           <template #prefix>
             <icon-public />
@@ -53,7 +55,12 @@
       </template>
       <template #openType="{ rowIndex }">
         <a-select v-model="shortcutData[rowIndex].openType">
-          <a-option v-for="index in openWindowType" :key="index.code">
+          <a-option
+            v-for="index in openWindowType"
+            :key="index.code"
+            :label="index.name"
+            :value="index.code"
+          >
             {{ index.name }}
           </a-option>
         </a-select>
@@ -65,6 +72,8 @@
 <script lang="ts">
   // 抽屉工具，支持8个或者是4个
   import { defineComponent, reactive, ref } from 'vue';
+  import ShortcutModel from '@/model/ShortcutModel';
+  import deepClone from '@/api/lodashs';
 
   export default defineComponent({
     name: 'ShortcutTable',
@@ -73,26 +82,18 @@
         type: Boolean,
         default: false,
       },
-      tableData: {
-        default: [
-          {
-            name: '配色',
-            hrefs: 'https://coolors.co/78bc61-c0c781-c59b76-e9806e-76bbb0',
-            openType: '新的窗口',
-          },
-        ],
-      },
+      tableData: Array<ShortcutModel>,
     },
     setup(props) {
-      const shortcutData = reactive(props.tableData);
+      const shortcutData = reactive(deepClone(props.tableData));
       const openWindowType = [
         {
           name: '新的窗口',
-          code: '_target',
+          code: '_blank',
         },
         {
           name: '当前窗口',
-          code: '_blank',
+          code: '_target',
         },
       ];
       const shortcutColumns = ref([

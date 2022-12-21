@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" :style="style.searchBackgroundCss">
     <div id="searchTarget">
       <!--      查询源-->
       <div
@@ -16,21 +16,18 @@
       <div class="searchTargetCard" @click="handleClick"><icon-edit /></div>
     </div>
     <div id="searchBox">
-      <input
-        id="searchInput"
-        ref="searchInputRef"
-        v-model="searchInputText"
-        type="text"
-        :placeholder="placeholder"
-      />
-      <a-button
-        id="searchButton"
-        type="primary"
-        icon="el-icon-search"
-        class="btn-15"
-        @click="search"
-        >搜索
-      </a-button>
+      <div v-if="style.searchStyle === 'search-google'" style="width: 55vw">
+        <SearchGoogle :placeholder="placeholder" @do-action="search" />
+      </div>
+      <div
+        v-else-if="style.searchStyle === 'search-simple'"
+        style="width: 55vw"
+      >
+        <SearchSimple :placeholder="placeholder" @do-action="search" />
+      </div>
+      <div v-else style="width: 55vw">
+        <SearchStandard :placeholder="placeholder" @do-action="search" />
+      </div>
     </div>
     <div id="searchCard">
       <!--      查询源-->
@@ -121,11 +118,22 @@
 
 <script lang="ts">
   import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
+  import CategoryModel from '@/model/CategoryModel';
+  import SearchEngineModel from '@/model/SearchEngineModel';
+  import SearchGoogle from '@/views/workplace/components/search/SearchGoogle.vue';
+  import SearchStandard from '@/views/workplace/components/search/SearchStandard.vue';
+  import SearchSimple from '@/views/workplace/components/search/SearchSimple.vue';
+  import StyleModel from '@/model/StyleModel';
 
   export default defineComponent({
     name: 'Search',
-    props: ['categories', 'searchList'],
+    props: {
+      categories: Array<CategoryModel>,
+      searchList: Array<SearchEngineModel>,
+      style: StyleModel,
+    },
     emits: ['changeCategory'],
+    components: { SearchGoogle, SearchStandard, SearchSimple },
     setup(props, ctx) {
       const searchCardInfo = reactive({
         name: '',
@@ -140,40 +148,25 @@
         post: '',
       });
       const searchInputText = ref('');
-      const searchCardList = reactive(props.searchList);
+
+      const searchCardList = reactive<Array<SearchEngineModel>>(
+        props.searchList
+      );
       const currentSearchCardIndex = ref(0);
       const currentCategoryIndex = ref(0);
       const placeholder = ref('请输入你要搜索的关键字');
       function clickCurrentSearchIndex(index: number) {
         currentSearchCardIndex.value = index;
-        if (searchCardList[index].djt === 1) {
-          console.log('填充土鸡汤');
-        } else {
-          placeholder.value = searchCardList[index].tip;
-        }
+        placeholder.value = searchCardList[index].slogan;
       }
       function clickCurrentCategoryIndex(index: number) {
         currentCategoryIndex.value = index;
         ctx.emit('changeCategory', index);
       }
-      function search() {
-        const url =
-          searchCardList[currentSearchCardIndex.value].searchUrl +
-          searchInputText.value;
+      function search(value: any) {
+        const url = searchCardList[currentSearchCardIndex.value].href + value;
         window.open(url, '_blank');
       }
-      const keyDown = (e) => {
-        if (e.keyCode === 13) {
-          search();
-        }
-      };
-      onMounted(() => {
-        window.addEventListener('keydown', keyDown);
-      });
-      onUnmounted(() => {
-        window.removeEventListener('keydown', keyDown, false);
-      });
-
       const handleClick = () => {
         visible.value = true;
         console.log(categoryInputElement);
@@ -231,14 +224,14 @@
     justify-content: center;
     align-items: center;
     color: #1d2129;
-    /*background: #3c7cbe;*/
-    background-image: linear-gradient(
-      45deg,
-      rgb(90, 54, 148) 0%,
-      rgb(19, 189, 206) 33%,
-      rgb(0, 148, 217) 66%,
-      rgb(111, 199, 181) 100%
-    );
+    background: #3c7cbe;
+    //background-image: linear-gradient(
+    //  45deg,
+    //  rgb(90, 54, 148) 0%,
+    //  rgb(19, 189, 206) 33%,
+    //  rgb(0, 148, 217) 66%,
+    //  rgb(111, 199, 181) 100%
+    //);
     background-size: 400%;
     background-position: 0 100%;
     -webkit-animation: gradient 15s ease-in-out infinite;
@@ -259,22 +252,12 @@
 
   #searchBox {
     width: 100%;
-  }
-
-  #searchInput {
-    height: 48px;
-    text-indent: 15px;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    font-size: 14px;
-    border: none;
-    width: 50%;
-    outline: none;
-  }
-
-  #searchButton {
-    border-radius: 0 10px 10px 0;
-    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    #search {
+      width: 50vw;
+    }
   }
 
   #searchCard {
@@ -342,42 +325,5 @@
 
   .container {
     font-family: 'Arial', 'Microsoft YaHei', '黑体', '宋体', sans-serif;
-  }
-
-  .btn-15 {
-    border: none;
-    z-index: 1;
-    background: #3c7cbe;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    display: inline-block;
-  }
-
-  .btn-15:after {
-    position: absolute;
-    content: '';
-    width: 0;
-    height: 100%;
-    top: 0;
-    right: 0;
-    z-index: -1;
-    background-color: #409eff;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    transition: all 0.3s ease;
-  }
-
-  .btn-15:hover {
-    color: #fff;
-  }
-
-  .btn-15:hover:after {
-    left: 0;
-    width: 100%;
-  }
-
-  .btn-15:active {
-    top: 2px;
   }
 </style>

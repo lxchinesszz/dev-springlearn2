@@ -1,29 +1,18 @@
-import { searchList, data } from '@/api/data';
+import setting from '@/api/data';
+import SettingModel from '@/model/SettingModel';
+import CategoryModel from '@/model/CategoryModel';
+import SearchEngineModel from '@/model/SearchEngineModel';
+import deepClone from '@/api/lodashs';
 
-export interface Tool {
-  title: string;
-  desc: string;
-  link: string;
-  icon: string;
+export function fetchSourceData(): SettingModel {
+  console.log('setting', setting);
+  return deepClone(<SettingModel>setting);
 }
 
-export interface ToolListInfo {
-  toolCategoryName: string;
-  toolList: Array<Tool>;
+export function fetchCategories(): Array<CategoryModel> {
+  return deepClone(fetchSourceData().categories);
 }
 
-export function fetchCategories() {
-  return Object.freeze(data);
-}
-
-export function fetchSearchList() {
-  return Object.freeze(searchList);
-}
-
-/**
- * 根据分类获取工具
- * @param category
- */
-export function tool(category: any) {
-  return fetchCategories().sort()[category];
+export function fetchSearchList(): Array<SearchEngineModel> {
+  return deepClone(fetchSourceData().searchEngineList);
 }

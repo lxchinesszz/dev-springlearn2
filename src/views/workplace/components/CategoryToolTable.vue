@@ -2,31 +2,37 @@
   <div class="tableWrapper">
     <a-card :bordered="onlyRead" :style="{ width: '100%' }">
       <a-card-grid
-        v-for="(_, index) in categoryColumns"
+        v-for="(_, index) in categories"
         :key="index"
         :hoverable="index % 2 === 0"
         :style="{ width: '25%', height: '25%' }"
       >
-        <a-card class="card-demo" :title="_.toolGroupName" :bordered="onlyRead">
+        <a-card class="card" :title="_.categoryName" :bordered="onlyRead">
           <template #extra>
             <a-button shape="circle" :disabled="!onlyRead" @click="addTool(_)">
               <icon-plus />
             </a-button>
           </template>
           <a-space wrap>
-            <a-tag
-              v-for="(info, index) of _.toolList"
-              :key="index"
-              color="red"
-              :closable="onlyRead"
-            >
-              <template #icon>
-                <div style="cursor: pointer" @click="editorTool(info)">
-                  <icon-edit />
-                </div>
-              </template>
-              {{ info.title }}</a-tag
-            >
+            <template #split>
+              <a-divider direction="vertical" />
+            </template>
+            <a-row>
+              <a-col
+                v-for="(toolGroup, index) of _.toolList"
+                :key="index"
+                :span="12"
+              >
+                <a-tag :closable="onlyRead">
+                  <template #icon>
+                    <div style="cursor: pointer" @click="editorTool(toolGroup)">
+                      <icon-edit />
+                    </div>
+                  </template>
+                  {{ toolGroup.toolGroupName }}</a-tag
+                >
+              </a-col>
+            </a-row>
           </a-space>
         </a-card>
       </a-card-grid>
@@ -44,57 +50,48 @@
       <icon-interaction /> {{ currentEditorCategoryTitle }}
     </template>
     <template v-else #title>
-      <a-input
-        v-model="currentEditorCategoryTitle"
-        :max-length="6"
-        show-word-limit
-      />
+      <div style="width: 150px">
+        <a-input
+          v-model="currentEditorCategoryTitle"
+          :max-length="6"
+          show-word-limit
+        />
+      </div>
     </template>
     <div v-if="!onlyRead" class="tableWrapper">
       <a-table
         column-resizable
         :bordered="{ cell: true }"
-        :columns="shortcutColumns"
-        :data="shortcutData"
+        :columns="toolGroupColumns"
+        :data="currentEditorCategoryToolList"
         :pagination="false"
         hoverable
         stripe
         table-layout-fixed
       >
-        <template #openType="{ rowIndex }">
-          <a-tag
-            v-if="shortcutData[rowIndex].openType === '新的窗口'"
-            color="#ffb400"
-          >
-            {{ shortcutData[rowIndex].openType }}
-          </a-tag>
-          <a-tag v-else color="#86909c">
-            {{ shortcutData[rowIndex].openType }}
-          </a-tag>
-        </template>
       </a-table>
     </div>
     <div v-else class="tableWrapper">
       <a-table
         column-resizable
         :bordered="{ cell: true }"
-        :columns="shortcutColumns"
-        :data="shortcutData"
+        :columns="toolGroupColumns"
+        :data="currentEditorCategoryToolList"
         :pagination="false"
         hoverable
         stripe
         table-layout-fixed
       >
-        <template #name="{ rowIndex }">
+        <template #title="{ rowIndex }">
           <a-input
-            v-model="shortcutData[rowIndex].name"
+            v-model="currentEditorCategoryToolList[rowIndex].title"
             :max-length="6"
             show-word-limit
           />
         </template>
-        <template #href="{ rowIndex }">
+        <template #desc="{ rowIndex }">
           <a-input
-            v-model="shortcutData[rowIndex].href"
+            v-model="currentEditorCategoryToolList[rowIndex].desc"
             placeholder="https://json.cn"
           >
             <template #prefix>
@@ -102,18 +99,47 @@
             </template>
           </a-input>
         </template>
-        <template #openType="{ rowIndex }">
-          <a-input v-model="shortcutData[rowIndex].openType"> </a-input>
+        <template #link="{ rowIndex }">
+          <a-input v-model="currentEditorCategoryToolList[rowIndex].link">
+          </a-input>
+        </template>
+        <template #icon="{ rowIndex }">
+          <a-input v-model="currentEditorCategoryToolList[rowIndex].icon">
+          </a-input>
         </template>
         <template #source="{ rowIndex }">
-          <a-select v-model="shortcutData[rowIndex].openType">
-            <a-option v-for="index in sourceType" :key="index.code">
-              {{ index.toolGroupName }}
-            </a-option>
-          </a-select>
+          <a-switch>
+            <template #checked>
+              {{ currentEditorCategoryToolList[rowIndex].source }}
+            </template>
+            <template #unchecked>
+              OFF
+              {{ currentEditorCategoryToolList[rowIndex].source }}
+            </template>
+          </a-switch>
         </template>
       </a-table>
     </div>
+  </a-modal>
+  <a-modal
+    v-model:visible="addToolGroupVisible"
+    :body-style="{ 'display': 'flex', 'justify-content': 'center' }"
+    title="添加工具组"
+    title-align="start"
+    :footer="false"
+    draggable
+  >
+    <a-input-search
+      ref="categoryInputElement"
+      v-model="newToolGroupName"
+      size="large"
+      placeholder="分栏不要太长哦"
+      button-text="提交"
+      search-button
+      :max-length="6"
+      show-word-limit
+      @search="addToolGroupAction"
+    />
   </a-modal>
 </template>
 
@@ -122,6 +148,10 @@
   import { defineComponent, reactive, ref, h } from 'vue';
   import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
   import { Message } from '@arco-design/web-vue';
+  import CategoryModel from '@/model/CategoryModel';
+  import CategoryToolGroup from '@/model/CategoryToolGroup';
+  import CategoryTool from '@/model/CategoryTool';
+  import { clearArray } from '@/api/lodashs';
 
   export default defineComponent({
     name: 'CategoryToolTable',
@@ -130,6 +160,7 @@
         type: Boolean,
         default: false,
       },
+      categories: Array<CategoryModel>,
       tableData: {
         default: [
           {
@@ -154,125 +185,112 @@
       },
     },
     setup(props) {
-      const visibleSetting = ref(false);
-      const shortcutData = reactive(props.tableData);
-      const categoryColumns = ref([
+      const toolGroupColumns = ref([
         {
-          toolGroupName: '常用',
-          toolList: [
-            {
-              icon: '',
-              title: '公众号小助手',
-              desc: '51CTO',
-              link: 'https://blog.51cto.com/springlearn',
-            },
-          ],
+          title: '工具名',
+          dataIndex: 'title',
+          width: '200',
+          slotName: 'title',
         },
         {
-          toolGroupName: '后端',
-          toolList: [
-            {
-              icon: '',
-              title: '51CTO',
-              desc: '51CTO',
-              link: 'https://blog.51cto.com/springlearn',
-            },
-          ],
+          title: '工具介绍',
+          dataIndex: 'desc',
+          slotName: 'desc',
         },
         {
-          toolGroupName: '前端',
-          toolList: [
-            {
-              icon: '',
-              title: '51CTO',
-              desc: '51CTO',
-              link: 'https://blog.51cto.com/springlearn',
-            },
-          ],
+          title: '访问地址',
+          dataIndex: 'link',
+          slotName: 'link',
         },
         {
-          toolGroupName: '设计师',
-          toolList: [
-            {
-              icon: '',
-              title: '51CTO',
-              desc: '51CTO',
-              link: 'https://blog.51cto.com/springlearn',
-            },
-          ],
+          title: 'icon',
+          dataIndex: 'icon',
+          slotName: 'icon',
         },
         {
-          toolGroupName: '自媒体',
-          toolList: [
-            {
-              icon: '',
-              title: '51CTO',
-              desc: '51CTO',
-              link: 'https://blog.51cto.com/springlearn',
-            },
-          ],
-        },
-        {
-          toolGroupName: '在线工具',
-          toolList: [
-            {
-              icon: '',
-              title: '51CTO',
-              desc: '51CTO',
-              link: 'https://blog.51cto.com/springlearn',
-            },
-          ],
-        },
-        {
-          toolGroupName: '斗图',
-          toolList: [
-            {
-              icon: '',
-              title: '51CTO',
-              desc: '51CTO',
-              link: 'https://blog.51cto.com/springlearn',
-            },
-          ],
-        },
-        {
-          toolGroupName: '',
-          toolList: [
-            {
-              icon: '',
-              title: '51CTO',
-              desc: '51CTO',
-              link: 'https://blog.51cto.com/springlearn',
-            },
-          ],
+          title: '来源属性',
+          dataIndex: 'source',
+          slotName: 'source',
         },
       ]);
+      const visibleSetting = ref(false);
+      const shortcutData = reactive(props.tableData);
       const handleOk = () => {
         visibleSetting.value = false;
       };
       const custom = ['gray', 'orangered', 'blue', 'arcoblue', 'gray', 'blue'];
 
-      const currentEditorCategoryTitle = ref('');
-      const editorTool = (info: any) => {
-        currentEditorCategoryTitle.value = info.title;
+      const currentEditorCategoryTitle = ref(' s');
+      let currentEditorCategory: CategoryToolGroup | undefined =
+        reactive<CategoryToolGroup>(null);
+      const currentEditorCategoryToolList: Array<CategoryTool> = reactive([]);
+      const editorTool = (toolGroup: CategoryToolGroup) => {
+        console.log(`toolGroup:}`, toolGroup);
+        currentEditorCategoryTitle.value = toolGroup.toolGroupName;
         visibleSetting.value = true;
+        currentEditorCategory = toolGroup;
+        // 清空数组
+        clearArray(currentEditorCategoryToolList);
+        currentEditorCategoryToolList.push(...toolGroup.toolList);
+        if (currentEditorCategoryToolList.length < 6) {
+          // eslint-disable-next-line no-plusplus
+          for (let i = 0; i < 6 - toolGroup.toolList.length; i++) {
+            currentEditorCategoryToolList.push({
+              icon: '',
+              title: '自定义',
+              desc: '',
+              link: '',
+              source: 1,
+            });
+          }
+        }
+        console.log(
+          `currentEditorCategoryToolList:`,
+          currentEditorCategoryToolList
+        );
       };
+      const newToolGroupName = ref('');
+      const addToolGroupVisible = ref(false);
+      let currentCategory: CategoryModel = reactive({});
       const addTool = (category: any) => {
-        if (category.toolList.length > 6) {
+        clearArray(currentEditorCategoryToolList);
+        if (category.toolList.length >= 6) {
           Message.info({
             content:
               '为了您有更好的用户体检,我们强烈建议你最多只保留 6 个工具分类',
             icon: () => h(IconFaceSmileFill),
           });
         } else {
-          visibleSetting.value = true;
+          currentCategory = category;
+          addToolGroupVisible.value = true;
         }
       };
+      const addToolGroupAction = () => {
+        currentCategory.toolList.push({
+          toolGroupName: newToolGroupName.value,
+          toolList: [
+            {
+              icon: '',
+              title: '',
+              desc: '',
+              link: '',
+              source: 1,
+            },
+          ],
+        });
+        addToolGroupVisible.value = false;
+      };
       return {
+        addToolGroupAction,
+        newToolGroupName,
+        addToolGroupVisible,
+        currentEditorCategoryToolList,
+        currentEditorCategory,
         currentEditorCategoryTitle,
+        toolGroupColumns,
         addTool,
         editorTool,
         custom,
-        categoryColumns,
         handleOk,
         visibleSetting,
         shortcutData,
@@ -300,5 +318,8 @@
   }
   .tableWrapper {
     height: 400px;
+  }
+  .card {
+    height: 150px;
   }
 </style>

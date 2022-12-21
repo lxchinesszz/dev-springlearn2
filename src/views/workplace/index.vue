@@ -6,6 +6,7 @@
     <a-layout-content class="animated fadeInUp">
       <Search
         id="search"
+        :style="style"
         :categories="categories"
         :search-list="searchList"
         @change-category="selectCategory"
@@ -32,33 +33,40 @@
   import Search from '@/views/workplace/components/Search.vue';
   import ToolDrawer from '@/views/workplace/components/ToolDrawer.vue';
   import { reactive } from 'vue';
-  import { fetchCategories, fetchSearchList } from '@/api/toolList';
+  import {
+    fetchCategories,
+    fetchSearchList,
+    fetchSourceData,
+  } from '@/api/toolList';
   import deepClone from '@/api/lodashs';
+  import CategoryModel from '@/model/CategoryModel';
+  import SearchEngineModel from '@/model/SearchEngineModel';
+  import SettingModel from '@/model/SettingModel';
+  // 1. 判断当前缓存中是否有配置
+  // 2. 如果没有读取默认值,写入全局配置
   // 元数据
-  const sourceData = fetchCategories();
-  // 深拷贝对象
-  const categories = deepClone(sourceData);
+  const sourceData: SettingModel = fetchSourceData();
+  const { style } = sourceData;
+  const categories: Array<CategoryModel> = fetchCategories();
   // 初始化数据
-  const toolGroupData = reactive(deepClone(sourceData[0]));
-
-  const searchList = fetchSearchList();
-
+  const toolGroupData: CategoryModel = reactive(deepClone(categories[0]));
+  const searchList: Array<SearchEngineModel> = fetchSearchList();
+  // 切换分类工具组
   function selectCategory(index: number) {
-    toolGroupData.toolGroupName = sourceData[index].toolGroupName;
-    console.log('name:', toolGroupData.toolGroupName, index);
-    toolGroupData.toolList = sourceData[index].toolList;
+    toolGroupData.categoryName = categories[index].categoryName;
+    toolGroupData.toolList = categories[index].toolList;
   }
 </script>
 
 <style lang="less" scoped>
   #header {
     padding: 0;
-    background: #cae7ef url(https://img.springlearn.cn/cloudtou.svg) repeat-y
-      30% 22%;
+    //background: #cae7ef url(https://img.springlearn.cn/cloudtou.svg) repeat-y
+    //  30% 22%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 70px;
+    height: 55px;
   }
 
   #search {

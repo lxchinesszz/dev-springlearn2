@@ -243,6 +243,13 @@ const data = [
             link: 'https://v3.bootcss.com/',
             source: 1,
           },
+          {
+            icon: '',
+            title: 'UIverse',
+            desc: '好看的样式',
+            link: 'https://uiverse.io/',
+            source: 1,
+          },
         ],
       },
       {
@@ -777,35 +784,88 @@ const data = [
 
 const searchList = [
   {
-    name: 'Google',
-    tip: '使用谷歌试试手气吧',
-    // djt: 1,
-    searchUrl: 'https://www.google.com/search?q=',
+    name: 'Baidu',
+    slogan: '百度一下,你就知道',
+    href: 'https://www.baidu.com/s?ie=UTF-8&wd=',
   },
   {
-    name: 'Baidu',
-    tip: '百度一下,你就知道',
-    searchUrl: 'https://www.baidu.com/s?ie=UTF-8&wd=',
+    name: 'Google2',
+    slogan: '使用谷歌试试手气吧',
+    // djt: 1,
+    href: 'https://www.google.com/search?q=',
   },
   {
     name: 'Github',
-    tip: '全球最大的代码仓库平台',
-    searchUrl: 'https://github.com/search?q=',
+    slogan: '全球最大的代码仓库平台',
+    href: 'https://github.com/search?q=',
   },
   {
     name: 'Oschina',
-    tip: 'OSCHINA - 中文开源技术交流社区_开源中国',
-    searchUrl: 'https://www.oschina.net/search?q=',
+    slogan: 'OSCHINA - 中文开源技术交流社区_开源中国',
+    href: 'https://www.oschina.net/search?q=',
   },
   {
     name: 'CSDN',
-    tip: 'CSDN - 专业开发者社区',
-    searchUrl: 'https://so.csdn.net/so/search?q=',
+    slogan: 'CSDN - 专业开发者社区',
+    href: 'https://so.csdn.net/so/search?q=',
   },
   {
     name: 'Bilibi',
-    tip: '哔哩哔哩 (゜-゜)つロ 干杯~-bilibili',
-    searchUrl: 'https://search.bilibili.com/all?keyword=',
+    slogan: '哔哩哔哩 (゜-゜)つロ 干杯~-bilibili',
+    href: 'https://search.bilibili.com/all?keyword=',
   },
 ];
-export { data, searchList };
+
+const shortcutData = [
+  {
+    name: 'JSON',
+    href: 'https://www.json.cn/',
+    openType: '_blank',
+  },
+  {
+    name: '配色',
+    href: 'https://coolors.co/78bc61-c0c781-c59b76-e9806e-76bbb0',
+    openType: '_blank',
+  },
+  {
+    name: '我的博客',
+    href: 'https://blog.springlearn.cn',
+    openType: '_blank',
+  },
+  {
+    name: '',
+    href: '',
+    openType: '_target',
+  },
+  {
+    name: '',
+    href: '',
+    openType: '_target',
+  },
+  {
+    name: '',
+    href: '',
+    openType: '_target',
+  },
+];
+
+/**
+ * - search-simple
+ * - search-google
+ * - search-standard
+ * @type {{searchStyle: string}}
+ */
+const style = {
+  searchStyle: 'search-standard',
+  searchBackgroundCss: 'background: #3c7cbe',
+  // searchBackgroundCss:
+  //   'background-image: linear-gradient(45deg,rgb(90, 54, 148) 0%,rgb(19, 189, 206) 33%,rgb(0, 148, 217) 66%,rgb(111, 199, 181) 100%);',
+};
+const setting = {
+  style,
+  shortcut: shortcutData,
+  categories: data,
+  searchEngineList: searchList,
+};
+
+export default setting;

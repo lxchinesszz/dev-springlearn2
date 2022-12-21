@@ -6,22 +6,17 @@
     <div class="menuContainer">
       <div class="menuList">
         <ul class="nav">
-          <li class="navItem" @click="$router.push({ path: '/todo/list' })"
-            >将军令</li
-          >
-          <li class="navItem" @click="mousemoveTTL">时钟屏保</li>
           <li
+            v-for="(_, index) in dataSource.shortcut"
+            v-show="_.name !== ''"
+            :key="index"
             class="navItem"
-            @click="
-              openUrl('https://coolors.co/78bc61-c0c781-c59b76-e9806e-76bbb0')
-            "
-            >配色
+            @click="openUrl(_.href, _.openType)"
+          >
+            {{ _.name }}
           </li>
-          <li @click="openUrl('https://www.json.cn/')">杰森</li>
-          <li @click="openJson">杰森斯坦森</li>
-          <li class="navItem" @click="openCalendar">日历</li>
-          <li @click="addFavorite">收藏书签</li>
-          <li @click="showSettingView">设置 <icon-code /></li>
+          <li class="navItem" @click="openCalendarView">日历</li>
+          <li @click="showSettingView"><icon-code /></li>
         </ul>
       </div>
       <div class="userLogo animated swing"> </div>
@@ -31,6 +26,7 @@
       v-model:visible="visibleSetting"
       :closable="false"
       width="60vw"
+      ok-text="保存并应用"
       @ok="handleOk"
     >
       <a-tabs type="rounded">
@@ -51,100 +47,115 @@
         </template>
         <a-tab-pane key="1">
           <template #title> <icon-calendar /> 快捷标签 </template>
-          <ShortcutTable :only-read="onlyRead" :table-data="shortcutData" />
+          <ShortcutTable
+            :only-read="onlyRead"
+            :table-data="dataSource.shortcut"
+          />
         </a-tab-pane>
         <a-tab-pane key="2">
           <template #title> <icon-search /> 搜索引擎 </template>
-          <SearchEngineTable :only-read="onlyRead" />
+          <SearchEngineTable
+            :only-read="onlyRead"
+            :table-data="dataSource.searchEngineList"
+          />
         </a-tab-pane>
         <a-tab-pane key="3">
           <template #title> <icon-tool /> 分类工具栏 </template>
-          <CategoryToolTable :only-read="onlyRead" />
+          <CategoryToolTable
+            :only-read="onlyRead"
+            :categories="dataSource.categories"
+          />
         </a-tab-pane>
       </a-tabs>
+    </a-modal>
+
+    <a-modal
+      v-model:visible="calendarView"
+      :footer="false"
+      :closable="false"
+      width="50vw"
+      draggable
+      esc-to-close
+    >
+      <template #title> 📅 一寸光阴一寸金 寸金难买寸光阴 </template>
+      <div style="height: auto; overflow: hidden">
+        <baidu-calendar />
+      </div>
     </a-modal>
   </div>
 </template>
 
 <script lang="ts">
-  import { defineComponent, reactive, ref } from 'vue';
+  import { defineComponent, h, ref } from 'vue';
   import ShortcutTable from '@/views/workplace/components/ShortcutTable.vue';
   import SearchEngineTable from '@/views/workplace/components/SearchEngineTable.vue';
   import CategoryToolTable from '@/views/workplace/components/CategoryToolTable.vue';
+  import SettingModel from '@/model/SettingModel';
+  import { Message } from '@arco-design/web-vue';
+  import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
 
   export default defineComponent({
     name: 'WorkerHeader',
     components: { ShortcutTable, SearchEngineTable, CategoryToolTable },
-    props: ['dataSource'],
+    props: { dataSource: SettingModel },
     emits: ['export', 'import'],
     setup() {
-      const onlyRead = ref(true);
+      const calendarView = ref(false);
+      const onlyRead = ref(false);
       const visibleSetting = ref(false);
       const showSettingView = () => {
         visibleSetting.value = true;
       };
-      const handleOk = () => {
-        visibleSetting.value = false;
+      const applySetting = () => {
+        Message.info({
+          content: '你的配置已重新生成,正在应用中!',
+          icon: () => h(IconFaceSmileFill),
+          duration: 1000,
+        });
+        setTimeout(() => {
+          visibleSetting.value = false;
+          window.location.reload();
+        }, 1000);
       };
-      const shortcutData = ref([
-        {
-          name: '配色',
-          hrefs: 'https://coolors.co/78bc61-c0c781-c59b76-e9806e-76bbb0',
-          openType: '新的窗口',
-        },
-        {
-          name: '杰森1',
-          hrefs: 'https://www.json.cn/',
-          openType: '当前窗口',
-        },
-        {
-          name: '配色2',
-          hrefs: 'https://coolors.co/78bc61-c0c781-c59b76-e9806e-76bbb0',
-          openType: '新的窗口',
-        },
-        {
-          name: '杰森3',
-          hrefs: 'https://www.json.cn/',
-          openType: '当前窗口',
-        },
-        {
-          name: '配色4',
-          hrefs: 'https://coolors.co/78bc61-c0c781-c59b76-e9806e-76bbb0',
-          openType: '新窗口',
-        },
-        {
-          name: '杰森5',
-          hrefs: 'https://www.json.cn/',
-          openType: '当前窗口',
-        },
-        {
-          name: '配色6',
-          hrefs: 'https://coolors.co/78bc61-c0c781-c59b76-e9806e-76bbb0',
-          openType: '新窗口',
-        },
-        {
-          name: '杰森7',
-          hrefs: 'https://www.json.cn/',
-          openType: '当前窗口',
-        },
-      ]);
+      const openUrl = (url: string, openType = '_blank') => {
+        console.log('openUrl', url, openType);
+        if (url) {
+          window.open(url, openType);
+        }
+      };
 
+      const openCalendarView = () => {
+        calendarView.value = true;
+      };
       return {
-        shortcutData,
         visibleSetting,
         showSettingView,
-        handleOk,
+        handleOk: applySetting,
         onlyRead,
+        openUrl,
+        calendarView,
+        openCalendarView,
       };
     },
   });
 </script>
 
 <style scoped>
+  :deep(.op-calendar-pc-left) {
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0px;
+  }
+  :deep(.op-calendar-pc-right) {
+    border: none;
+    box-shadow: none;
+    border-radius: 0px;
+  }
   #header {
     padding: 0;
-    background: #cae7ef url(https://img.springlearn.cn/cloudtou.svg) repeat-y
-      30% 22%;
+    /*background: #cae7ef url(https://img.springlearn.cn/cloudtou.svg) repeat-y*/
+    /*  30% 22%;*/
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -161,7 +172,7 @@
     margin-left: 8%;
     width: 120px;
     height: 3rem;
-    background-image: url('https://img.springlearn.cn/geek.png');
+    /*background-image: url('https://img.springlearn.cn/geek.png');*/
   }
 
   .userLogo {

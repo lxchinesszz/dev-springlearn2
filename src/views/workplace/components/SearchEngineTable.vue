@@ -3,8 +3,8 @@
     <a-table
       column-resizable
       :bordered="{ cell: true }"
-      :columns="shortcutColumns"
-      :data="shortcutData"
+      :columns="columns"
+      :data="tableData"
       :pagination="false"
       hoverable
       stripe
@@ -16,8 +16,8 @@
     <a-table
       column-resizable
       :bordered="{ cell: true }"
-      :columns="shortcutColumns"
-      :data="shortcutData"
+      :columns="columns"
+      :data="canEditorTableData"
       :pagination="false"
       hoverable
       stripe
@@ -25,14 +25,14 @@
     >
       <template #name="{ rowIndex }">
         <a-input
-          v-model="shortcutData[rowIndex].name"
+          v-model="canEditorTableData[rowIndex].name"
           :max-length="6"
           show-word-limit
         />
       </template>
       <template #href="{ rowIndex }">
         <a-input
-          v-model="shortcutData[rowIndex].href"
+          v-model="canEditorTableData[rowIndex].href"
           placeholder="https://json.cn"
         >
           <template #prefix>
@@ -42,7 +42,7 @@
       </template>
       <template #slogan="{ rowIndex }">
         <a-input
-          v-model="shortcutData[rowIndex].slogan"
+          v-model="canEditorTableData[rowIndex].slogan"
           :max-length="{ length: 50, errorOnly: true }"
           allow-clear
           show-word-limit
@@ -55,7 +55,8 @@
 <script lang="ts">
   // 抽屉工具，支持8个或者是4个
   import { defineComponent, reactive, ref } from 'vue';
-  import SearchEngineModel from '@/views/workplace/components/model/SearchEngineModel';
+  import SearchEngineModel from '@/model/SearchEngineModel';
+  import deepClone from '@/api/lodashs';
 
   export default defineComponent({
     name: 'SearchEngineTable',
@@ -64,45 +65,12 @@
         type: Boolean,
         default: false,
       },
-      tableData: {
-        type: Array<SearchEngineModel>,
-        default: [
-          {
-            name: 'Google',
-            slogan: '使用谷歌试试手气吧',
-            href: 'https://www.google.com/search?q=',
-          },
-          {
-            name: 'Baidu',
-            slogan: '百度一下,你就知道',
-            href: 'https://www.baidu.com/s?ie=UTF-8&wd=',
-          },
-          {
-            name: 'Github',
-            slogan: '全球最大的代码仓库平台',
-            href: 'https://github.com/search?q=',
-          },
-          {
-            name: 'Oschina',
-            slogan: 'OSCHINA - 中文开源技术交流社区_开源中国',
-            href: 'https://www.oschina.net/search?q=',
-          },
-          {
-            name: 'CSDN',
-            slogan: 'CSDN - 专业开发者社区',
-            href: 'https://so.csdn.net/so/search?q=',
-          },
-          {
-            name: 'Bilibi',
-            slogan: '哔哩哔哩 (゜-゜)つロ 干杯~-bilibili',
-            href: 'https://search.bilibili.com/all?keyword=',
-          },
-        ],
-      },
+      tableData: Array<SearchEngineModel>,
     },
     setup(props) {
-      const shortcutData = reactive(props.tableData);
-      const shortcutColumns = ref([
+      // 可编辑数据
+      const canEditorTableData = reactive(deepClone(props.tableData));
+      const columns = ref([
         {
           title: '搜索引擎',
           dataIndex: 'name',
@@ -120,7 +88,7 @@
           slotName: 'slogan',
         },
       ]);
-      return { shortcutData, shortcutColumns };
+      return { canEditorTableData, columns };
     },
   });
 </script>
