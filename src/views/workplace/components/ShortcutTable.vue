@@ -1,27 +1,5 @@
 <template>
-  <div v-if="!onlyRead" class="tableWrapper">
-    <a-table
-      column-resizable
-      :bordered="{ cell: true }"
-      :columns="shortcutColumns"
-      :data="shortcutData"
-      :pagination="false"
-      hoverable
-      stripe
-      table-layout-fixed
-    >
-      <template #openType="{ rowIndex }">
-        <a-tag
-          v-if="shortcutData[rowIndex].openType === '_blank'"
-          color="#ffb400"
-        >
-          新的窗口
-        </a-tag>
-        <a-tag v-else color="#86909c"> 当前窗口 </a-tag>
-      </template>
-    </a-table>
-  </div>
-  <div v-else class="tableWrapper">
+  <div class="tableWrapper">
     <a-table
       column-resizable
       :bordered="{ cell: true }"
@@ -38,12 +16,14 @@
           :max-length="6"
           show-word-limit
           allow-clear
+          :disabled="!onlyRead"
         />
       </template>
       <template #href="{ rowIndex }">
         <a-input
           v-model="shortcutData[rowIndex].href"
           placeholder="https://json.cn"
+          :disabled="!onlyRead"
           allow-clear
         >
           <template #prefix>
@@ -52,7 +32,10 @@
         </a-input>
       </template>
       <template #openType="{ rowIndex }">
-        <a-select v-model="shortcutData[rowIndex].openType">
+        <a-select
+          v-model="shortcutData[rowIndex].openType"
+          :disabled="!onlyRead"
+        >
           <a-option
             v-for="index in openWindowType"
             :key="index.code"
@@ -145,5 +128,8 @@
   }
   .tableWrapper {
     height: 400px;
+  }
+  :deep(.arco-input[disabled]) {
+    -webkit-text-fill-color: #929396;
   }
 </style>

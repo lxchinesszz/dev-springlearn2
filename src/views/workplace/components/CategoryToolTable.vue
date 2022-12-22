@@ -355,9 +355,9 @@
     text-align: center;
   }
   .grid-demo-grid .demo-item:nth-child(2n) {
-    background-color: rgb(var(--arcoblue-6), 0.9);
+    background-color: rgb(var(--arcoblue-6), 0.5);
   }
   .grid-demo-grid .demo-item:nth-child(2n + 1) {
-    background-color: rgb(var(--arcoblue-5));
+    background-color: rgb(var(--arcoblue-5), 0.7);
   }
 </style>

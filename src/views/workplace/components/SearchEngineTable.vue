@@ -1,18 +1,5 @@
 <template>
-  <div v-if="!onlyRead" class="tableWrapper">
-    <a-table
-      column-resizable
-      :bordered="{ cell: true }"
-      :columns="columns"
-      :data="tableData"
-      :pagination="false"
-      hoverable
-      stripe
-      table-layout-fixed
-    >
-    </a-table>
-  </div>
-  <div v-else class="tableWrapper">
+  <div class="tableWrapper">
     <a-table
       column-resizable
       :bordered="{ cell: true }"
@@ -27,12 +14,14 @@
         <a-input
           v-model="canEditorTableData[rowIndex].name"
           :max-length="6"
+          :disabled="!onlyRead"
           show-word-limit
         />
       </template>
       <template #href="{ rowIndex }">
         <a-input
           v-model="canEditorTableData[rowIndex].href"
+          :disabled="!onlyRead"
           placeholder="https://json.cn"
         >
           <template #prefix>
@@ -44,6 +33,7 @@
         <a-input
           v-model="canEditorTableData[rowIndex].slogan"
           :max-length="{ length: 50, errorOnly: true }"
+          :disabled="!onlyRead"
           allow-clear
           show-word-limit
         ></a-input>
@@ -120,5 +110,8 @@
   }
   .tableWrapper {
     height: 400px;
+  }
+  :deep(.arco-input[disabled]) {
+    -webkit-text-fill-color: #929396;
   }
 </style>

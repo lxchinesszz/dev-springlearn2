@@ -9,7 +9,7 @@
           v-else
           :size="55"
           :style="{
-            backgroundColor: iconTextBackgroundColor,
+            backgroundColor: toolInfo.iconTextBackgroundColor,
             color: '#fff',
           }"
         >
@@ -51,22 +51,6 @@
         {{ toolInfo.desc }}
       </div>
     </div>
-    <a-modal
-      v-model:visible="visible"
-      :body-style="{ 'display': 'flex', 'justify-content': 'center' }"
-      title="icon"
-      title-align="start"
-      :footer="false"
-      draggable
-      @before-ok="handleBeforeOk"
-    >
-      <a-input-search
-        size="large"
-        placeholder="icon地址"
-        button-text="提交"
-        search-button
-      />
-    </a-modal>
   </div>
 </template>
 
@@ -76,6 +60,7 @@
   import ELink from '@/views/workplace/components/Link.vue';
   import deepClone, { randomObject } from '@/api/lodashs';
   import SettingModel from '@/model/SettingModel';
+  import CategoryTool from '@/model/CategoryTool';
 
   export default defineComponent({
     name: 'Tool',
@@ -83,6 +68,7 @@
     props: {
       dataSource: SettingModel,
       info: {
+        type: CategoryTool,
         default: {
           title: 'Element UI',
           desc: 'Element 一套为开发者Element 一套为开发者Element 一套为开发者',
@@ -94,41 +80,28 @@
       },
     },
     setup(props) {
-      const toolInfo = reactive(deepClone(props.info));
+      // e9806e
+      const backColor = ['#44CCFF', '#7494EA', '#494947'];
+      // 复制一份
+      const toolInfo: CategoryTool = reactive<CategoryTool>(
+        deepClone(props.info)
+      );
+      // 设置精简ICON
       const iconText = ref(props.info.title.substr(0, 2));
-      const iconTextBackgroundColor = ref('#00d0b6');
-      if (!props.dataSource?.style.closeIcon) {
-        toolInfo.icon = '';
+      // 默认背景
+      const iconTextBackgroundColor = ref(randomObject(backColor));
+      const imgVisible = ref(!props.dataSource?.style.closeIcon);
+      if (!imgVisible.value) {
+        toolInfo.iconTextBackgroundColor =
+          backColor[props.info.title.length % backColor.length];
+        // toolInfo.iconTextBackgroundColor = randomObject(backColor);
       }
-      const visible = ref(false);
-      const imgVisible = ref(props.info.icon !== null);
-      const handleClick = () => {
-        visible.value = true;
-      };
-      const handleBeforeOk = () => {
-        visible.value = false;
-      };
       function switchIconText() {
-        // e9806e
-        const backColor = [
-          '#00d0b6',
-          '#e9806e',
-          '#78bc61',
-          '#00d0b6',
-          '#e9806e',
-          '#78bc61',
-          '#00d0b6',
-          '#e9806e',
-          '#78bc61',
-        ];
         iconTextBackgroundColor.value = randomObject(backColor);
         imgVisible.value = false;
       }
       return {
         toolInfo,
-        visible,
-        handleClick,
-        handleBeforeOk,
         switchIconText,
         iconText,
         imgVisible,

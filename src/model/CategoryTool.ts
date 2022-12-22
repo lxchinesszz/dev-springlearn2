@@ -9,11 +9,14 @@ export default class CategoryTool {
 
   public source: number;
 
+  public iconTextBackgroundColor: string;
+
   constructor(
     title: string,
     desc: string,
     link: string,
     icon: string,
+    iconTextBackgroundColor: string,
     source: number
   ) {
     this.title = title;
@@ -21,5 +24,6 @@ export default class CategoryTool {
     this.link = link;
     this.icon = icon;
     this.source = source;
+    this.iconTextBackgroundColor = iconTextBackgroundColor;
   }
 }
