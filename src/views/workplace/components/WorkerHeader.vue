@@ -16,7 +16,7 @@
             {{ _.name }}
           </li>
           <li class="navItem" @click="openCalendarView">日历</li>
-          <li @click="showSettingView"><icon-code /></li>
+          <li id="settingBtn" @click="showSettingView"><icon-code /></li>
         </ul>
       </div>
       <div class="userLogo animated swing"> </div>

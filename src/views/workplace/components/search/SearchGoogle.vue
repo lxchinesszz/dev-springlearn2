@@ -1,7 +1,7 @@
 <template>
   <div class="searchbar">
     <div class="searchbar-wrapper">
-      <div class="searchbar-left">
+      <div class="searchbar-left" style="cursor: pointer" @click="search">
         <div class="search-icon-wrapper">
           <span class="search-icon searchbar-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

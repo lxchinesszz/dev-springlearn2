@@ -1,6 +1,6 @@
 <template>
   <div class="container" :style="style.searchBackgroundCss">
-    <div class="searchGroup animated fadeInRight">
+    <div class="searchGroup animated" :class="style.searchAnimate">
       <div id="searchTarget">
         <!--      查询源-->
         <div
@@ -243,7 +243,7 @@
     background-size: 400%;
     //background-position: 0 100%;
     //-webkit-animation: gradient 15s ease-in-out infinite;
-    //animation: bganimation 15s ease-in-out infinite;
+    animation: bganimation 15s ease-in-out infinite;
   }
 
   @keyframes bganimation {

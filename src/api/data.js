@@ -861,8 +861,9 @@ const style = {
   windowAnimate: 'fadeInUp',
   // windowAnimate: 'fadeInRight',
   searchAnimate: 'fadeInRight',
-  navBarBackgroundCss: 'background: red',
-  toolGroupAnimate: 'fadeInUp',
+  navBarBackgroundCss:
+    ' background: #cae7ef url(https://img.springlearn.cn/cloudtou.svg) repeat-y 30% 22%;',
+  toolGroupAnimate: 'fadeIn',
   // 关闭用户icon
   closeIcon: true,
   // searchBackgroundCss:

@@ -80,8 +80,6 @@
       },
     },
     setup(props) {
-      // e9806e
-      const backColor = ['#44CCFF', '#7494EA', '#494947'];
       // 复制一份
       const toolInfo: CategoryTool = reactive<CategoryTool>(
         deepClone(props.info)
@@ -89,17 +87,23 @@
       // 设置精简ICON
       const iconText = ref(props.info.title.substr(0, 2));
       // 默认背景
-      const iconTextBackgroundColor = ref(randomObject(backColor));
+      const iconTextBackgroundColor = ref('');
       const imgVisible = ref(!props.dataSource?.style.closeIcon);
-      if (!imgVisible.value) {
+      function dynamicGenerateIcon(tInfo: CategoryTool) {
+        // e9806e
+        const backColor = ['#44CCFF', '#7494EA', '#494947'];
         toolInfo.iconTextBackgroundColor =
-          backColor[props.info.title.length % backColor.length];
-        // toolInfo.iconTextBackgroundColor = randomObject(backColor);
+          backColor[tInfo.title.length % backColor.length];
+      }
+      if (!imgVisible.value) {
+        dynamicGenerateIcon(toolInfo);
       }
       function switchIconText() {
-        iconTextBackgroundColor.value = randomObject(backColor);
+        dynamicGenerateIcon(toolInfo);
+        console.log(toolInfo.title, 'Icon加载失败,已动态生成Icon');
         imgVisible.value = false;
       }
+
       return {
         toolInfo,
         switchIconText,

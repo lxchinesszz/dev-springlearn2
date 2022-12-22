@@ -45,7 +45,6 @@
         <a-textarea
           v-model="themeSetting.searchBackgroundCss"
           :placeholder="theme.searchBackgroundCss"
-          :max-length="1000"
           allow-clear
           show-word-limit
         />
@@ -54,7 +53,6 @@
         <a-textarea
           v-model="themeSetting.navBarBackgroundCss"
           :placeholder="theme.navBarBackgroundCss"
-          :max-length="1000"
           allow-clear
           show-word-limit
         />

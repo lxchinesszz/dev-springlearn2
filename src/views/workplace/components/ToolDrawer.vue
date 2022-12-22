@@ -10,7 +10,8 @@
       <Tool
         v-for="index in toolList"
         :key="index"
-        class="toolCard animated fadeInUp"
+        class="toolCard animated"
+        :class="dataSource.style.toolGroupAnimate"
         :info="index"
         :data-source="dataSource"
       ></Tool>
