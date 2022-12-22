@@ -1,49 +1,55 @@
 <template>
   <div class="container" :style="style.searchBackgroundCss">
-    <div id="searchTarget">
-      <!--      查询源-->
-      <div
-        v-for="(scope, index) in categories"
-        :key="index"
-        :class="
-          index === currentCategoryIndex
-            ? 'searchTargetCard searchTargetCardHover'
-            : 'searchTargetCard'
-        "
-        @click="clickCurrentCategoryIndex(index)"
-        >{{ scope.categoryName }}
-      </div>
-      <div class="searchTargetCard" @click="handleClick"><icon-edit /></div>
-    </div>
-    <div id="searchBox">
-      <div v-if="style.searchStyle === 'search-google'" style="width: 55vw">
-        <SearchGoogle :placeholder="placeholder" @do-action="search" />
-      </div>
-      <div
-        v-else-if="style.searchStyle === 'search-simple'"
-        style="width: 55vw"
-      >
-        <SearchSimple :placeholder="placeholder" @do-action="search" />
-      </div>
-      <div v-else style="width: 55vw">
-        <SearchStandard :placeholder="placeholder" @do-action="search" />
-      </div>
-    </div>
-    <div id="searchCard">
-      <!--      查询源-->
-      <div
-        v-for="(scope, index) in searchCardList"
-        :key="index"
-        class="searchSourceCard"
-        @click="clickCurrentSearchIndex(index)"
-      >
+    <div class="searchGroup animated fadeInRight">
+      <div id="searchTarget">
+        <!--      查询源-->
         <div
-          class="searchSource"
-          :class="index === currentSearchCardIndex ? 'searchSourceActive' : ''"
-          >{{ scope.name }}
+          v-for="(scope, index) in categories"
+          :key="index"
+          :class="
+            index === currentCategoryIndex
+              ? 'searchTargetCard searchTargetCardHover'
+              : 'searchTargetCard'
+          "
+          @click="clickCurrentCategoryIndex(index)"
+          >{{ scope.categoryName }}
+        </div>
+        <div class="searchTargetCard" @click="handleClick"><icon-edit /></div>
+      </div>
+      <div id="searchBox">
+        <div v-if="style.searchStyle === 'search-google'" style="width: 55vw">
+          <SearchGoogle :placeholder="placeholder" @do-action="search" />
+        </div>
+        <div
+          v-else-if="style.searchStyle === 'search-simple'"
+          style="width: 55vw"
+        >
+          <SearchSimple :placeholder="placeholder" @do-action="search" />
+        </div>
+        <div v-else style="width: 55vw; margin-left: -20px">
+          <SearchStandard :placeholder="placeholder" @do-action="search" />
         </div>
       </div>
-      <div class="searchSourceCard" @click="handleAddSearch"><icon-edit /></div>
+      <div id="searchCard">
+        <!--      查询源-->
+        <div
+          v-for="(scope, index) in searchCardList"
+          :key="index"
+          class="searchSourceCard"
+          @click="clickCurrentSearchIndex(index)"
+        >
+          <div
+            class="searchSource"
+            :class="
+              index === currentSearchCardIndex ? 'searchSourceActive' : ''
+            "
+            >{{ scope.name }}
+          </div>
+        </div>
+        <div class="searchSourceCard" @click="handleAddSearch"
+          ><icon-edit
+        /></div>
+      </div>
     </div>
     <a-modal
       v-model:visible="visible"
@@ -214,6 +220,8 @@
   :deep(.arco-modal-header) {
     display: none;
   }
+  .searchGroup {
+  }
   .container {
     width: 100%;
     height: 100%;
@@ -233,9 +241,9 @@
     //  rgb(111, 199, 181) 100%
     //);
     background-size: 400%;
-    background-position: 0 100%;
-    -webkit-animation: gradient 15s ease-in-out infinite;
-    animation: bganimation 15s ease-in-out infinite;
+    //background-position: 0 100%;
+    //-webkit-animation: gradient 15s ease-in-out infinite;
+    //animation: bganimation 15s ease-in-out infinite;
   }
 
   @keyframes bganimation {
@@ -266,6 +274,7 @@
     color: white;
     font-size: 16px;
     padding-top: 5px;
+    margin-left: 20px;
   }
 
   .searchSourceCard {
@@ -278,7 +287,8 @@
 
   #searchTarget {
     display: flex;
-    width: 50%;
+    //width: 50%;
+    margin-left: 20px;
     color: white;
     font-size: 16px;
     padding: 0;

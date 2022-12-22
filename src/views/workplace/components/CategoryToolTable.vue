@@ -13,27 +13,42 @@
               <icon-plus />
             </a-button>
           </template>
-          <a-space wrap>
-            <template #split>
-              <a-divider direction="vertical" />
-            </template>
-            <a-row>
-              <a-col
-                v-for="(toolGroup, index) of _.toolList"
-                :key="index"
-                :span="12"
-              >
-                <a-tag :closable="onlyRead">
-                  <template #icon>
-                    <div style="cursor: pointer" @click="editorTool(toolGroup)">
-                      <icon-edit />
-                    </div>
-                  </template>
-                  {{ toolGroup.toolGroupName }}</a-tag
-                >
-              </a-col>
-            </a-row>
-          </a-space>
+          <a-grid :cols="2" :col-gap="12" :row-gap="16" class="grid-demo-grid">
+            <a-grid-item
+              v-for="(toolGroup, index) of _.toolList"
+              :key="index"
+              style="cursor: pointer"
+              class="demo-item"
+              @click="editorTool(toolGroup)"
+            >
+              <div class="toolGroupWrapper">
+                <div> <icon-edit /></div>
+                <div style="flex-grow: 2"> {{ toolGroup.toolGroupName }}</div>
+                <div><icon-close /></div>
+              </div>
+            </a-grid-item>
+          </a-grid>
+          <!--          <a-space wrap>-->
+          <!--            <template #split>-->
+          <!--              <a-divider direction="vertical" />-->
+          <!--            </template>-->
+          <!--            <a-row>-->
+          <!--              <a-col-->
+          <!--                v-for="(toolGroup, index) of _.toolList"-->
+          <!--                :key="index"-->
+          <!--                :span="12"-->
+          <!--              >-->
+          <!--                <a-tag :closable="onlyRead" size="large">-->
+          <!--                  <template #icon>-->
+          <!--                    <div style="cursor: pointer" @click="editorTool(toolGroup)">-->
+          <!--                      <icon-edit />-->
+          <!--                    </div>-->
+          <!--                  </template>-->
+          <!--                  {{ toolGroup.toolGroupName }}</a-tag-->
+          <!--                >-->
+          <!--              </a-col>-->
+          <!--            </a-row>-->
+          <!--          </a-space>-->
         </a-card>
       </a-card-grid>
     </a-card>
@@ -320,6 +335,29 @@
     height: 400px;
   }
   .card {
-    height: 150px;
+    height: 180px;
+  }
+  .toolGroupWrapper {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    padding: 0 0.5rem;
+    //padding-left: 1rem;
+  }
+
+  .demo-item {
+    border-radius: 20px;
+  }
+  .grid-demo-grid .demo-item,
+  .grid-demo-grid .demo-suffix {
+    height: 24px;
+    color: var(--color-white);
+    text-align: center;
+  }
+  .grid-demo-grid .demo-item:nth-child(2n) {
+    background-color: rgb(var(--arcoblue-6), 0.9);
+  }
+  .grid-demo-grid .demo-item:nth-child(2n + 1) {
+    background-color: rgb(var(--arcoblue-5));
   }
 </style>

@@ -48,6 +48,7 @@
         <a-tab-pane key="1">
           <template #title> <icon-calendar /> 快捷标签 </template>
           <ShortcutTable
+            ref="shortcutSetting"
             :only-read="onlyRead"
             :table-data="dataSource.shortcut"
           />
@@ -55,6 +56,7 @@
         <a-tab-pane key="2">
           <template #title> <icon-search /> 搜索引擎 </template>
           <SearchEngineTable
+            ref="searchEngineSetting"
             :only-read="onlyRead"
             :table-data="dataSource.searchEngineList"
           />
@@ -65,6 +67,14 @@
             :only-read="onlyRead"
             :categories="dataSource.categories"
           />
+        </a-tab-pane>
+        <a-tab-pane key="4">
+          <template #title> <icon-skin /> 样式动画 </template>
+          <ThemeSetting
+            ref="themeSetting"
+            :only-read="onlyRead"
+            :theme="dataSource.style"
+          ></ThemeSetting>
         </a-tab-pane>
       </a-tabs>
     </a-modal>
@@ -86,20 +96,29 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, h, ref } from 'vue';
+  import { defineComponent, getCurrentInstance, h, reactive, ref } from 'vue';
   import ShortcutTable from '@/views/workplace/components/ShortcutTable.vue';
   import SearchEngineTable from '@/views/workplace/components/SearchEngineTable.vue';
   import CategoryToolTable from '@/views/workplace/components/CategoryToolTable.vue';
+  import ThemeSetting from '@/views/workplace/components/ThemeSetting.vue';
   import SettingModel from '@/model/SettingModel';
   import { Message } from '@arco-design/web-vue';
   import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
 
   export default defineComponent({
     name: 'WorkerHeader',
-    components: { ShortcutTable, SearchEngineTable, CategoryToolTable },
+    components: {
+      ShortcutTable,
+      SearchEngineTable,
+      CategoryToolTable,
+      ThemeSetting,
+    },
     props: { dataSource: SettingModel },
     emits: ['export', 'import'],
     setup() {
+      const searchEngineSetting = ref(null);
+      const shortcutSetting = ref(null);
+      const themeSetting = ref(null);
       const calendarView = ref(false);
       const onlyRead = ref(false);
       const visibleSetting = ref(false);
@@ -112,9 +131,13 @@
           icon: () => h(IconFaceSmileFill),
           duration: 1000,
         });
+        // 主题配置保存
+        console.log(themeSetting.value?.saveAction());
+        console.log(shortcutSetting.value?.saveAction());
+        console.log(searchEngineSetting.value?.saveAction());
         setTimeout(() => {
           visibleSetting.value = false;
-          window.location.reload();
+          // window.location.reload();
         }, 1000);
       };
       const openUrl = (url: string, openType = '_blank') => {
@@ -128,6 +151,9 @@
         calendarView.value = true;
       };
       return {
+        searchEngineSetting,
+        shortcutSetting,
+        themeSetting,
         visibleSetting,
         showSettingView,
         handleOk: applySetting,

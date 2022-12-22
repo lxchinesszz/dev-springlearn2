@@ -3,7 +3,7 @@
     <a-layout-header id="header">
       <WorkerHeader :data-source="sourceData"></WorkerHeader>
     </a-layout-header>
-    <a-layout-content class="animated fadeInUp">
+    <a-layout-content class="animated" :class="style.windowAnimate">
       <Search
         id="search"
         :style="style"
@@ -19,6 +19,7 @@
           class="toolList"
         >
           <ToolDrawer
+            :data-source="sourceData"
             :name="index.toolGroupName"
             :tool-list="index.toolList"
           ></ToolDrawer>

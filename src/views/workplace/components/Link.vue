@@ -16,7 +16,6 @@
         default: 'https://java.springlearn.cn',
       },
     },
-    setup() {},
   });
 </script>
 

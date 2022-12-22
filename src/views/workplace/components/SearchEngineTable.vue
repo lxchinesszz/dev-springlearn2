@@ -69,7 +69,9 @@
     },
     setup(props) {
       // 可编辑数据
-      const canEditorTableData = reactive(deepClone(props.tableData));
+      const canEditorTableData: Array<SearchEngineModel> = reactive<
+        Array<SearchEngineModel>
+      >(deepClone(props.tableData));
       const columns = ref([
         {
           title: '搜索引擎',
@@ -88,7 +90,13 @@
           slotName: 'slogan',
         },
       ]);
-      return { canEditorTableData, columns };
+      /**
+       * 每个子方法提供一个这样的方法用于父组件调用
+       */
+      function saveAction(): Array<SearchEngineModel> {
+        return canEditorTableData;
+      }
+      return { saveAction, canEditorTableData, columns };
     },
   });
 </script>

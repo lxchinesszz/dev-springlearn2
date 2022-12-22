@@ -12,6 +12,7 @@
         :key="index"
         class="toolCard animated fadeInUp"
         :info="index"
+        :data-source="dataSource"
       ></Tool>
     </div>
   </div>
@@ -21,11 +22,13 @@
   // 抽屉工具，支持8个或者是4个
   import { defineComponent } from 'vue';
   import Tool from '@/views/workplace/components/Tool.vue';
+  import SettingModel from '@/model/SettingModel';
 
   export default defineComponent({
     name: 'ToolDrawer',
     components: { Tool },
     props: {
+      dataSource: SettingModel,
       name: {
         type: String,
         default: '未命名',

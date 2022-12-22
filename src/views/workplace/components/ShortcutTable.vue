@@ -12,14 +12,12 @@
     >
       <template #openType="{ rowIndex }">
         <a-tag
-          v-if="shortcutData[rowIndex].openType === '新的窗口'"
+          v-if="shortcutData[rowIndex].openType === '_blank'"
           color="#ffb400"
         >
-          {{ shortcutData[rowIndex].openType }}
+          新的窗口
         </a-tag>
-        <a-tag v-else color="#86909c">
-          {{ shortcutData[rowIndex].openType }}
-        </a-tag>
+        <a-tag v-else color="#86909c"> 当前窗口 </a-tag>
       </template>
     </a-table>
   </div>
@@ -85,7 +83,9 @@
       tableData: Array<ShortcutModel>,
     },
     setup(props) {
-      const shortcutData = reactive(deepClone(props.tableData));
+      const shortcutData: Array<ShortcutModel> = reactive<Array<ShortcutModel>>(
+        deepClone(props.tableData)
+      );
       const openWindowType = [
         {
           name: '新的窗口',
@@ -114,7 +114,14 @@
           slotName: 'openType',
         },
       ]);
-      return { shortcutData, openWindowType, shortcutColumns };
+      /**
+       * 每个子方法提供一个这样的方法用于父组件调用
+       */
+      function saveAction(): Array<ShortcutModel> {
+        console.log('shortcutData', shortcutData);
+        return shortcutData;
+      }
+      return { saveAction, shortcutData, openWindowType, shortcutColumns };
     },
   });
 </script>

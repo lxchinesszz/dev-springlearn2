@@ -1,9 +1,9 @@
 <template>
-  <div v-if="info.type !== 'add'" class="toolCard">
+  <div v-if="toolInfo.type !== 'add'" class="toolCard">
     <div class="toolIcon" style="color: #504f4f">
-      <ELink :href="info.link">
+      <ELink :href="toolInfo.link">
         <a-avatar v-if="imgVisible" :size="55" shape="circle">
-          <img alt="avatar" :src="info.icon" @error="switchIconText" />
+          <img alt="avatar" :src="toolInfo.icon" @error="switchIconText" />
         </a-avatar>
         <a-avatar
           v-else
@@ -20,16 +20,16 @@
     <div class="toolDescWrapper">
       <div class="toolTitle">
         <div class="title">
-          <ELink :href="info.link">
-            {{ info.title }}
+          <ELink :href="toolInfo.link">
+            {{ toolInfo.title }}
           </ELink>
         </div>
-        <div v-if="info.source === 1" class="locationGw"> 国外 </div>
+        <div v-if="toolInfo.source === 1" class="locationGw"> 国外 </div>
         <div v-else class="location"> 国内 </div>
       </div>
       <div class="toolDesc">
-        <ELink :href="info.link">
-          {{ info.desc }}
+        <ELink :href="toolInfo.link">
+          {{ toolInfo.desc }}
         </ELink>
       </div>
     </div>
@@ -48,7 +48,7 @@
         <div class="title" contenteditable="true"> 工具标题 </div><icon-edit />
       </div>
       <div class="toolDesc" contenteditable="true">
-        {{ info.desc }}
+        {{ toolInfo.desc }}
       </div>
     </div>
     <a-modal
@@ -74,12 +74,14 @@
   // 抽屉工具，支持8个或者是4个
   import { defineComponent, reactive, ref } from 'vue';
   import ELink from '@/views/workplace/components/Link.vue';
-  import { randomObject } from '@/api/lodashs';
+  import deepClone, { randomObject } from '@/api/lodashs';
+  import SettingModel from '@/model/SettingModel';
 
   export default defineComponent({
     name: 'Tool',
     components: { ELink },
     props: {
+      dataSource: SettingModel,
       info: {
         default: {
           title: 'Element UI',
@@ -92,8 +94,12 @@
       },
     },
     setup(props) {
+      const toolInfo = reactive(deepClone(props.info));
       const iconText = ref(props.info.title.substr(0, 2));
       const iconTextBackgroundColor = ref('#00d0b6');
+      if (!props.dataSource?.style.closeIcon) {
+        toolInfo.icon = '';
+      }
       const visible = ref(false);
       const imgVisible = ref(props.info.icon !== null);
       const handleClick = () => {
@@ -104,11 +110,22 @@
       };
       function switchIconText() {
         // e9806e
-        const backColor = ['#00d0b6', '#e9806e', '#78bc61'];
+        const backColor = [
+          '#00d0b6',
+          '#e9806e',
+          '#78bc61',
+          '#00d0b6',
+          '#e9806e',
+          '#78bc61',
+          '#00d0b6',
+          '#e9806e',
+          '#78bc61',
+        ];
         iconTextBackgroundColor.value = randomObject(backColor);
         imgVisible.value = false;
       }
       return {
+        toolInfo,
         visible,
         handleClick,
         handleBeforeOk,
