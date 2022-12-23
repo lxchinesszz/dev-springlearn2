@@ -42,7 +42,9 @@
               <template #checked> 读写 </template>
               <template #unchecked> 只读 </template>
             </a-switch>
-            <a-button shape="round" size="small">导出配置</a-button>
+            <a-button shape="round" size="small" @click="copyConfig"
+              >导出配置</a-button
+            >
           </a-space>
         </template>
         <a-tab-pane key="1">
@@ -73,7 +75,7 @@
           <ThemeSetting
             ref="themeSetting"
             :only-read="onlyRead"
-            :theme="dataSource.style"
+            :theme="dataSource.theme"
           ></ThemeSetting>
         </a-tab-pane>
       </a-tabs>
@@ -104,6 +106,7 @@
   import SettingModel from '@/model/SettingModel';
   import { Message } from '@arco-design/web-vue';
   import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
+  import { copyConfig } from '@/api/toolList';
 
   export default defineComponent({
     name: 'WorkerHeader',
@@ -137,10 +140,11 @@
         console.log(searchEngineSetting.value?.saveAction());
         setTimeout(() => {
           visibleSetting.value = false;
-          // window.location.reload();
+          window.location.reload();
         }, 1000);
       };
       const openUrl = (url: string, openType = '_blank') => {
+        console.log('openType', openType);
         console.log('openUrl', url, openType);
         if (url) {
           window.open(url, openType);
@@ -151,6 +155,7 @@
         calendarView.value = true;
       };
       return {
+        copyConfig,
         searchEngineSetting,
         shortcutSetting,
         themeSetting,

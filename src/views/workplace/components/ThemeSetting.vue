@@ -9,21 +9,21 @@
     >
       <a-form-item field="radio" label="窗口进场动画">
         <a-radio-group v-model="themeSetting.windowAnimate">
-          <a-radio value="fadeInUp">从右到左</a-radio>
+          <a-radio value="fadeInUp">弹出</a-radio>
           <a-radio value="fadeInRight">从左到右</a-radio>
           <a-radio value="none">无</a-radio>
         </a-radio-group>
       </a-form-item>
       <a-form-item label="搜索框进场动画">
         <a-radio-group v-model="themeSetting.searchAnimate">
-          <a-radio value="fadeInUp">从右到左</a-radio>
+          <a-radio value="fadeInUp">弹出</a-radio>
           <a-radio value="fadeInRight">从左到右</a-radio>
           <a-radio value="none">无</a-radio>
         </a-radio-group>
       </a-form-item>
       <a-form-item label="工具栏切换动画">
         <a-radio-group v-model="themeSetting.toolGroupAnimate">
-          <a-radio value="fadeInUp">从右到左</a-radio>
+          <a-radio value="fadeInUp">弹出</a-radio>
           <a-radio value="fadeInRight">从左到右</a-radio>
           <a-radio value="none">无</a-radio>
         </a-radio-group>
@@ -64,27 +64,29 @@
 <script lang="ts">
   // 抽屉工具，支持8个或者是4个
   import { defineComponent, reactive } from 'vue';
-  import StyleModel from '@/model/StyleModel';
+  import ThemeModel from '@/model/ThemeModel';
   import deepClone from '@/api/lodashs';
+  import { setTheme } from '@/api/toolList';
 
   export default defineComponent({
     name: 'ThemeSetting',
     props: {
-      theme: StyleModel,
+      theme: ThemeModel,
       onlyRead: {
         type: Boolean,
         default: false,
       },
     },
     setup(props) {
-      const themeSetting: StyleModel = reactive<StyleModel>(
+      const themeSetting: ThemeModel = reactive<ThemeModel>(
         deepClone(props.theme)
       );
 
       /**
        * 每个子方法提供一个这样的方法用于父组件调用
        */
-      function saveAction(): StyleModel {
+      function saveAction(): ThemeModel {
+        setTheme(themeSetting);
         return themeSetting;
       }
       return {

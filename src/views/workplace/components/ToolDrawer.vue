@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="animated fadeInUp">
+    <div class="animated" :class="dataSource.theme.toolGroupAnimate">
       <a-divider orientation="left">
         {{ name }}
       </a-divider>
@@ -11,7 +11,7 @@
         v-for="index in toolList"
         :key="index"
         class="toolCard animated"
-        :class="dataSource.style.toolGroupAnimate"
+        :class="dataSource.theme.toolGroupAnimate"
         :info="index"
         :data-source="dataSource"
       ></Tool>

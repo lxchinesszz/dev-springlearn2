@@ -6,9 +6,11 @@
       :columns="shortcutColumns"
       :data="shortcutData"
       :pagination="false"
+      :draggable="{}"
       hoverable
       stripe
       table-layout-fixed
+      @change="handleChange"
     >
       <template #name="{ rowIndex }">
         <a-input
@@ -52,9 +54,10 @@
 
 <script lang="ts">
   // 抽屉工具，支持8个或者是4个
-  import { defineComponent, reactive, ref } from 'vue';
+  import { defineComponent, reactive, ref, watch } from 'vue';
   import ShortcutModel from '@/model/ShortcutModel';
   import deepClone from '@/api/lodashs';
+  import { setShortcut } from '@/api/toolList';
 
   export default defineComponent({
     name: 'ShortcutTable',
@@ -69,6 +72,12 @@
       const shortcutData: Array<ShortcutModel> = reactive<Array<ShortcutModel>>(
         deepClone(props.tableData)
       );
+
+      const handleChange = (_data: ShortcutModel[]) => {
+        for (let i = 0; i < shortcutData.length; i += 1) {
+          shortcutData[i] = _data[i];
+        }
+      };
       const openWindowType = [
         {
           name: '新的窗口',
@@ -76,7 +85,7 @@
         },
         {
           name: '当前窗口',
-          code: '_target',
+          code: '_self',
         },
       ];
       const shortcutColumns = ref([
@@ -101,10 +110,16 @@
        * 每个子方法提供一个这样的方法用于父组件调用
        */
       function saveAction(): Array<ShortcutModel> {
-        console.log('shortcutData', shortcutData);
+        setShortcut(shortcutData);
         return shortcutData;
       }
-      return { saveAction, shortcutData, openWindowType, shortcutColumns };
+      return {
+        handleChange,
+        saveAction,
+        shortcutData,
+        openWindowType,
+        shortcutColumns,
+      };
     },
   });
 </script>

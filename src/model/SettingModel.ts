@@ -1,7 +1,7 @@
 import SearchEngineModel from '@/model/SearchEngineModel';
 import CategoryModel from '@/model/CategoryModel';
 import ShortcutModel from '@/model/ShortcutModel';
-import StyleModel from '@/model/StyleModel';
+import ThemeModel from '@/model/ThemeModel';
 
 /**
  * 1. 导航栏
@@ -9,7 +9,7 @@ import StyleModel from '@/model/StyleModel';
  * 3. 搜索引擎
  */
 export default class SettingModel {
-  public style: StyleModel;
+  public theme: ThemeModel;
 
   /**
    * 快捷标签用于导航栏显示
@@ -30,12 +30,12 @@ export default class SettingModel {
   public searchEngineList: Array<SearchEngineModel>;
 
   constructor(
-    style: StyleModel,
+    style: ThemeModel,
     shortcut: Array<ShortcutModel>,
     categories: Array<CategoryModel>,
     searchEngineList: Array<SearchEngineModel>
   ) {
-    this.style = style;
+    this.theme = style;
     this.shortcut = shortcut;
     this.categories = categories;
     this.searchEngineList = searchEngineList;

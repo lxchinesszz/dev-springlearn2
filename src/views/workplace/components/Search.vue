@@ -129,14 +129,14 @@
   import SearchGoogle from '@/views/workplace/components/search/SearchGoogle.vue';
   import SearchStandard from '@/views/workplace/components/search/SearchStandard.vue';
   import SearchSimple from '@/views/workplace/components/search/SearchSimple.vue';
-  import StyleModel from '@/model/StyleModel';
+  import ThemeModel from '@/model/ThemeModel';
 
   export default defineComponent({
     name: 'Search',
     props: {
       categories: Array<CategoryModel>,
       searchList: Array<SearchEngineModel>,
-      style: StyleModel,
+      style: ThemeModel,
     },
     emits: ['changeCategory'],
     components: { SearchGoogle, SearchStandard, SearchSimple },

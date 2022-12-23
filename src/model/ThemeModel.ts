@@ -1,4 +1,4 @@
-export default class StyleModel {
+export default class ThemeModel {
   /**
    * 搜索框样式
    */

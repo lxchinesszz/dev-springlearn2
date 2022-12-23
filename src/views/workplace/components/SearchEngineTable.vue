@@ -6,9 +6,11 @@
       :columns="columns"
       :data="canEditorTableData"
       :pagination="false"
+      :draggable="{}"
       hoverable
       stripe
       table-layout-fixed
+      @change="handleChange"
     >
       <template #name="{ rowIndex }">
         <a-input
@@ -47,6 +49,8 @@
   import { defineComponent, reactive, ref } from 'vue';
   import SearchEngineModel from '@/model/SearchEngineModel';
   import deepClone from '@/api/lodashs';
+  import { setSearchEngine } from '@/api/toolList';
+  import ShortcutModel from '@/model/ShortcutModel';
 
   export default defineComponent({
     name: 'SearchEngineTable',
@@ -84,9 +88,15 @@
        * 每个子方法提供一个这样的方法用于父组件调用
        */
       function saveAction(): Array<SearchEngineModel> {
+        setSearchEngine(canEditorTableData);
         return canEditorTableData;
       }
-      return { saveAction, canEditorTableData, columns };
+      const handleChange = (_data: SearchEngineModel[]) => {
+        for (let i = 0; i < canEditorTableData.length; i += 1) {
+          canEditorTableData[i] = _data[i];
+        }
+      };
+      return { handleChange, saveAction, canEditorTableData, columns };
     },
   });
 </script>

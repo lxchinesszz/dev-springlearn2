@@ -88,7 +88,7 @@
       const iconText = ref(props.info.title.substr(0, 2));
       // 默认背景
       const iconTextBackgroundColor = ref('');
-      const imgVisible = ref(!props.dataSource?.style.closeIcon);
+      const imgVisible = ref(!props.dataSource?.theme.closeIcon);
       function dynamicGenerateIcon(tInfo: CategoryTool) {
         // e9806e
         const backColor = ['#44CCFF', '#7494EA', '#494947'];

@@ -870,7 +870,7 @@ const style = {
   //   'background-image: linear-gradient(45deg,rgb(90, 54, 148) 0%,rgb(19, 189, 206) 33%,rgb(0, 148, 217) 66%,rgb(111, 199, 181) 100%);',
 };
 const setting = {
-  style,
+  theme: style,
   shortcut: shortcutData,
   categories: data,
   searchEngineList: searchList,
