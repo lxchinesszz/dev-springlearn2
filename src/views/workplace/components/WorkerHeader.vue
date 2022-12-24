@@ -16,10 +16,12 @@
             {{ _.name }}
           </li>
           <li class="navItem" @click="openCalendarView">日历</li>
-          <li id="settingBtn" @click="showSettingView"><icon-code /></li>
+          <li id="settingBtn" @click="showSettingView">
+            <icon-code />
+          </li>
         </ul>
       </div>
-      <div class="userLogo animated swing"> </div>
+      <div class="userLogo animated swing"></div>
     </div>
 
     <a-modal
@@ -39,16 +41,46 @@
               <template #unchecked-icon>
                 <icon-eye />
               </template>
-              <template #checked> 读写 </template>
-              <template #unchecked> 只读 </template>
+              <template #checked> 读写</template>
+              <template #unchecked> 只读</template>
             </a-switch>
-            <a-button shape="round" size="small" @click="copyConfig"
-              >导出配置</a-button
+            <a-button
+              shape="circle"
+              size="small"
+              class="importBtn"
+              :disabled="!onlyRead"
+              @click="copyConfig"
             >
+              <a-tooltip content="点击复制配置文件到粘贴板">
+                <icon-share-internal />
+              </a-tooltip>
+            </a-button>
+            <a-button
+              shape="circle"
+              size="small"
+              class="importBtn"
+              type="primary"
+              @click="uploadAction"
+            >
+              <a-tooltip content="点击导入配置文件">
+                <icon-upload />
+              </a-tooltip>
+            </a-button>
+            <input
+              id="upload"
+              ref="uploadElementRef"
+              type="file"
+              name="upload"
+              style="display: none"
+              @change="uploadFileAction"
+            />
           </a-space>
         </template>
         <a-tab-pane key="1">
-          <template #title> <icon-calendar /> 快捷标签 </template>
+          <template #title>
+            <icon-calendar />
+            快捷标签
+          </template>
           <ShortcutTable
             ref="shortcutSetting"
             :only-read="onlyRead"
@@ -56,7 +88,10 @@
           />
         </a-tab-pane>
         <a-tab-pane key="2">
-          <template #title> <icon-search /> 搜索引擎 </template>
+          <template #title>
+            <icon-search />
+            搜索引擎
+          </template>
           <SearchEngineTable
             ref="searchEngineSetting"
             :only-read="onlyRead"
@@ -64,14 +99,21 @@
           />
         </a-tab-pane>
         <a-tab-pane key="3">
-          <template #title> <icon-tool /> 分类工具栏 </template>
+          <template #title>
+            <icon-tool />
+            分类工具栏
+          </template>
           <CategoryToolTable
+            ref="categorySetting"
             :only-read="onlyRead"
             :categories="dataSource.categories"
           />
         </a-tab-pane>
         <a-tab-pane key="4">
-          <template #title> <icon-skin /> 样式动画 </template>
+          <template #title>
+            <icon-skin />
+            样式动画
+          </template>
           <ThemeSetting
             ref="themeSetting"
             :only-read="onlyRead"
@@ -89,7 +131,7 @@
       draggable
       esc-to-close
     >
-      <template #title> 📅 一寸光阴一寸金 寸金难买寸光阴 </template>
+      <template #title> 📅 一寸光阴一寸金 寸金难买寸光阴</template>
       <div style="height: auto; overflow: hidden">
         <baidu-calendar />
       </div>
@@ -98,7 +140,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, getCurrentInstance, h, reactive, ref } from 'vue';
+  import { defineComponent, h, ref } from 'vue';
   import ShortcutTable from '@/views/workplace/components/ShortcutTable.vue';
   import SearchEngineTable from '@/views/workplace/components/SearchEngineTable.vue';
   import CategoryToolTable from '@/views/workplace/components/CategoryToolTable.vue';
@@ -122,6 +164,7 @@
       const searchEngineSetting = ref(null);
       const shortcutSetting = ref(null);
       const themeSetting = ref(null);
+      const categorySetting = ref(null);
       const calendarView = ref(false);
       const onlyRead = ref(false);
       const visibleSetting = ref(false);
@@ -138,6 +181,7 @@
         console.log(themeSetting.value?.saveAction());
         console.log(shortcutSetting.value?.saveAction());
         console.log(searchEngineSetting.value?.saveAction());
+        console.log(categorySetting.value?.saveAction());
         setTimeout(() => {
           visibleSetting.value = false;
           window.location.reload();
@@ -150,11 +194,24 @@
           window.open(url, openType);
         }
       };
-
+      const uploadElementRef = ref(null);
+      const uploadAction = () => {
+        uploadElementRef.value.dispatchEvent(new MouseEvent('click'));
+      };
+      const uploadFileAction = () => {
+        const settingFile: File = uploadElementRef.value.files[0];
+        console.log(settingFile);
+        const reader = new FileReader();
+        console.log(reader.readAsText(settingFile));
+      };
       const openCalendarView = () => {
         calendarView.value = true;
       };
       return {
+        categorySetting,
+        uploadFileAction,
+        uploadElementRef,
+        uploadAction,
         copyConfig,
         searchEngineSetting,
         shortcutSetting,
@@ -178,11 +235,13 @@
     box-shadow: none;
     border-radius: 0px;
   }
+
   :deep(.op-calendar-pc-right) {
     border: none;
     box-shadow: none;
     border-radius: 0px;
   }
+
   #header {
     padding: 0;
     /*background: #cae7ef url(https://img.springlearn.cn/cloudtou.svg) repeat-y*/
@@ -220,5 +279,16 @@
     padding: 0;
     margin: 0 15px;
     cursor: pointer;
+  }
+
+  .exportBtn {
+    min-width: 40px;
+    height: 24px;
+  }
+
+  .importBtn {
+    min-width: 24px;
+    height: 24px;
+    border-radius: 25%;
   }
 </style>

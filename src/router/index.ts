@@ -11,6 +11,10 @@ const router = createRouter({
       path: '/',
       component: () => import('@/views/workplace/index.vue'),
     },
+    {
+      path: '/ts',
+      component: () => import('@/views/workplace/components/RoleCards.vue'),
+    },
   ],
   scrollBehavior() {
     return { top: 0 };

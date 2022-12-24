@@ -58,7 +58,7 @@
   // 抽屉工具，支持8个或者是4个
   import { defineComponent, reactive, ref } from 'vue';
   import ELink from '@/views/workplace/components/Link.vue';
-  import deepClone, { randomObject } from '@/api/lodashs';
+  import deepClone from '@/api/lodashs';
   import SettingModel from '@/model/SettingModel';
   import CategoryTool from '@/model/CategoryTool';
 

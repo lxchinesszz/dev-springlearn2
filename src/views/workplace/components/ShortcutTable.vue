@@ -54,7 +54,7 @@
 
 <script lang="ts">
   // 抽屉工具，支持8个或者是4个
-  import { defineComponent, reactive, ref, watch } from 'vue';
+  import { defineComponent, reactive, ref } from 'vue';
   import ShortcutModel from '@/model/ShortcutModel';
   import deepClone from '@/api/lodashs';
   import { setShortcut } from '@/api/toolList';

@@ -123,7 +123,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
+  import { defineComponent, ref, reactive } from 'vue';
   import CategoryModel from '@/model/CategoryModel';
   import SearchEngineModel from '@/model/SearchEngineModel';
   import SearchGoogle from '@/views/workplace/components/search/SearchGoogle.vue';
@@ -133,13 +133,13 @@
 
   export default defineComponent({
     name: 'Search',
+    components: { SearchGoogle, SearchStandard, SearchSimple },
     props: {
       categories: Array<CategoryModel>,
       searchList: Array<SearchEngineModel>,
       style: ThemeModel,
     },
     emits: ['changeCategory'],
-    components: { SearchGoogle, SearchStandard, SearchSimple },
     setup(props, ctx) {
       const searchCardInfo = reactive({
         name: '',

@@ -2,7 +2,7 @@ import setting from '@/api/data';
 import SettingModel from '@/model/SettingModel';
 import CategoryModel from '@/model/CategoryModel';
 import SearchEngineModel from '@/model/SearchEngineModel';
-import deepClone, { isEmpty, isJson, isNotEmpty } from '@/api/lodashs';
+import deepClone, { isEmpty, isJson } from '@/api/lodashs';
 import ShortcutModel from '@/model/ShortcutModel';
 import ThemeModel from '@/model/ThemeModel';
 import useClipboard from 'vue-clipboard3';
@@ -90,6 +90,13 @@ export function setTheme(arg: ThemeModel) {
   saveLocal(settingModel);
 }
 
+export function setCategory(arg: Array<CategoryModel>) {
+  const settingModel = localDataSource();
+  settingModel.categories = arg;
+  // eslint-disable-next-line no-console
+  console.log('保存配置', arg);
+  saveLocal(settingModel);
+}
 const { toClipboard } = useClipboard();
 export function clipboard(value: any) {
   try {

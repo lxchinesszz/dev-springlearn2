@@ -2,12 +2,22 @@
   <div class="tableWrapper">
     <a-card :bordered="onlyRead" :style="{ width: '100%' }">
       <a-card-grid
-        v-for="(_, index) in categories"
-        :key="index"
-        :hoverable="index % 2 === 0"
+        v-for="(_, categoryIdx) in canEditorCategories"
+        :key="categoryIdx"
+        :hoverable="categoryIdx % 2 === 0"
         :style="{ width: '25%', height: '25%' }"
       >
-        <a-card class="card" :title="_.categoryName" :bordered="onlyRead">
+        <a-card class="card" :bordered="onlyRead">
+          <template #title>
+            <a-input
+              v-model="_.categoryName"
+              :style="{ width: '120px' }"
+              placeholder="分类名称"
+              :disabled="!onlyRead"
+              :max-length="4"
+              show-word-limit
+            />
+          </template>
           <template #extra>
             <a-button shape="circle" :disabled="!onlyRead" @click="addTool(_)">
               <icon-plus />
@@ -15,40 +25,30 @@
           </template>
           <a-grid :cols="2" :col-gap="12" :row-gap="16" class="grid-demo-grid">
             <a-grid-item
-              v-for="(toolGroup, index) of _.toolList"
-              :key="index"
-              style="cursor: pointer"
+              v-for="(toolGroup, toolGroupIdx) of _.toolList"
+              :key="toolGroupIdx"
               class="demo-item"
-              @click="editorTool(toolGroup)"
             >
               <div class="toolGroupWrapper">
-                <div> <icon-edit /></div>
-                <div style="flex-grow: 2"> {{ toolGroup.toolGroupName }}</div>
-                <div><icon-close /></div>
+                <div>
+                  <icon-edit
+                    style="cursor: pointer"
+                    @click="editorTool(toolGroup, categoryIdx, toolGroupIdx)"
+                /></div>
+                <div
+                  style="flex-grow: 2; cursor: pointer"
+                  @click="lookToolGroup(toolGroup)"
+                >
+                  {{ toolGroup.toolGroupName }}
+                </div>
+                <div
+                  ><icon-close
+                    style="cursor: pointer"
+                    @click="delToolGroupAction(_, toolGroupIdx)"
+                /></div>
               </div>
             </a-grid-item>
           </a-grid>
-          <!--          <a-space wrap>-->
-          <!--            <template #split>-->
-          <!--              <a-divider direction="vertical" />-->
-          <!--            </template>-->
-          <!--            <a-row>-->
-          <!--              <a-col-->
-          <!--                v-for="(toolGroup, index) of _.toolList"-->
-          <!--                :key="index"-->
-          <!--                :span="12"-->
-          <!--              >-->
-          <!--                <a-tag :closable="onlyRead" size="large">-->
-          <!--                  <template #icon>-->
-          <!--                    <div style="cursor: pointer" @click="editorTool(toolGroup)">-->
-          <!--                      <icon-edit />-->
-          <!--                    </div>-->
-          <!--                  </template>-->
-          <!--                  {{ toolGroup.toolGroupName }}</a-tag-->
-          <!--                >-->
-          <!--              </a-col>-->
-          <!--            </a-row>-->
-          <!--          </a-space>-->
         </a-card>
       </a-card-grid>
     </a-card>
@@ -61,53 +61,43 @@
     draggable
     @ok="handleOk"
   >
-    <template v-if="!onlyRead" #title>
-      <icon-interaction /> {{ currentEditorCategoryTitle }}
-    </template>
-    <template v-else #title>
+    <template #title>
       <div style="width: 150px">
         <a-input
-          v-model="currentEditorCategoryTitle"
+          v-model="currentToolGroup.toolGroupName"
           :max-length="6"
           show-word-limit
+          :disabled="!onlyRead"
         />
       </div>
     </template>
-    <div v-if="!onlyRead" class="tableWrapper">
+    <div class="tableWrapper">
       <a-table
         column-resizable
         :bordered="{ cell: true }"
         :columns="toolGroupColumns"
-        :data="currentEditorCategoryToolList"
+        :data="currentToolGroup.toolList"
         :pagination="false"
+        :draggable="{}"
         hoverable
         stripe
         table-layout-fixed
-      >
-      </a-table>
-    </div>
-    <div v-else class="tableWrapper">
-      <a-table
-        column-resizable
-        :bordered="{ cell: true }"
-        :columns="toolGroupColumns"
-        :data="currentEditorCategoryToolList"
-        :pagination="false"
-        hoverable
-        stripe
-        table-layout-fixed
+        @change="handleChange"
       >
         <template #title="{ rowIndex }">
           <a-input
-            v-model="currentEditorCategoryToolList[rowIndex].title"
+            v-model="currentToolGroup.toolList[rowIndex].title"
             :max-length="6"
+            :disabled="!onlyRead"
+            placeholder="网站名"
             show-word-limit
           />
         </template>
         <template #desc="{ rowIndex }">
           <a-input
-            v-model="currentEditorCategoryToolList[rowIndex].desc"
-            placeholder="https://json.cn"
+            v-model="currentToolGroup.toolList[rowIndex].desc"
+            :disabled="!onlyRead"
+            placeholder="网站介绍"
           >
             <template #prefix>
               <icon-public />
@@ -115,21 +105,32 @@
           </a-input>
         </template>
         <template #link="{ rowIndex }">
-          <a-input v-model="currentEditorCategoryToolList[rowIndex].link">
+          <a-input
+            v-model="currentToolGroup.toolList[rowIndex].link"
+            :disabled="!onlyRead"
+            placeholder="网站名链接"
+          >
           </a-input>
         </template>
         <template #icon="{ rowIndex }">
-          <a-input v-model="currentEditorCategoryToolList[rowIndex].icon">
+          <a-input
+            v-model="currentToolGroup.toolList[rowIndex].icon"
+            :disabled="!onlyRead"
+            allow-clear
+          >
           </a-input>
         </template>
         <template #source="{ rowIndex }">
-          <a-switch>
-            <template #checked>
-              {{ currentEditorCategoryToolList[rowIndex].source }}
-            </template>
+          <a-switch
+            v-model="currentToolGroup.toolList[rowIndex].source"
+            :disabled="!onlyRead"
+            :checked-value="1"
+            checked-color="red"
+            :unchecked-value="0"
+          >
+            <template #checked> 国外 </template>
             <template #unchecked>
-              OFF
-              {{ currentEditorCategoryToolList[rowIndex].source }}
+              <span>国内</span>
             </template>
           </a-switch>
         </template>
@@ -162,11 +163,12 @@
   // 抽屉工具，支持8个或者是4个
   import { defineComponent, reactive, ref, h } from 'vue';
   import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
-  import { Message } from '@arco-design/web-vue';
+  import { Message, Modal } from '@arco-design/web-vue';
   import CategoryModel from '@/model/CategoryModel';
   import CategoryToolGroup from '@/model/CategoryToolGroup';
   import CategoryTool from '@/model/CategoryTool';
-  import { clearArray } from '@/api/lodashs';
+  import deepClone from '@/api/lodashs';
+  import { setCategory } from '@/api/toolList';
 
   export default defineComponent({
     name: 'CategoryToolTable',
@@ -176,30 +178,17 @@
         default: false,
       },
       categories: Array<CategoryModel>,
-      tableData: {
-        default: [
-          {
-            name: '配色',
-          },
-          {
-            name: '配色',
-          },
-          {
-            name: '配色',
-          },
-          {
-            name: '配色',
-          },
-          {
-            name: '配色',
-          },
-          {
-            name: '配色',
-          },
-        ],
-      },
     },
     setup(props) {
+      // 分类模型
+      const canEditorCategories: Array<CategoryModel> = reactive<
+        Array<CategoryModel>
+      >(deepClone(props.categories));
+      const canEditor = () => {
+        if (!props.onlyRead) {
+          Message.info('当前为查看模式,要想修改请点击打开编辑模式');
+        }
+      };
       const toolGroupColumns = ref([
         {
           title: '工具名',
@@ -229,86 +218,167 @@
         },
       ]);
       const visibleSetting = ref(false);
-      const shortcutData = reactive(props.tableData);
       const handleOk = () => {
         visibleSetting.value = false;
       };
-      const custom = ['gray', 'orangered', 'blue', 'arcoblue', 'gray', 'blue'];
+      const currentEditorCategoryTitle = ref('s');
+      //
+      const currentToolGroup: CategoryToolGroup = reactive<CategoryToolGroup>(
+        deepClone(canEditorCategories[0].toolList[0])
+      );
 
-      const currentEditorCategoryTitle = ref(' s');
-      let currentEditorCategory: CategoryToolGroup | undefined =
-        reactive<CategoryToolGroup>(null);
-      const currentEditorCategoryToolList: Array<CategoryTool> = reactive([]);
-      const editorTool = (toolGroup: CategoryToolGroup) => {
-        console.log(`toolGroup:}`, toolGroup);
-        currentEditorCategoryTitle.value = toolGroup.toolGroupName;
-        visibleSetting.value = true;
-        currentEditorCategory = toolGroup;
-        // 清空数组
-        clearArray(currentEditorCategoryToolList);
-        currentEditorCategoryToolList.push(...toolGroup.toolList);
-        if (currentEditorCategoryToolList.length < 6) {
+      /**
+       * reactive 不能使用=方式取更新数据,否则监控不到
+       * @param toolGroup
+       */
+      const updateCurrentToolGroup = (toolGroup: CategoryToolGroup) => {
+        currentToolGroup.toolGroupName = toolGroup.toolGroupName;
+        for (let i = 0; i < toolGroup.toolList.length; i += 1) {
+          currentToolGroup.toolList[i] = toolGroup.toolList[i];
+        }
+      };
+      /**
+       * 点击查看
+       * @param toolGroup
+       */
+      const lookToolGroup = (toolGroup: CategoryToolGroup) => {
+        updateCurrentToolGroup(toolGroup);
+        if (currentToolGroup.toolList.length < 6) {
           // eslint-disable-next-line no-plusplus
-          for (let i = 0; i < 6 - toolGroup.toolList.length; i++) {
-            currentEditorCategoryToolList.push({
-              icon: '',
-              title: '自定义',
-              desc: '',
-              link: '',
-              source: 1,
-            });
+          for (let i = 0; i < 6 - currentToolGroup.toolList.length; i++) {
+            currentToolGroup.toolList.push(
+              new CategoryTool('', '', '', '', '', 0)
+            );
           }
         }
-        console.log(
-          `currentEditorCategoryToolList:`,
-          currentEditorCategoryToolList
-        );
+        visibleSetting.value = true;
+      };
+      // 分组
+      const dragCategoryIdx = ref(0);
+      const dragToolGroupIdx = ref(0);
+      /**
+       * 编辑
+       * @param toolGroup
+       * @param categoryIdx
+       * @param toolGroupIdx
+       */
+      const editorTool = (
+        toolGroup: CategoryToolGroup,
+        categoryIdx: number,
+        toolGroupIdx: number
+      ) => {
+        canEditor();
+        if (props.onlyRead) {
+          lookToolGroup(toolGroup);
+          dragCategoryIdx.value = categoryIdx;
+          dragToolGroupIdx.value = toolGroupIdx;
+        }
       };
       const newToolGroupName = ref('');
       const addToolGroupVisible = ref(false);
-      let currentCategory: CategoryModel = reactive({});
-      const addTool = (category: any) => {
-        clearArray(currentEditorCategoryToolList);
-        if (category.toolList.length >= 6) {
-          Message.info({
-            content:
-              '为了您有更好的用户体检,我们强烈建议你最多只保留 6 个工具分类',
-            icon: () => h(IconFaceSmileFill),
-          });
-        } else {
-          currentCategory = category;
-          addToolGroupVisible.value = true;
+      // 当前正在编辑的分类
+      let currentCategory: CategoryModel = reactive<CategoryModel>({});
+      /**
+       * 添加一个服务组
+       * @param category
+       */
+      const addTool = (category: CategoryModel) => {
+        canEditor();
+        if (props.onlyRead) {
+          if (category.toolList.length >= 6) {
+            Message.info({
+              content:
+                '为了您有更好的用户体检,我们建议你最多只保留 6 个工具分类',
+              icon: () => h(IconFaceSmileFill),
+            });
+          } else {
+            currentCategory = category;
+            addToolGroupVisible.value = true;
+          }
         }
       };
+
+      /**
+       * 添加一个工具组
+       * 并给工具组初始化6个位置
+       *
+       */
       const addToolGroupAction = () => {
-        currentCategory.toolList.push({
-          toolGroupName: newToolGroupName.value,
-          toolList: [
-            {
-              icon: '',
-              title: '',
-              desc: '',
-              link: '',
-              source: 1,
-            },
-          ],
-        });
-        addToolGroupVisible.value = false;
+        canEditor();
+        if (props.onlyRead) {
+          currentCategory.toolList.push({
+            toolGroupName: deepClone(newToolGroupName.value),
+            toolList: [
+              new CategoryTool('', '', '', '', '', 0),
+              new CategoryTool('', '', '', '', '', 0),
+              new CategoryTool('', '', '', '', '', 0),
+              new CategoryTool('', '', '', '', '', 0),
+              new CategoryTool('', '', '', '', '', 0),
+              new CategoryTool('', '', '', '', '', 0),
+            ],
+          });
+          addToolGroupVisible.value = false;
+          // 添加完成后,输入框置空,方便下次继续使用
+          newToolGroupName.value = '';
+        }
       };
+
+      /**
+       * 删除服务组
+       * @param category
+       * @param delIdx
+       */
+      const delToolGroupAction = (category: CategoryModel, delIdx: number) => {
+        canEditor();
+        if (props.onlyRead) {
+          const categoryToolGroup = category.toolList[delIdx];
+          Modal.error({
+            title: `请确认你的操作`,
+            content: `确认要删除工具组: 【${categoryToolGroup.toolGroupName}】 吗? 当前操作会导致数据丢失,建议你先做好数据备份。`,
+            okText: '确认删除',
+            cancelText: '我在想想',
+            titleAlign: 'start',
+            escToClose: true,
+            onOk: () => {
+              category.toolList.splice(delIdx, 1);
+            },
+          });
+        }
+      };
+      const handleChange = (_data: CategoryTool[]) => {
+        for (let i = 0; i < currentToolGroup.toolList.length; i += 1) {
+          canEditorCategories[dragCategoryIdx.value].toolList[
+            dragToolGroupIdx.value
+          ].toolList[i] = _data[i];
+
+          currentToolGroup.toolList[i] = _data[i];
+        }
+      };
+      /**
+       * 每个子方法提供一个这样的方法用于父组件调用
+       */
+      function saveAction(): Array<CategoryModel> {
+        setCategory(canEditorCategories);
+        return canEditorCategories;
+      }
       return {
+        saveAction,
+        delToolGroupAction,
+        canEditorCategories,
+        handleChange,
         addToolGroupAction,
         newToolGroupName,
         addToolGroupVisible,
-        currentEditorCategoryToolList,
-        currentEditorCategory,
+        currentToolGroup,
         currentEditorCategoryTitle,
         toolGroupColumns,
         addTool,
         editorTool,
-        custom,
+        lookToolGroup,
         handleOk,
         visibleSetting,
-        shortcutData,
+        dragToolGroupIdx,
+        dragCategoryIdx,
       };
     },
   });
@@ -355,9 +425,12 @@
     text-align: center;
   }
   .grid-demo-grid .demo-item:nth-child(2n) {
-    background-color: rgb(var(--arcoblue-6), 0.5);
+    background-color: rgb(var(--arcoblue-6), 0.7);
   }
   .grid-demo-grid .demo-item:nth-child(2n + 1) {
-    background-color: rgb(var(--arcoblue-5), 0.7);
+    background-color: rgb(var(--arcoblue-6), 0.7);
+  }
+  :deep(.arco-input[disabled]) {
+    -webkit-text-fill-color: #929396;
   }
 </style>

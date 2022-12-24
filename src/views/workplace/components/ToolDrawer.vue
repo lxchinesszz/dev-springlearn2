@@ -24,6 +24,7 @@
   import { defineComponent } from 'vue';
   import Tool from '@/views/workplace/components/Tool.vue';
   import SettingModel from '@/model/SettingModel';
+  import CategoryTool from '@/model/CategoryTool';
 
   export default defineComponent({
     name: 'ToolDrawer',
@@ -34,37 +35,7 @@
         type: String,
         default: '未命名',
       },
-      toolList: {
-        default: [
-          {
-            title: 'Element UI',
-            desc: 'Element 一套为开发者、设计师',
-            link: 'https://blog.springlearn.cn',
-            icon: 'https://element.eleme.cn/favicon.ico',
-            source: 1,
-          },
-        ],
-      },
-    },
-    setup() {
-      function processList(toolList: any) {
-        console.log(toolList.length);
-        if (toolList.length >= 6) {
-          return toolList?.slice(0, 6);
-        }
-        toolList.push({
-          type: 'add',
-          title: '编辑',
-          desc: '点击添加工具',
-          link: 'https://portal.qiniu.com/create',
-          icon: '',
-          source: 1,
-        });
-        return toolList;
-      }
-      return {
-        processList,
-      };
+      toolList: Array<CategoryTool>,
     },
   });
 </script>

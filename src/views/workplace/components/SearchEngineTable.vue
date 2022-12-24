@@ -50,7 +50,6 @@
   import SearchEngineModel from '@/model/SearchEngineModel';
   import deepClone from '@/api/lodashs';
   import { setSearchEngine } from '@/api/toolList';
-  import ShortcutModel from '@/model/ShortcutModel';
 
   export default defineComponent({
     name: 'SearchEngineTable',
