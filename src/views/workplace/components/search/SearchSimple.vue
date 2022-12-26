@@ -22,7 +22,6 @@
       v-model="value"
       class="input"
       :placeholder="placeholder"
-      required=""
       type="text"
     />
     <button

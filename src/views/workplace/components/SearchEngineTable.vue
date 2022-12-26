@@ -69,7 +69,6 @@
         {
           title: '搜索引擎',
           dataIndex: 'name',
-          width: '200',
           slotName: 'name',
         },
         {

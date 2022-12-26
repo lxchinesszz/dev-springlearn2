@@ -14,14 +14,14 @@
       <!--    工具流-->
       <div id="tool" class="toolContainerFlow">
         <div
-          v-for="index in toolGroupData.toolList"
+          v-for="(tool, index) in toolGroupData.toolList"
           :key="index"
           class="toolList"
         >
           <ToolDrawer
             :data-source="sourceData"
-            :name="index.toolGroupName"
-            :tool-list="filterInvalidTool(index.toolList)"
+            :name="tool.toolGroupName"
+            :tool-list="filterInvalidTool(tool.toolList)"
           ></ToolDrawer>
         </div>
       </div>
@@ -39,7 +39,7 @@
     }"
   >
     <template #title> Title </template>
-    <RoleCards style="z-index: 1"></RoleCards>
+    <RoleCards />
   </a-modal>
 </template>
 

@@ -59,7 +59,7 @@ export function isString(arg: any): boolean {
  * @param f
  * @param callback
  */
-export function readerAsync(f: File, callback = function n(arg: any) {}) {
+export function readerAsync(f: File, callback = (arg: any) => {}) {
   const reader = new FileReader();
   reader.onload = () => {
     console.log('type:', typeof reader.result);

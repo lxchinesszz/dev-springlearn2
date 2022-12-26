@@ -59,7 +59,6 @@
       :footer="false"
       draggable
       @cancel="handleCancel"
-      @before-ok="handleBeforeOk"
     >
       <a-input-search
         ref="categoryInputElement"
@@ -71,53 +70,6 @@
         :max-length="6"
         show-word-limit
       />
-    </a-modal>
-    <a-modal
-      v-model:visible="searchAddVisible"
-      title="添加搜索引擎"
-      title-align="start"
-      draggable
-      @cancel="handleCancel"
-      @ok="handleBeforeOk"
-    >
-      <a-form
-        :style="{ 'display': 'flex', 'justify-content': 'flex-start' }"
-        auto-label-width
-      >
-        <a-row :gutter="1">
-          <a-col :span="12">
-            <a-form-item field="value1" label="中文名" label-col-flex="50px">
-              <a-input
-                v-model="searchCardInfo.name"
-                placeholder="百度搜索"
-                :max-length="6"
-                show-word-limit
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12"> </a-col>
-        </a-row>
-        <a-row :gutter="2">
-          <a-col :span="24">
-            <a-form-item field="value5" label="SLogo" label-col-flex="50px">
-              <a-input
-                v-model="searchCardInfo.tip"
-                placeholder="百度一下你就知道"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-        <a-row :gutter="2">
-          <a-col :span="24">
-            <a-form-item field="value5" label="域名" label-col-flex="50px">
-              <a-input
-                v-model="searchCardInfo.searchUrl"
-                placeholder="https://www.baidu.com/s?ie=UTF-8&wd="
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-      </a-form>
     </a-modal>
     <div id="widgetWrapper">
       <Mx></Mx>
@@ -182,12 +134,6 @@
         console.log(categoryInputElement);
       };
 
-      const handleAddSearch = () => {
-        searchAddVisible.value = true;
-      };
-      const handleBeforeOk = () => {
-        searchCardList.push(searchCardInfo);
-      };
       const handleCancel = () => {
         visible.value = false;
       };
@@ -204,11 +150,9 @@
         visible,
         form,
         handleClick,
-        handleBeforeOk,
         handleCancel,
         categoryInputElement,
         searchAddVisible,
-        handleAddSearch,
         searchCardInfo,
       };
     },

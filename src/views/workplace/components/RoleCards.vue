@@ -19,7 +19,6 @@
 
   export default defineComponent({
     name: 'RoleCards',
-    props: {},
     setup() {
       const list = reactive([
         {

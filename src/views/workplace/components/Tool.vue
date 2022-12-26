@@ -1,5 +1,5 @@
 <template>
-  <div v-if="toolInfo.type !== 'add'" class="toolCard">
+  <div class="toolCard">
     <div class="toolIcon" style="color: #504f4f">
       <a-trigger
         trigger="hover"
@@ -55,24 +55,6 @@
         <ELink :href="toolInfo.link">
           {{ toolInfo.desc }}
         </ELink>
-      </div>
-    </div>
-  </div>
-  <div v-else class="toolCard">
-    <div class="toolIcon" style="color: #504f4f" @click="handleClick">
-      <a-badge dot :count="9">
-        <template #content>
-          <icon-edit :style="{ verticalAlign: 'middle', color: '#c9c7c7' }" />
-        </template>
-        <a-avatar :size="55" shape="circle"> icon </a-avatar>
-      </a-badge>
-    </div>
-    <div class="toolDescWrapper">
-      <div class="toolTitle">
-        <div class="title" contenteditable="true"> 工具标题 </div><icon-edit />
-      </div>
-      <div class="toolDesc" contenteditable="true">
-        {{ toolInfo.desc }}
       </div>
     </div>
   </div>

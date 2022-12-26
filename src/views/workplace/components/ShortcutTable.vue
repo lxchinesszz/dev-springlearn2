@@ -92,7 +92,6 @@
         {
           title: '导航栏快捷方式',
           dataIndex: 'name',
-          width: '200',
           slotName: 'name',
         },
         {

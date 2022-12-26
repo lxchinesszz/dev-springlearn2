@@ -243,7 +243,6 @@
         {
           title: '工具名',
           dataIndex: 'title',
-          width: '200',
           slotName: 'title',
         },
         {
@@ -332,7 +331,9 @@
       const newToolGroupName = ref('');
       const addToolGroupVisible = ref(false);
       // 当前正在编辑的分类
-      let currentCategory: CategoryModel = reactive<CategoryModel>({});
+      let currentCategory: CategoryModel = reactive<CategoryModel>(
+        new CategoryModel('', [])
+      );
       /**
        * 添加一个服务组
        * @param category
