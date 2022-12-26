@@ -45,11 +45,23 @@
                   <div>
                     <icon-edit
                       style="cursor: pointer"
-                      @click="editorTool(toolGroup, categoryIdx, toolGroupIdx)"
+                      @click="
+                        editorTool(
+                          toolGroup,
+                          element.categoryName,
+                          toolGroupIdx
+                        )
+                      "
                   /></div>
                   <div
                     style="flex-grow: 2; cursor: pointer"
-                    @click="lookToolGroup(toolGroup)"
+                    @click="
+                      lookToolGroup(
+                        toolGroup,
+                        element.categoryName,
+                        toolGroupIdx
+                      )
+                    "
                   >
                     {{ toolGroup.toolGroupName }}
                   </div>
@@ -67,18 +79,21 @@
       <!--      </a-card-grid>-->
     </a-card>
   </div>
+  <!--  展示工具-->
   <a-modal
     v-model:visible="visibleSetting"
     :closable="true"
     title-align="center"
     width="60vw"
-    draggable
     @ok="handleOk"
   >
     <template #title>
       <div style="width: 150px">
         <a-input
-          v-model="currentToolGroup.toolGroupName"
+          v-model="
+            canEditorCategories[dragCategoryIdx].toolList[dragToolGroupIdx]
+              .toolGroupName
+          "
           :max-length="6"
           show-word-limit
           :disabled="!onlyRead"
@@ -90,7 +105,10 @@
         column-resizable
         :bordered="{ cell: true }"
         :columns="toolGroupColumns"
-        :data="currentToolGroup.toolList"
+        :data="
+          canEditorCategories[dragCategoryIdx].toolList[dragToolGroupIdx]
+            .toolList
+        "
         :pagination="false"
         :draggable="{}"
         hoverable
@@ -100,7 +118,10 @@
       >
         <template #title="{ rowIndex }">
           <a-input
-            v-model="currentToolGroup.toolList[rowIndex].title"
+            v-model="
+              canEditorCategories[dragCategoryIdx].toolList[dragToolGroupIdx]
+                .toolList[rowIndex].title
+            "
             :max-length="6"
             :disabled="!onlyRead"
             placeholder="网站名"
@@ -109,7 +130,10 @@
         </template>
         <template #desc="{ rowIndex }">
           <a-input
-            v-model="currentToolGroup.toolList[rowIndex].desc"
+            v-model="
+              canEditorCategories[dragCategoryIdx].toolList[dragToolGroupIdx]
+                .toolList[rowIndex].desc
+            "
             :disabled="!onlyRead"
             placeholder="网站介绍"
           >
@@ -120,7 +144,10 @@
         </template>
         <template #link="{ rowIndex }">
           <a-input
-            v-model="currentToolGroup.toolList[rowIndex].link"
+            v-model="
+              canEditorCategories[dragCategoryIdx].toolList[dragToolGroupIdx]
+                .toolList[rowIndex].link
+            "
             :disabled="!onlyRead"
             placeholder="网站名链接"
           >
@@ -128,7 +155,10 @@
         </template>
         <template #icon="{ rowIndex }">
           <a-input
-            v-model="currentToolGroup.toolList[rowIndex].icon"
+            v-model="
+              canEditorCategories[dragCategoryIdx].toolList[dragToolGroupIdx]
+                .toolList[rowIndex].icon
+            "
             :disabled="!onlyRead"
             allow-clear
           >
@@ -136,7 +166,10 @@
         </template>
         <template #source="{ rowIndex }">
           <a-switch
-            v-model="currentToolGroup.toolList[rowIndex].source"
+            v-model="
+              canEditorCategories[dragCategoryIdx].toolList[dragToolGroupIdx]
+                .toolList[rowIndex].source
+            "
             :disabled="!onlyRead"
             :checked-value="1"
             checked-color="red"
@@ -151,6 +184,7 @@
       </a-table>
     </div>
   </a-modal>
+  <!--  添加toolGroup-->
   <a-modal
     v-model:visible="addToolGroupVisible"
     :body-style="{ 'display': 'flex', 'justify-content': 'center' }"
@@ -238,40 +272,47 @@
         visibleSetting.value = false;
       };
       const currentEditorCategoryTitle = ref('s');
-      //
-      const currentToolGroup: CategoryToolGroup = reactive<CategoryToolGroup>(
-        deepClone(canEditorCategories[0].toolList[0])
-      );
 
-      /**
-       * reactive 不能使用=方式取更新数据,否则监控不到
-       * @param toolGroup
-       */
-      const updateCurrentToolGroup = (toolGroup: CategoryToolGroup) => {
-        currentToolGroup.toolGroupName = toolGroup.toolGroupName;
-        for (let i = 0; i < toolGroup.toolList.length; i += 1) {
-          currentToolGroup.toolList[i] = toolGroup.toolList[i];
-        }
-      };
+      // 分组
+      const dragCategoryIdx = ref(0);
+      const dragToolGroupIdx = ref(0);
       /**
        * 点击查看
        * @param toolGroup
+       * @param categoryIdx
+       * @param toolGroupIdx
        */
-      const lookToolGroup = (toolGroup: CategoryToolGroup) => {
-        updateCurrentToolGroup(toolGroup);
-        if (currentToolGroup.toolList.length < 6) {
+      const lookToolGroup = (
+        toolGroup: CategoryToolGroup,
+        categoryIdx: string,
+        toolGroupIdx: number
+      ) => {
+        for (let i = 0; i < canEditorCategories.length; i += 1) {
+          if (canEditorCategories[i].categoryName === categoryIdx) {
+            dragCategoryIdx.value = i;
+          }
+        }
+        dragToolGroupIdx.value = toolGroupIdx;
+        console.log(`currentCategoryIdx`, dragCategoryIdx.value);
+        console.log(`currentToolGroupIdx`, dragToolGroupIdx.value);
+        // updateCurrentToolGroup(toolGroup);
+        const toolGroupList =
+          canEditorCategories[dragCategoryIdx.value].toolList[
+            dragToolGroupIdx.value
+          ];
+        console.log(`toolGroupList`, toolGroupList);
+        if (toolGroupList.toolList.length < 6) {
           // eslint-disable-next-line no-plusplus
-          for (let i = 0; i < 6 - currentToolGroup.toolList.length; i++) {
-            currentToolGroup.toolList.push(
-              new CategoryTool('', '', '', '', '', 0)
+          const add: number = 6 - toolGroupList.toolList.length;
+          for (let i = 0; i < add; i += 1) {
+            toolGroupList.toolList.push(
+              new CategoryTool('快捷方式', '', '', '', '', 0)
             );
           }
         }
         visibleSetting.value = true;
       };
-      // 分组
-      const dragCategoryIdx = ref(0);
-      const dragToolGroupIdx = ref(0);
+
       /**
        * 编辑
        * @param toolGroup
@@ -280,14 +321,12 @@
        */
       const editorTool = (
         toolGroup: CategoryToolGroup,
-        categoryIdx: number,
+        categoryIdx: string,
         toolGroupIdx: number
       ) => {
         canEditor();
         if (props.onlyRead) {
-          lookToolGroup(toolGroup);
-          dragCategoryIdx.value = categoryIdx;
-          dragToolGroupIdx.value = toolGroupIdx;
+          lookToolGroup(toolGroup, categoryIdx, toolGroupIdx);
         }
       };
       const newToolGroupName = ref('');
@@ -362,13 +401,14 @@
         }
       };
       const handleChange = (_data: CategoryTool[]) => {
-        for (let i = 0; i < currentToolGroup.toolList.length; i += 1) {
+        const toolGroupList =
           canEditorCategories[dragCategoryIdx.value].toolList[
             dragToolGroupIdx.value
-          ].toolList[i] = _data[i];
-
-          currentToolGroup.toolList[i] = _data[i];
+          ];
+        for (let i = 0; i < toolGroupList.toolList.length; i += 1) {
+          toolGroupList.toolList[i] = _data[i];
         }
+        console.log('排序后:', _data);
       };
       /**
        * 每个子方法提供一个这样的方法用于父组件调用
@@ -392,15 +432,14 @@
         }
       }
       return {
+        handleChange,
         dragCategory,
         saveAction,
         delToolGroupAction,
         canEditorCategories,
-        handleChange,
         addToolGroupAction,
         newToolGroupName,
         addToolGroupVisible,
-        currentToolGroup,
         currentEditorCategoryTitle,
         toolGroupColumns,
         addTool,

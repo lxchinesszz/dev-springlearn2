@@ -68,6 +68,19 @@
                 <icon-upload />
               </a-tooltip>
             </a-button>
+            <a-button
+              shape="circle"
+              size="small"
+              class="importBtn"
+              type="primary"
+              :disabled="!onlyRead"
+              status="warning"
+              @click="resetConfig"
+            >
+              <a-tooltip content="点击恢复到默认配置">
+                <icon-empty />
+              </a-tooltip>
+            </a-button>
             <input
               id="upload"
               ref="uploadElementRef"
@@ -148,9 +161,9 @@
   import CategoryToolTable from '@/views/workplace/components/CategoryToolTable.vue';
   import ThemeSetting from '@/views/workplace/components/ThemeSetting.vue';
   import SettingModel from '@/model/SettingModel';
-  import { Message } from '@arco-design/web-vue';
+  import { Message, Modal } from '@arco-design/web-vue';
   import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
-  import { copyConfig, saveLocal } from '@/api/toolList';
+  import { copyConfig, saveLocal, restLocalSourceData } from '@/api/toolList';
   import { readerAsync } from '@/api/lodashs';
 
   export default defineComponent({
@@ -228,7 +241,54 @@
       const switchDataSourceAction = () => {
         ctx.emit('ds');
       };
+
+      const resetConfig = () => {
+        Modal.error({
+          title: `请确认你的操作`,
+          content: `当前操作会重置数据,并恢复数据到初始化的默认配置,你确定要这么操作吗 ?`,
+          okText: '确认删除',
+          cancelText: '我在想想',
+          titleAlign: 'start',
+          escToClose: true,
+          onOk: () => {
+            restLocalSourceData();
+            visibleSetting.value = false;
+            window.location.reload();
+          },
+        });
+      };
+
+      // onMounted(() => {
+      //   window.WIDGET = {
+      //     CONFIG: {
+      //       modules: '01234',
+      //       background: '5',
+      //       tmpColor: 'FFFFFF',
+      //       tmpSize: '16',
+      //       cityColor: 'FFFFFF',
+      //       citySize: '16',
+      //       aqiColor: 'FFFFFF',
+      //       aqiSize: '16',
+      //       weatherIconSize: '24',
+      //       alertIconSize: '18',
+      //       padding: '20px 10px 20px 10px',
+      //       shadow: '0',
+      //       language: 'auto',
+      //       borderRadius: '5',
+      //       fixed: 'false',
+      //       vertical: 'top',
+      //       horizontal: 'left',
+      //       key: '1feda5073a844f6baa5adad4b611e84e',
+      //     },
+      //   };
+      //   const script = document.createElement('script');
+      //   script.type = 'text/javascript';
+      //   script.src =
+      //     'https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0';
+      //   document.getElementsByTagName('head')[0].appendChild(script);
+      // });
       return {
+        resetConfig,
         switchDataSourceAction,
         categorySetting,
         uploadFileAction,
@@ -315,5 +375,10 @@
     min-width: 24px;
     height: 24px;
     border-radius: 25%;
+  }
+
+  .weather {
+    width: 60px !important;
+    height: 100%;
   }
 </style>

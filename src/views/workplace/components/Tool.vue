@@ -1,21 +1,45 @@
 <template>
   <div v-if="toolInfo.type !== 'add'" class="toolCard">
     <div class="toolIcon" style="color: #504f4f">
-      <ELink :href="toolInfo.link">
-        <a-avatar v-if="imgVisible" :size="55" shape="circle">
-          <img alt="avatar" :src="toolInfo.icon" @error="switchIconText" />
-        </a-avatar>
-        <a-avatar
-          v-else
-          :size="55"
-          :style="{
-            backgroundColor: toolInfo.iconTextBackgroundColor,
-            color: '#fff',
-          }"
-        >
-          {{ iconText }}</a-avatar
-        >
-      </ELink>
+      <a-trigger
+        trigger="hover"
+        position="top"
+        :popup-offset="25"
+        show-arrow
+        align-point
+      >
+        <ELink :href="toolInfo.link">
+          <a-avatar v-if="imgVisible" :size="55" shape="circle">
+            <img alt="avatar" :src="toolInfo.icon" @error="switchIconText" />
+          </a-avatar>
+          <a-avatar
+            v-else
+            :size="55"
+            :style="{
+              backgroundColor: toolInfo.iconTextBackgroundColor,
+              color: '#fff',
+            }"
+          >
+            {{ iconText }}</a-avatar
+          >
+        </ELink>
+        <template #content>
+          <div
+            style="height: 100%; overflow-y: scroll; overflow-x: hidden"
+            class="animated fadeIn"
+          >
+            <a-card
+              :style="{ width: '360px' }"
+              :title="info.title"
+              hoverable
+              :bordered="false"
+            >
+              <iframe :src="toolInfo.link" frameborder="0" scrolling="no">
+              </iframe>
+            </a-card>
+          </div>
+        </template>
+      </a-trigger>
     </div>
     <div class="toolDescWrapper">
       <div class="toolTitle">

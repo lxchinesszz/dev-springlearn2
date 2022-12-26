@@ -19,7 +19,7 @@ const steps = [
     },
   },
   {
-    element: '#searchTarget',
+    element: '.searchTargetCardHover',
     popover: {
       title: '分类',
       description: '最多支持你建立7个分类栏',

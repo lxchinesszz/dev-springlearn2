@@ -21,7 +21,7 @@
           <ToolDrawer
             :data-source="sourceData"
             :name="index.toolGroupName"
-            :tool-list="index.toolList"
+            :tool-list="filterInvalidTool(index.toolList)"
           ></ToolDrawer>
         </div>
       </div>
@@ -30,11 +30,11 @@
 
   <a-modal
     v-model:visible="fVisible"
-    fullscreen
     :footer="false"
     :body-style="{
       background: 'none',
       display: 'flex',
+      width: 'auto',
       justifyContent: 'center',
     }"
   >
@@ -57,8 +57,9 @@
   import 'driver.js/dist/driver.min.css'; // import driver.js css
   import setps from '@/api/setps';
   import RoleCards from '@/views/workplace/components/RoleCards.vue';
+  import CategoryTool from '@/model/CategoryTool';
 
-  const fVisible = ref(true);
+  const fVisible = ref(false);
   // 元数据
   const sourceData: SettingModel = fetchSourceData();
   const { theme } = sourceData;
@@ -72,6 +73,15 @@
   function selectCategory(index: number) {
     toolGroupData.categoryName = categories[index].categoryName;
     toolGroupData.toolList = categories[index].toolList;
+  }
+
+  function filterInvalidTool(tools: Array<CategoryTool>) {
+    return tools.filter((t) => {
+      if (t.title) {
+        return true;
+      }
+      return false;
+    });
   }
 
   /**

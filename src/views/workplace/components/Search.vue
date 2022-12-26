@@ -119,6 +119,9 @@
         </a-row>
       </a-form>
     </a-modal>
+    <div id="widgetWrapper">
+      <Mx></Mx>
+    </div>
   </div>
 </template>
 
@@ -130,10 +133,11 @@
   import SearchStandard from '@/views/workplace/components/search/SearchStandard.vue';
   import SearchSimple from '@/views/workplace/components/search/SearchSimple.vue';
   import ThemeModel from '@/model/ThemeModel';
+  import Mx from '@/views/workplace/components/widget/Mx.vue';
 
   export default defineComponent({
     name: 'Search',
-    components: { SearchGoogle, SearchStandard, SearchSimple },
+    components: { SearchGoogle, SearchStandard, SearchSimple, Mx },
     props: {
       categories: Array<CategoryModel>,
       searchList: Array<SearchEngineModel>,
@@ -223,6 +227,7 @@
   .searchGroup {
   }
   .container {
+    overflow: hidden;
     width: 100%;
     height: 100%;
     padding: 0;
@@ -335,5 +340,16 @@
 
   .container {
     font-family: 'Arial', 'Microsoft YaHei', '黑体', '宋体', sans-serif;
+  }
+  #widgetWrapper {
+    width: 20vw;
+    height: 40vh;
+    position: absolute;
+    top: 10px;
+    right: 0;
+    //border-radius: 50%;
+    overflow: hidden;
+    //background: #ffffff;
+    //box-shadow: 0 0 10px 10px #9fb1c5;
   }
 </style>

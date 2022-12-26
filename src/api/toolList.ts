@@ -40,6 +40,9 @@ function localDataSource(): SettingModel {
   return sourceData;
 }
 
+export function restLocalSourceData() {
+  localStorage.clear();
+}
 export function fetchSourceData(): SettingModel {
   let sourceData: SettingModel;
   if (isNewUser()) {
