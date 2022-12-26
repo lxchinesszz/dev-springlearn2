@@ -8,8 +8,8 @@
     <div class="toolPanel">
       <!--      最多6个,如果不到6个就填充到6个。如果超过6个剩余3个不展示,放到弹窗中-->
       <Tool
-        v-for="(info, index) in toolList"
-        :key="index"
+        v-for="info in toolList"
+        :key="JSON.stringify(info)"
         class="toolCard animated"
         :class="dataSource.theme.toolGroupAnimate"
         :info="info"
