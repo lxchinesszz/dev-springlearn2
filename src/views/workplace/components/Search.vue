@@ -14,7 +14,7 @@
           @click="clickCurrentCategoryIndex(index)"
           >{{ scope.categoryName }}
         </div>
-        <div class="searchTargetCard" @click="handleClick"><icon-edit /></div>
+        <!--        <div class="searchTargetCard" @click="handleClick"><icon-edit /></div>-->
       </div>
       <div id="searchBox">
         <div v-if="style.searchStyle === 'search-google'" style="width: 55vw">
@@ -46,9 +46,9 @@
             >{{ scope.name }}
           </div>
         </div>
-        <div class="searchSourceCard" @click="handleAddSearch"
-          ><icon-edit
-        /></div>
+        <!--        <div class="searchSourceCard" @click="handleAddSearch"-->
+        <!--          ><icon-edit-->
+        <!--        /></div>-->
       </div>
     </div>
     <a-modal

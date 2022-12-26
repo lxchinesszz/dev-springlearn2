@@ -27,13 +27,27 @@
       </div>
     </a-layout-content>
   </a-layout>
+
+  <a-modal
+    v-model:visible="fVisible"
+    fullscreen
+    :footer="false"
+    :body-style="{
+      background: 'none',
+      display: 'flex',
+      justifyContent: 'center',
+    }"
+  >
+    <template #title> Title </template>
+    <RoleCards style="z-index: 1"></RoleCards>
+  </a-modal>
 </template>
 
 <script lang="ts" setup>
   import WorkerHeader from '@/views/workplace/components/WorkerHeader.vue';
   import Search from '@/views/workplace/components/Search.vue';
   import ToolDrawer from '@/views/workplace/components/ToolDrawer.vue';
-  import { onMounted, reactive } from 'vue';
+  import { onMounted, reactive, ref } from 'vue';
   import { fetchSourceData, isNewUser, saveLocal } from '@/api/toolList';
   import deepClone from '@/api/lodashs';
   import CategoryModel from '@/model/CategoryModel';
@@ -42,7 +56,9 @@
   import Driver from 'driver.js'; // import driver.js
   import 'driver.js/dist/driver.min.css'; // import driver.js css
   import setps from '@/api/setps';
+  import RoleCards from '@/views/workplace/components/RoleCards.vue';
 
+  const fVisible = ref(true);
   // 元数据
   const sourceData: SettingModel = fetchSourceData();
   const { theme } = sourceData;
@@ -112,5 +128,26 @@
     width: 49.5vw;
     height: auto;
     margin: 0.25vw;
+  }
+
+  .kl-mask-load {
+    background-color: #373838;
+    opacity: 0.4;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    transition: opacity 0.2s ease-in;
+    display: grid;
+    align-items: center;
+    place-items: center;
+    pointer-events: none;
+  }
+
+  .kl-mask-load.show {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.2s ease-in;
   }
 </style>

@@ -49,3 +49,23 @@ export function isJson(arg: any): boolean {
   }
   return false;
 }
+
+export function isString(arg: any): boolean {
+  return _.isString(arg);
+}
+
+/**
+ * 异步读取文件
+ * @param f
+ * @param callback
+ */
+export function readerAsync(f: File, callback = function n(arg: any) {}) {
+  const reader = new FileReader();
+  reader.onload = () => {
+    console.log('type:', typeof reader.result);
+    if (reader.result && isString(reader.result)) {
+      callback(reader.result);
+    }
+  };
+  reader.readAsText(f);
+}

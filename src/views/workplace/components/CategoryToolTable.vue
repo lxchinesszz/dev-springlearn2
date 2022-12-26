@@ -1,56 +1,70 @@
 <template>
   <div class="tableWrapper">
-    <a-card :bordered="onlyRead" :style="{ width: '100%' }">
-      <a-card-grid
-        v-for="(_, categoryIdx) in canEditorCategories"
-        :key="categoryIdx"
-        :hoverable="categoryIdx % 2 === 0"
-        :style="{ width: '25%', height: '25%' }"
+    <a-card :style="{ width: '100%', height: '100%' }">
+      <draggable
+        v-model="canEditorCategories"
+        class="categoryDraggableWrapper"
+        animation="300"
+        ghost-class="ghost"
+        chosen-class="chosen"
+        @sort="dragCategory"
       >
-        <a-card class="card" :bordered="onlyRead">
-          <template #title>
-            <a-input
-              v-model="_.categoryName"
-              :style="{ width: '120px' }"
-              placeholder="分类名称"
-              :disabled="!onlyRead"
-              :max-length="4"
-              show-word-limit
-            />
-          </template>
-          <template #extra>
-            <a-button shape="circle" :disabled="!onlyRead" @click="addTool(_)">
-              <icon-plus />
-            </a-button>
-          </template>
-          <a-grid :cols="2" :col-gap="12" :row-gap="16" class="grid-demo-grid">
-            <a-grid-item
-              v-for="(toolGroup, toolGroupIdx) of _.toolList"
-              :key="toolGroupIdx"
-              class="demo-item"
+        <template #item="{ element }">
+          <a-card class="card" :style="{ width: '25%' }" :bordered="onlyRead">
+            <template #title>
+              <a-input
+                v-model="element.categoryName"
+                :style="{ width: '120px' }"
+                placeholder="分类名称"
+                :disabled="!onlyRead"
+                :max-length="4"
+                show-word-limit
+              />
+            </template>
+            <template #extra>
+              <a-button
+                shape="circle"
+                :disabled="!onlyRead"
+                @click="addTool(element)"
+              >
+                <icon-plus />
+              </a-button>
+            </template>
+            <a-grid
+              :cols="2"
+              :col-gap="12"
+              :row-gap="16"
+              class="grid-demo-grid"
             >
-              <div class="toolGroupWrapper">
-                <div>
-                  <icon-edit
-                    style="cursor: pointer"
-                    @click="editorTool(toolGroup, categoryIdx, toolGroupIdx)"
-                /></div>
-                <div
-                  style="flex-grow: 2; cursor: pointer"
-                  @click="lookToolGroup(toolGroup)"
-                >
-                  {{ toolGroup.toolGroupName }}
+              <a-grid-item
+                v-for="(toolGroup, toolGroupIdx) of element.toolList"
+                :key="toolGroupIdx"
+                class="demo-item"
+              >
+                <div class="toolGroupWrapper">
+                  <div>
+                    <icon-edit
+                      style="cursor: pointer"
+                      @click="editorTool(toolGroup, categoryIdx, toolGroupIdx)"
+                  /></div>
+                  <div
+                    style="flex-grow: 2; cursor: pointer"
+                    @click="lookToolGroup(toolGroup)"
+                  >
+                    {{ toolGroup.toolGroupName }}
+                  </div>
+                  <div
+                    ><icon-close
+                      style="cursor: pointer"
+                      @click="delToolGroupAction(element, toolGroupIdx)"
+                  /></div>
                 </div>
-                <div
-                  ><icon-close
-                    style="cursor: pointer"
-                    @click="delToolGroupAction(_, toolGroupIdx)"
-                /></div>
-              </div>
-            </a-grid-item>
-          </a-grid>
-        </a-card>
-      </a-card-grid>
+              </a-grid-item>
+            </a-grid>
+          </a-card>
+        </template>
+      </draggable>
+      <!--      </a-card-grid>-->
     </a-card>
   </div>
   <a-modal
@@ -161,7 +175,7 @@
 
 <script lang="ts">
   // 抽屉工具，支持8个或者是4个
-  import { defineComponent, reactive, ref, h } from 'vue';
+  import { defineComponent, h, reactive, ref } from 'vue';
   import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
   import { Message, Modal } from '@arco-design/web-vue';
   import CategoryModel from '@/model/CategoryModel';
@@ -169,9 +183,11 @@
   import CategoryTool from '@/model/CategoryTool';
   import deepClone from '@/api/lodashs';
   import { setCategory } from '@/api/toolList';
+  import draggable from 'vuedraggable';
 
   export default defineComponent({
     name: 'CategoryToolTable',
+    components: { draggable },
     props: {
       onlyRead: {
         type: Boolean,
@@ -361,7 +377,22 @@
         setCategory(canEditorCategories);
         return canEditorCategories;
       }
+
+      /**
+       * 处理分类的排序
+       * @param e
+       */
+      function dragCategory(e) {
+        canEditor();
+        if (props.onlyRead) {
+          // 老位置暂存一下;老位置替换成新元素;新元素替换成老元素
+          const oldCategoryPosTemp = canEditorCategories[e.oldIndex];
+          canEditorCategories[e.oldIndex] = canEditorCategories[e.newIndex];
+          canEditorCategories[e.newIndex] = oldCategoryPosTemp;
+        }
+      }
       return {
+        dragCategory,
         saveAction,
         delToolGroupAction,
         canEditorCategories,
@@ -432,5 +463,18 @@
   }
   :deep(.arco-input[disabled]) {
     -webkit-text-fill-color: #929396;
+  }
+  .categoryDraggableWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .ghost {
+    opacity: 0.4;
+  }
+
+  .chosen {
+    color: #49b3ff;
+    border: 20px rebeccapurple;
   }
 </style>

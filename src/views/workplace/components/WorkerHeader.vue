@@ -16,6 +16,7 @@
             {{ _.name }}
           </li>
           <li class="navItem" @click="openCalendarView">日历</li>
+          <li class="navItem" @click="switchDataSourceAction">切换</li>
           <li id="settingBtn" @click="showSettingView">
             <icon-code />
           </li>
@@ -60,6 +61,7 @@
               size="small"
               class="importBtn"
               type="primary"
+              :disabled="!onlyRead"
               @click="uploadAction"
             >
               <a-tooltip content="点击导入配置文件">
@@ -148,7 +150,8 @@
   import SettingModel from '@/model/SettingModel';
   import { Message } from '@arco-design/web-vue';
   import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
-  import { copyConfig } from '@/api/toolList';
+  import { copyConfig, saveLocal } from '@/api/toolList';
+  import { readerAsync } from '@/api/lodashs';
 
   export default defineComponent({
     name: 'WorkerHeader',
@@ -158,9 +161,13 @@
       CategoryToolTable,
       ThemeSetting,
     },
-    props: { dataSource: SettingModel },
-    emits: ['export', 'import'],
-    setup() {
+    props: {
+      dataSource: {
+        type: SettingModel,
+      },
+    },
+    emits: ['export', 'import', 'ds'],
+    setup(props, ctx) {
       const searchEngineSetting = ref(null);
       const shortcutSetting = ref(null);
       const themeSetting = ref(null);
@@ -200,14 +207,29 @@
       };
       const uploadFileAction = () => {
         const settingFile: File = uploadElementRef.value.files[0];
-        console.log(settingFile);
-        const reader = new FileReader();
-        console.log(reader.readAsText(settingFile));
+        readerAsync(settingFile, (fileContent) => {
+          const sm: SettingModel = JSON.parse(fileContent);
+          saveLocal(sm);
+          Message.info({
+            content: '你的配置已导出成功,正在应用中!',
+            icon: () => h(IconFaceSmileFill),
+            duration: 1000,
+          });
+          setTimeout(() => {
+            visibleSetting.value = false;
+            window.location.reload();
+          }, 1000);
+        });
       };
       const openCalendarView = () => {
         calendarView.value = true;
       };
+
+      const switchDataSourceAction = () => {
+        ctx.emit('ds');
+      };
       return {
+        switchDataSourceAction,
         categorySetting,
         uploadFileAction,
         uploadElementRef,
@@ -229,6 +251,9 @@
 </script>
 
 <style scoped>
+  :deep(.arco-modal-wrapper) {
+    opacity: 0.01;
+  }
   :deep(.op-calendar-pc-left) {
     border: none;
     padding: 0;

@@ -71,7 +71,9 @@
   export default defineComponent({
     name: 'ThemeSetting',
     props: {
-      theme: ThemeModel,
+      theme: {
+        type: ThemeModel,
+      },
       onlyRead: {
         type: Boolean,
         default: false,
@@ -81,7 +83,6 @@
       const themeSetting: ThemeModel = reactive<ThemeModel>(
         deepClone(props.theme)
       );
-
       /**
        * 每个子方法提供一个这样的方法用于父组件调用
        */
