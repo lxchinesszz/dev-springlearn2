@@ -16,7 +16,7 @@
             v-else
             :size="55"
             :style="{
-              backgroundColor: toolInfo.iconTextBackgroundColor,
+              backgroundColor: bgColor,
               color: '#fff',
             }"
           >
@@ -84,6 +84,9 @@
           type: 'add',
         },
       },
+      bgColor: {
+        type: String,
+      },
     },
     setup(props) {
       // 复制一份
@@ -91,21 +94,10 @@
         deepClone(props.info)
       );
       // 设置精简ICON
-      const iconText = ref(props.info.title.substr(0, 2));
+      const iconText = ref(props.info.title.substr(0, 2).toUpperCase());
       // 默认背景
-      const iconTextBackgroundColor = ref('');
       const imgVisible = ref(!props.dataSource?.theme.closeIcon);
-      function dynamicGenerateIcon(tInfo: CategoryTool) {
-        // e9806e
-        const backColor = ['#44CCFF', '#7494EA', '#494947'];
-        toolInfo.iconTextBackgroundColor =
-          backColor[tInfo.title.length % backColor.length];
-      }
-      if (!imgVisible.value) {
-        dynamicGenerateIcon(toolInfo);
-      }
       function switchIconText() {
-        dynamicGenerateIcon(toolInfo);
         console.log(toolInfo.title, 'Icon加载失败,已动态生成Icon');
         imgVisible.value = false;
       }
@@ -115,7 +107,6 @@
         switchIconText,
         iconText,
         imgVisible,
-        iconTextBackgroundColor,
       };
     },
   });

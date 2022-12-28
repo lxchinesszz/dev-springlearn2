@@ -19,6 +19,10 @@ const router = createRouter({
       path: '/mx',
       component: () => import('@/views/workplace/components/widget/Mx.vue'),
     },
+    {
+      path: '/mobile',
+      component: () => import('@/views/workplace/MobileIndex.vue'),
+    },
   ],
   scrollBehavior() {
     return { top: 0 };

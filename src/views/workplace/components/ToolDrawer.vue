@@ -8,8 +8,9 @@
     <div class="toolPanel">
       <!--      最多6个,如果不到6个就填充到6个。如果超过6个剩余3个不展示,放到弹窗中-->
       <Tool
-        v-for="info in toolList"
+        v-for="(info, index) in toolList"
         :key="JSON.stringify(info)"
+        :bg-color="dynamicIconColor(index)"
         class="toolCard animated"
         :class="dataSource.theme.toolGroupAnimate"
         :info="info"
@@ -36,6 +37,22 @@
         default: '未命名',
       },
       toolList: Array<CategoryTool>,
+    },
+    setup() {
+      function dynamicIconColor(index: number) {
+        // e9806e
+        const backColor = [
+          '#386F9D',
+          '#4889C0',
+          '#6DA2CE',
+          '#386F9D',
+          '#4889C0',
+          '#6DA2CE',
+        ];
+        return backColor[index % 6];
+      }
+
+      return { dynamicIconColor };
     },
   });
 </script>

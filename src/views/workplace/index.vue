@@ -58,6 +58,8 @@
   import setps from '@/api/setps';
   import RoleCards from '@/views/workplace/components/RoleCards.vue';
   import CategoryTool from '@/model/CategoryTool';
+  import { device, Device } from '@/hooks/device';
+  import { useRouter } from 'vue-router';
 
   const fVisible = ref(false);
   // 元数据
@@ -108,7 +110,15 @@
   }
 
   onMounted(() => {
-    showTipsIfNeeded();
+    const driverInfo: Device = device();
+    console.log('driverInfo:', driverInfo);
+    if (driverInfo.mobile) {
+      // 跳转手机端
+      const router = useRouter();
+      router.push('/mobile');
+    } else {
+      showTipsIfNeeded();
+    }
   });
 </script>
 
