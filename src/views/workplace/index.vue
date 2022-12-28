@@ -134,6 +134,7 @@
   #search {
     width: 100vw;
     height: 50vh;
+    z-index: 100;
   }
 
   .toolContainerFlow {
@@ -141,6 +142,8 @@
     height: auto;
     display: flex;
     flex-wrap: wrap;
+    z-index: -1;
+    position: relative;
   }
 
   .toolList {
@@ -169,5 +172,13 @@
     opacity: 1;
     pointer-events: auto;
     transition: opacity 0.2s ease-in;
+  }
+
+  .tipWrapper {
+    text-align: left;
+  }
+
+  .tipCategoryWrapper {
+    text-align: left;
   }
 </style>

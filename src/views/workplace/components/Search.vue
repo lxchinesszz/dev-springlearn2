@@ -18,17 +18,32 @@
       </div>
       <div id="searchBox">
         <div v-if="style.searchStyle === 'search-google'" style="width: 55vw">
-          <SearchGoogle :placeholder="placeholder" @do-action="search" />
+          <SearchGoogle
+            :placeholder="placeholder"
+            @do-action="search"
+            @change="changeFuseAction"
+          />
         </div>
         <div
           v-else-if="style.searchStyle === 'search-simple'"
           style="width: 55vw"
         >
-          <SearchSimple :placeholder="placeholder" @do-action="search" />
+          <SearchSimple
+            :placeholder="placeholder"
+            @do-action="search"
+            @change="changeFuseAction"
+          />
         </div>
         <div v-else style="width: 55vw; margin-left: -20px">
-          <SearchStandard :placeholder="placeholder" @do-action="search" />
+          <SearchStandard
+            :placeholder="placeholder"
+            @do-action="search"
+            @change="changeFuseAction"
+          />
         </div>
+      </div>
+      <div v-if="style.fuzzySearch" id="fuseDiv">
+        <FuseToolPanel :value="fuseValue"></FuseToolPanel>
       </div>
       <div id="searchCard">
         <!--      查询源-->
@@ -86,10 +101,18 @@
   import SearchSimple from '@/views/workplace/components/search/SearchSimple.vue';
   import ThemeModel from '@/model/ThemeModel';
   import Mx from '@/views/workplace/components/widget/Mx.vue';
+  import { openWindow } from '@/api/toolList';
+  import FuseToolPanel from '@/views/workplace/components/widget/FuseToolPanel.vue';
 
   export default defineComponent({
     name: 'Search',
-    components: { SearchGoogle, SearchStandard, SearchSimple, Mx },
+    components: {
+      SearchGoogle,
+      SearchStandard,
+      SearchSimple,
+      Mx,
+      FuseToolPanel,
+    },
     props: {
       categories: Array<CategoryModel>,
       searchList: Array<SearchEngineModel>,
@@ -127,7 +150,7 @@
       }
       function search(value: any) {
         const url = searchCardList[currentSearchCardIndex.value].href + value;
-        window.open(url, '_blank');
+        openWindow(url);
       }
       const handleClick = () => {
         visible.value = true;
@@ -138,7 +161,16 @@
         visible.value = false;
       };
 
+      const fuseValue = ref('');
+
+      const changeFuseAction = (newValue) => {
+        fuseValue.value = newValue;
+        console.log(` fuseValue.value `, fuseValue.value);
+      };
+
       return {
+        fuseValue,
+        changeFuseAction,
         searchCardList,
         currentSearchCardIndex,
         placeholder,
@@ -171,7 +203,7 @@
   .searchGroup {
   }
   .container {
-    overflow: hidden;
+    //overflow: hidden;
     width: 100%;
     height: 100%;
     padding: 0;
@@ -295,5 +327,12 @@
     overflow: hidden;
     //background: #ffffff;
     //box-shadow: 0 0 10px 10px #9fb1c5;
+  }
+  #fuseDiv {
+    position: absolute;
+    width: 50vw;
+    //height: 50vh;
+    //background: #409eff;
+    margin-left: 10px;
   }
 </style>

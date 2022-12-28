@@ -7,6 +7,8 @@ import ShortcutModel from '@/model/ShortcutModel';
 import ThemeModel from '@/model/ThemeModel';
 import useClipboard from 'vue-clipboard3';
 import { Message } from '@arco-design/web-vue';
+import Fuse from 'fuse.js';
+import FuseToolResult from '@/model/FuseToolResult';
 
 export function isNewUser() {
   return isEmpty(localStorage.getItem('ds'));
@@ -112,4 +114,66 @@ export function clipboard(value: any) {
 
 export function copyConfig() {
   clipboard(JSON.stringify(localDataSource(), null, '\t'));
+}
+
+export class FusePlugin {
+  // public
+  public tools: Array<FuseToolResult>;
+
+  public fuse: Fuse<FuseToolResult>;
+
+  constructor(tools: Array<FuseToolResult>) {
+    this.tools = tools;
+    const options = {
+      includeScore: true,
+      keys: ['categoryName', 'toolGroupName', 'tool.title', 'tool.desc'],
+    };
+    console.log('FusePlugin init');
+    this.fuse = new Fuse(tools, options);
+  }
+
+  /**
+   * 搜索
+   * @param kw keyword 关键词
+   */
+  fuseSearch(kw: string): FuseToolResult[] {
+    const fuseResultList = this.fuse.search(kw);
+    const result: Array<FuseToolResult> = [];
+    for (let i = 0; i < fuseResultList.length; i += 1) {
+      const fuseResultListElement = fuseResultList[i];
+      result.push(fuseResultListElement.item);
+    }
+    return result;
+  }
+}
+
+/**
+ * 模糊搜索工具
+ */
+export function fusePlugin(): FusePlugin {
+  const settingModel = localDataSource();
+  const { categories } = settingModel;
+  const tools: Array<FuseToolResult> = [];
+  for (let i = 0; i < categories.length; i += 1) {
+    const category = categories[i];
+    for (let i1 = 0; i1 < category.toolList.length; i1 += 1) {
+      const categoryToolGroup = category.toolList[i1];
+      const { toolList } = categoryToolGroup;
+      for (let i2 = 0; i2 < toolList.length; i2 += 1) {
+        const categoryTool = toolList[i2];
+        tools.push(
+          new FuseToolResult(
+            category.categoryName,
+            categoryToolGroup.toolGroupName,
+            categoryTool
+          )
+        );
+      }
+    }
+  }
+  return new FusePlugin(tools);
+}
+
+export function openWindow(url: string, target = '_blank') {
+  window.open(url, target);
 }

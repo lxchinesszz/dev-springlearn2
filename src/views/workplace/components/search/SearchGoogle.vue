@@ -19,11 +19,11 @@
           type="text"
           class="searchbar-input"
           maxlength="2048"
-          name="q"
           autocapitalize="off"
           autocomplete="off"
           title="Search"
           role="combobox"
+          list="q"
           :placeholder="placeholder"
         />
       </div>
@@ -49,12 +49,13 @@
           ></path>
         </svg>
       </div>
-    </div> </div
-></template>
+    </div>
+  </div>
+</template>
 
 <script lang="ts">
   // 抽屉工具，支持8个或者是4个
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, watch } from 'vue';
   import keyDownBinder from '@/hooks/KeyDownBinder';
 
   export default defineComponent({
@@ -65,21 +66,27 @@
         default: '搜索一切',
       },
     },
-    emits: ['doAction'],
+    emits: ['doAction', 'change'],
     setup(props, ctx) {
       const value = ref('');
+
+      // 页面点击搜索触发
       const search = () => {
         if (value.value !== '') {
           ctx.emit('doAction', value.value);
         }
       };
 
+      // 监控键盘回车事件
       keyDownBinder(13, {
         action: () => {
           search();
         },
       });
-
+      // 监控数据输入框数据变化,发送change事件
+      watch(value, (newValue) => {
+        ctx.emit('change', newValue);
+      });
       return { value, search };
     },
   });
@@ -198,5 +205,39 @@
     outline: none;
     padding: 0 8px;
     width: 2.8em;
+  }
+
+  .fuseWrapper {
+    position: absolute;
+    width: 90%;
+    margin: 0 20px;
+    padding: 0;
+    background: linear-gradient(134.76deg, #fff 22.69%, #f8faff 104.23%);
+    box-shadow: 0 6px 12px -10px rgb(36 91 219 / 6%),
+      0 8px 24px rgb(36 91 219 / 4%), 0 10px 36px 10px rgb(36 91 219 / 4%);
+    z-index: 9999;
+    &:hover {
+      box-shadow: 0 5.18771px 20px rgb(19 60 154 / 16%), inset 0 2px 0 #fff;
+    }
+    .fuseU {
+      margin: 0.5px;
+      background: white;
+      list-style: none;
+      padding: 0px;
+      overflow: scroll;
+      border-radius: 2px;
+    }
+    .fuseL {
+      height: 3rem;
+      text-align: left;
+      padding: 0.5rem 1rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      &:hover {
+        background-color: var(--color-border-1);
+        cursor: pointer;
+      }
+    }
   }
 </style>

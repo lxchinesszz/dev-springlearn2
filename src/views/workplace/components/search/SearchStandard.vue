@@ -15,7 +15,7 @@
 
 <script lang="ts">
   // 抽屉工具，支持8个或者是4个
-  import { defineComponent, ref } from 'vue';
+  import { defineComponent, ref, watch } from 'vue';
   import keyDownBinder from '@/hooks/KeyDownBinder';
 
   export default defineComponent({
@@ -26,18 +26,27 @@
         default: '搜索一切',
       },
     },
-    emits: ['doAction'],
+    emits: ['doAction', 'change'],
     setup(props, ctx) {
       const value = ref('');
+
+      // 页面点击搜索触发
       const search = () => {
         if (value.value !== '') {
           ctx.emit('doAction', value.value);
         }
       };
+
+      // 监控键盘回车事件
       keyDownBinder(13, {
         action: () => {
           search();
         },
+      });
+
+      // 监控数据输入框数据变化,发送change事件
+      watch(value, (newValue) => {
+        ctx.emit('change', newValue);
       });
 
       return { value, search };

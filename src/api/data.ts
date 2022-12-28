@@ -866,6 +866,8 @@ const style = {
   toolGroupAnimate: 'fadeIn',
   // 关闭用户icon
   closeIcon: true,
+  // 是否开启模糊查找
+  fuzzySearch: true,
   // searchBackgroundCss:
   //   'background-image: linear-gradient(45deg,rgb(90, 54, 148) 0%,rgb(19, 189, 206) 33%,rgb(0, 148, 217) 66%,rgb(111, 199, 181) 100%);',
 };

@@ -5,14 +5,16 @@ const steps = [
   {
     element: '.navLogo',
     popover: {
+      className: 'tipWrapper',
       title: '极客导航',
-      description: '专门为开发者设计的高度可定制的浏览器首页',
+      description: '一款专门为开发者设计的, 高度可定制的浏览器首页',
       position: 'bottom-center',
     },
   },
   {
     element: '#search',
     popover: {
+      className: 'tipWrapper',
       title: '搜索区域',
       description: '你可以定义这部分的动画及样式',
       position: 'bottom-center',
@@ -21,6 +23,7 @@ const steps = [
   {
     element: '.searchTargetCardHover',
     popover: {
+      className: 'tipCategoryWrapper',
       title: '分类',
       description: '最多支持你建立7个分类栏',
       position: 'top-center',
@@ -29,6 +32,7 @@ const steps = [
   {
     element: '.searchSourceCard',
     popover: {
+      className: 'tipWrapper',
       title: '搜索引擎',
       description: '允许开发者自定义搜索引擎,最多允许扩展7中类型',
       position: 'top-center',
@@ -37,6 +41,7 @@ const steps = [
   {
     element: '#tool',
     popover: {
+      className: 'tipWrapper',
       title: '工具栏',
       description:
         '你可以在这里定义你常用的工具组,每个工具组最多支持收藏6个网站',
@@ -46,6 +51,7 @@ const steps = [
   {
     element: '#settingBtn',
     popover: {
+      className: 'tipWrapper',
       title: '设置',
       description: '最后你可以在这里,设置网站支持的所有自定义配置',
       position: 'left-center',

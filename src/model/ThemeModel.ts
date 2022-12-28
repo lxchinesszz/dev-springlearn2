@@ -34,6 +34,11 @@ export default class ThemeModel {
    */
   public closeIcon: boolean;
 
+  /**
+   * 是否开启模糊查找
+   */
+  public fuzzySearch: boolean;
+
   constructor(
     closeIcon: boolean,
     toolGroupAnimate: string,
@@ -41,7 +46,8 @@ export default class ThemeModel {
     searchAnimate: string,
     windowAnimate: string,
     searchStyle: string,
-    searchBackgroundCss: string
+    searchBackgroundCss: string,
+    fuzzySearch: boolean
   ) {
     this.closeIcon = closeIcon;
     this.toolGroupAnimate = toolGroupAnimate;
@@ -50,5 +56,6 @@ export default class ThemeModel {
     this.windowAnimate = windowAnimate;
     this.searchStyle = searchStyle;
     this.searchBackgroundCss = searchBackgroundCss;
+    this.fuzzySearch = fuzzySearch;
   }
 }

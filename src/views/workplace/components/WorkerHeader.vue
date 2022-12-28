@@ -16,7 +16,6 @@
             {{ _.name }}
           </li>
           <li class="navItem" @click="openCalendarView">日历</li>
-          <li class="navItem" @click="switchDataSourceAction">切换</li>
           <li id="settingBtn" @click="showSettingView">
             <icon-code />
           </li>

@@ -49,7 +49,7 @@
           '#4889C0',
           '#6DA2CE',
         ];
-        return backColor[index % 6];
+        return backColor[index % 3];
       }
 
       return { dynamicIconColor };
