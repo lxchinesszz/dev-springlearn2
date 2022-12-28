@@ -71,7 +71,7 @@
         show-word-limit
       />
     </a-modal>
-    <div id="widgetWrapper">
+    <div id="widgetWrapper" class="animated" :class="style.searchAnimate">
       <Mx></Mx>
     </div>
   </div>
