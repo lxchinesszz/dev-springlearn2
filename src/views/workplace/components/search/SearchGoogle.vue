@@ -74,7 +74,11 @@
         }
       };
 
-      keyDownBinder(13, search);
+      keyDownBinder(13, {
+        action: () => {
+          search();
+        },
+      });
 
       return { value, search };
     },
@@ -145,6 +149,7 @@
     flex-wrap: wrap;
     justify-content: start;
     align-content: center;
+    margin-bottom: 3px;
   }
 
   //.searchbar-input-spacer {

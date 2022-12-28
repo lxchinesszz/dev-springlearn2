@@ -34,7 +34,12 @@
           ctx.emit('doAction', value.value);
         }
       };
-      keyDownBinder(13, search);
+      keyDownBinder(13, {
+        action: () => {
+          search();
+        },
+      });
+
       return { value, search };
     },
   });

@@ -1,18 +1,23 @@
 import { onMounted, onUnmounted } from 'vue';
 
 /**
+ * 键盘按键后回调动作
+ */
+export interface KeydownCallbackAction {
+  action(): void;
+}
+/**
  * 给当前页面绑定键盘事件
  * @param keyCode 要绑定的键盘事件
- * @param action 绑定的事件函数
+ * @param callbackAction 绑定的事件函数
  */
 export default function keyDownBinder(
   keyCode: number,
-  // eslint-disable-next-line func-names
-  action = function ac() {}
+  callbackAction: KeydownCallbackAction
 ) {
   const keyDown = (e: any) => {
     if (e.keyCode === keyCode) {
-      action();
+      callbackAction.action();
     }
   };
   onMounted(() => {

@@ -190,8 +190,8 @@
     //  rgb(111, 199, 181) 100%
     //);
     background-size: 400%;
-    //background-position: 0 100%;
-    //-webkit-animation: gradient 15s ease-in-out infinite;
+    background-position: 0 100%;
+    -webkit-animation: gradient 15s ease-in-out infinite;
     animation: bganimation 15s ease-in-out infinite;
   }
 

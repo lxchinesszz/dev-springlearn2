@@ -220,18 +220,20 @@
       };
       const uploadFileAction = () => {
         const settingFile: File = uploadElementRef.value.files[0];
-        readerAsync(settingFile, (fileContent) => {
-          const sm: SettingModel = JSON.parse(fileContent);
-          saveLocal(sm);
-          Message.info({
-            content: '你的配置已导出成功,正在应用中!',
-            icon: () => h(IconFaceSmileFill),
-            duration: 1000,
-          });
-          setTimeout(() => {
-            visibleSetting.value = false;
-            window.location.reload();
-          }, 1000);
+        readerAsync(settingFile, {
+          callback(fileContent: any) {
+            const sm: SettingModel = JSON.parse(fileContent);
+            saveLocal(sm);
+            Message.info({
+              content: '你的配置已导出成功,正在应用中!',
+              icon: () => h(IconFaceSmileFill),
+              duration: 1000,
+            });
+            setTimeout(() => {
+              visibleSetting.value = false;
+              window.location.reload();
+            }, 1000);
+          },
         });
       };
       const openCalendarView = () => {

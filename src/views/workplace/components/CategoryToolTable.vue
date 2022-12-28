@@ -305,7 +305,7 @@
           const add: number = 6 - toolGroupList.toolList.length;
           for (let i = 0; i < add; i += 1) {
             toolGroupList.toolList.push(
-              new CategoryTool('快捷方式', '', '', '', '', 0)
+              new CategoryTool('', '', '', '', '', 0)
             );
           }
         }

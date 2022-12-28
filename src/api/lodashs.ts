@@ -54,17 +54,20 @@ export function isString(arg: any): boolean {
   return _.isString(arg);
 }
 
+export interface FileReaderCallbackAction {
+  callback(content: any);
+}
 /**
  * 异步读取文件
  * @param f
  * @param callback
  */
-export function readerAsync(f: File, callback = (arg: any) => {}) {
+export function readerAsync(f: File, callback: FileReaderCallbackAction) {
   const reader = new FileReader();
   reader.onload = () => {
     console.log('type:', typeof reader.result);
     if (reader.result && isString(reader.result)) {
-      callback(reader.result);
+      callback.callback(reader.result);
     }
   };
   reader.readAsText(f);
