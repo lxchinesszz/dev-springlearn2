@@ -65,11 +65,14 @@
                   >
                     {{ toolGroup.toolGroupName }}
                   </div>
-                  <div
-                    ><icon-close
-                      style="cursor: pointer"
-                      @click="delToolGroupAction(element, toolGroupIdx)"
-                  /></div>
+                  <div>
+                    <a-popconfirm
+                      content="确定要删除该工具组吗?"
+                      @ok="delToolGroupAction(element, toolGroupIdx)"
+                    >
+                      <icon-close style="cursor: pointer" />
+                    </a-popconfirm>
+                  </div>
                 </div>
               </a-grid-item>
             </a-grid>

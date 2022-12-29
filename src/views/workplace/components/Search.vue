@@ -22,6 +22,7 @@
             :placeholder="placeholder"
             @do-action="search"
             @change="changeFuseAction"
+            @blur="fuseValue = ''"
           />
         </div>
         <div
@@ -167,7 +168,6 @@
         fuseValue.value = newValue;
         console.log(` fuseValue.value `, fuseValue.value);
       };
-
       return {
         fuseValue,
         changeFuseAction,
@@ -214,15 +214,6 @@
     align-items: center;
     color: #1d2129;
     background: #3c7cbe;
-    //background-image: linear-gradient(
-    //  45deg,
-    //  rgb(90, 54, 148) 0%,
-    //  rgb(19, 189, 206) 33%,
-    //  rgb(0, 148, 217) 66%,
-    //  rgb(111, 199, 181) 100%
-    //);
-    background-size: 400%;
-    background-position: 0 100%;
     -webkit-animation: gradient 15s ease-in-out infinite;
     animation: bganimation 15s ease-in-out infinite;
   }

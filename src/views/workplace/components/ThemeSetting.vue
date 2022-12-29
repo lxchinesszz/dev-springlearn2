@@ -49,20 +49,40 @@
           </a-radio-group>
         </a-form-item>
         <a-form-item label="窗口背景样式">
-          <a-textarea
-            v-model="themeSetting.searchBackgroundCss"
-            :placeholder="theme.searchBackgroundCss"
-            allow-clear
-            show-word-limit
-          />
+          <a-trigger position="top" auto-fit-position :unmount-on-close="false">
+            <a-textarea
+              v-model="themeSetting.searchBackgroundCss"
+              :placeholder="theme.searchBackgroundCss"
+              allow-clear
+              show-word-limit
+            />
+            <template #content>
+              <div class="cssWrapper">
+                <highlightjs
+                  language="css"
+                  :code="themeSetting.searchBackgroundCss"
+                />
+              </div>
+            </template>
+          </a-trigger>
         </a-form-item>
         <a-form-item label="导航栏背景样式">
-          <a-textarea
-            v-model="themeSetting.navBarBackgroundCss"
-            :placeholder="theme.navBarBackgroundCss"
-            allow-clear
-            show-word-limit
-          />
+          <a-trigger position="top" auto-fit-position :unmount-on-close="false">
+            <a-textarea
+              v-model="themeSetting.navBarBackgroundCss"
+              :placeholder="theme.navBarBackgroundCss"
+              allow-clear
+              show-word-limit
+            />
+            <template #content>
+              <div class="cssWrapper">
+                <highlightjs
+                  language="css"
+                  :code="themeSetting.navBarBackgroundCss"
+                />
+              </div>
+            </template>
+          </a-trigger>
         </a-form-item>
       </a-form>
     </a-scrollbar>
@@ -75,9 +95,15 @@
   import ThemeModel from '@/model/ThemeModel';
   import deepClone from '@/api/lodashs';
   import { setTheme } from '@/api/toolList';
+  import 'highlight.js/lib/common';
+  import 'highlight.js/styles/github.css';
+  import hljsVuePlugin from '@highlightjs/vue-plugin';
 
   export default defineComponent({
     name: 'ThemeSetting',
+    components: {
+      highlightjs: hljsVuePlugin.component,
+    },
     props: {
       theme: {
         type: ThemeModel,
@@ -109,5 +135,12 @@
 <style lang="less" scoped>
   .tableWrapper {
     height: 400px;
+  }
+  .cssWrapper {
+    text-align: left;
+    background-color: white;
+  }
+  pre code {
+    background-color: white;
   }
 </style>

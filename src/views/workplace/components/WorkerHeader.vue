@@ -29,6 +29,7 @@
       :closable="false"
       width="60vw"
       ok-text="保存并应用"
+      body-class="themeSettingModal"
       @ok="handleOk"
     >
       <a-tabs type="rounded">
@@ -78,6 +79,18 @@
             >
               <a-tooltip content="点击恢复到默认配置">
                 <icon-empty />
+              </a-tooltip>
+            </a-button>
+            <a-button
+              shape="circle"
+              size="small"
+              type="outline"
+              status="success"
+              class="importBtn"
+              @click="releaseHistoryVisible = true"
+            >
+              <a-tooltip content="点击查看发布历史">
+                <icon-history />
               </a-tooltip>
             </a-button>
             <input
@@ -137,6 +150,7 @@
       </a-tabs>
     </a-modal>
 
+    <!--    日历弹窗-->
     <a-modal
       v-model:visible="calendarView"
       :footer="false"
@@ -150,11 +164,43 @@
         <baidu-calendar />
       </div>
     </a-modal>
+    <a-drawer
+      popup-container=".themeSettingModal"
+      :visible="releaseHistoryVisible"
+      hide-cancel
+      :footer="false"
+      width="50vw"
+      @ok="releaseHistoryVisible = false"
+      @cancel="releaseHistoryVisible = false"
+    >
+      <template #header>
+        <span>当前版本: v3.2.1</span>
+      </template>
+      <a-timeline label-position="relative">
+        <a-timeline-item
+          v-for="(version, index) in rhv"
+          :key="index"
+          :dot-color="version.dotColor"
+          :label="version.date"
+        >
+          v{{ version.version }}
+          <a-typography-text
+            v-for="(item, itemIndex) in version.items"
+            :key="itemIndex"
+            type="secondary"
+            :style="{ fontSize: '12px', marginTop: '4px' }"
+          >
+            <br />
+            {{ item }}
+          </a-typography-text>
+        </a-timeline-item>
+      </a-timeline>
+    </a-drawer>
   </div>
 </template>
 
 <script lang="ts">
-  import { defineComponent, h, ref } from 'vue';
+  import { defineComponent, h, reactive, ref } from 'vue';
   import ShortcutTable from '@/views/workplace/components/ShortcutTable.vue';
   import SearchEngineTable from '@/views/workplace/components/SearchEngineTable.vue';
   import CategoryToolTable from '@/views/workplace/components/CategoryToolTable.vue';
@@ -164,6 +210,7 @@
   import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
   import { copyConfig, saveLocal, restLocalSourceData } from '@/api/toolList';
   import { readerAsync } from '@/api/lodashs';
+  import releaseHistoryVersions from '@/api/version';
 
   export default defineComponent({
     name: 'WorkerHeader',
@@ -180,6 +227,7 @@
     },
     emits: ['export', 'import', 'ds'],
     setup(props, ctx) {
+      const releaseHistoryVisible = ref(false);
       const searchEngineSetting = ref(null);
       const shortcutSetting = ref(null);
       const themeSetting = ref(null);
@@ -190,6 +238,8 @@
       const showSettingView = () => {
         visibleSetting.value = true;
       };
+      const rhv = reactive(releaseHistoryVersions);
+      console.log(`releaseHistoryVersions`, rhv);
       const applySetting = () => {
         Message.info({
           content: '你的配置已重新生成,正在应用中!',
@@ -302,10 +352,12 @@
         visibleSetting,
         showSettingView,
         handleOk: applySetting,
+        releaseHistoryVisible,
         onlyRead,
         openUrl,
         calendarView,
         openCalendarView,
+        rhv,
       };
     },
   });

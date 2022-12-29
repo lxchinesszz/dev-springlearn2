@@ -23,6 +23,8 @@
       class="input"
       :placeholder="placeholder"
       type="text"
+      @keydown.enter="search"
+      @blur="blurAction"
     />
     <button
       class="reset"
@@ -51,7 +53,6 @@
 <script lang="ts">
   // 抽屉工具，支持8个或者是4个
   import { defineComponent, ref, watch } from 'vue';
-  import keyDownBinder from '@/hooks/KeyDownBinder';
 
   export default defineComponent({
     name: 'SearchSimple',
@@ -61,7 +62,7 @@
         default: '搜索一切',
       },
     },
-    emits: ['doAction', 'change'],
+    emits: ['doAction', 'change', 'blur'],
     setup(props, ctx) {
       const value = ref('');
 
@@ -72,19 +73,16 @@
         }
       };
 
-      // 监控键盘回车事件
-      keyDownBinder(13, {
-        action: () => {
-          search();
-        },
-      });
+      const blurAction = () => {
+        ctx.emit('blur');
+      };
 
       // 监控数据输入框数据变化,发送change事件
       watch(value, (newValue) => {
         ctx.emit('change', newValue);
       });
 
-      return { value, search };
+      return { value, search, blurAction };
     },
   });
 </script>

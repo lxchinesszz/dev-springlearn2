@@ -9,6 +9,7 @@ import App from './App.vue';
 import '@arco-design/web-vue/dist/arco.css';
 import '@/assets/style/global.less';
 import '@/api/interceptor';
+import 'highlight.js/styles/stackoverflow-light.css';
 
 const app = createApp(App);
 
