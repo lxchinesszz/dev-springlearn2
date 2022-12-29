@@ -74,7 +74,7 @@
               class="importBtn"
               type="primary"
               :disabled="!onlyRead"
-              status="warning"
+              status="danger"
               @click="resetConfig"
             >
               <a-tooltip content="点击恢复到默认配置">
@@ -174,9 +174,9 @@
       @cancel="releaseHistoryVisible = false"
     >
       <template #header>
-        <span>当前版本: v3.2.1</span>
+        <span>当前版本: v{{ lastVersion.version }}</span>
       </template>
-      <a-timeline label-position="relative">
+      <a-timeline label-position="relative" reverse>
         <a-timeline-item
           v-for="(version, index) in rhv"
           :key="index"
@@ -211,6 +211,7 @@
   import { copyConfig, saveLocal, restLocalSourceData } from '@/api/toolList';
   import { readerAsync } from '@/api/lodashs';
   import releaseHistoryVersions from '@/api/version';
+  import _ from 'lodash';
 
   export default defineComponent({
     name: 'WorkerHeader',
@@ -239,7 +240,10 @@
         visibleSetting.value = true;
       };
       const rhv = reactive(releaseHistoryVersions);
-      console.log(`releaseHistoryVersions`, rhv);
+      const lastVersion = ref(
+        _.sortBy(releaseHistoryVersions, (s) => s.date).reverse()[0]
+      );
+      console.log('lastVersion', lastVersion.value.version);
       const applySetting = () => {
         Message.info({
           content: '你的配置已重新生成,正在应用中!',
@@ -339,6 +343,7 @@
       //   document.getElementsByTagName('head')[0].appendChild(script);
       // });
       return {
+        lastVersion,
         resetConfig,
         switchDataSourceAction,
         categorySetting,
