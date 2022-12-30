@@ -37,3 +37,36 @@
 
 kaifa
 - https://kaifa.baidu.com/rest/v1/recommend/suggests?wd=spring
+
+
+![img_2.png](img_2.png)
+
+已经访问过的关键字会被标记
+
+
+
+### 渐变风格
+
+```css 
+    background-image: linear-gradient(
+      45deg,
+      rgb(90, 54, 148) 0%,
+      rgb(19, 189, 206) 33%,
+      rgb(0, 148, 217) 66%,
+      rgb(111, 199, 181) 100%
+    );
+    background-size: 400%;
+    background-position: 0 100%;
+    -webkit-animation: gradient 15s ease-in-out infinite;
+    animation: bganimation-114fda31 15s ease-in-out infinite;
+```
+
+注意: `bganimation-114fda31` 因为vue中样式是由作用域的,所以要在动画后加上元素的作用域
+
+504f4f
+```css 
+    background-color: #f0f4ff;
+    background-image: url('https://sf3-scmcdn2-cn.feishucdn.com/lark/open/doc/frontend/images/home-banner-left-572185fb.png'),url('https://sf3-scmcdn2-cn.feishucdn.com/lark/open/doc/frontend/images/home-banner-right-c40ab17b.png');
+    background-position: 0,100%;
+    background-repeat: no-repeat,no-repeat;
+```

@@ -39,6 +39,16 @@ export default class ThemeModel {
    */
   public fuzzySearch: boolean;
 
+  /**
+   * 极简模式
+   */
+  public simplify: boolean;
+
+  /**
+   * 搜索框字体颜色
+   */
+  public searchTextCss: string;
+
   constructor(
     closeIcon: boolean,
     toolGroupAnimate: string,
@@ -47,7 +57,9 @@ export default class ThemeModel {
     windowAnimate: string,
     searchStyle: string,
     searchBackgroundCss: string,
-    fuzzySearch: boolean
+    fuzzySearch: boolean,
+    simplify: boolean,
+    searchTextCss: string
   ) {
     this.closeIcon = closeIcon;
     this.toolGroupAnimate = toolGroupAnimate;
@@ -57,5 +69,7 @@ export default class ThemeModel {
     this.searchStyle = searchStyle;
     this.searchBackgroundCss = searchBackgroundCss;
     this.fuzzySearch = fuzzySearch;
+    this.simplify = simplify;
+    this.searchTextCss = searchTextCss;
   }
 }

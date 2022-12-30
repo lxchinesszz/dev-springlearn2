@@ -1,7 +1,10 @@
 <template>
-  <a-layout>
+  <a-layout v-if="!theme.simplify">
     <a-layout-header id="header" :style="theme.navBarBackgroundCss">
-      <WorkerHeader :data-source="sourceData"></WorkerHeader>
+      <WorkerHeader
+        ref="workHeaderRef"
+        :data-source="sourceData"
+      ></WorkerHeader>
     </a-layout-header>
     <a-layout-content class="animated" :class="theme.windowAnimate">
       <Search
@@ -27,6 +30,36 @@
       </div>
     </a-layout-content>
   </a-layout>
+
+  <div v-else id="simplifyWrapper">
+    <div class="logoWrapper">
+      <img
+        src="https://img.springlearn.cn/geek.png"
+        alt=""
+        class="logoWrapper"
+      />
+    </div>
+    <div class="themeSettingFloatWrapper">
+      <WorkerHeader
+        ref="workHeaderRef"
+        style="display: none"
+        :data-source="sourceData"
+      ></WorkerHeader>
+      <a-affix :offset-top="80">
+        <a-button shape="circle">
+          <icon-settings @click="simpleThemeSetting" />
+        </a-button>
+      </a-affix>
+    </div>
+    <Search
+      id="search"
+      :style="theme"
+      input-offset="-40vh"
+      :categories="categories"
+      :search-list="searchList"
+      @change-category="selectCategory"
+    ></Search>
+  </div>
 
   <a-modal
     v-model:visible="fVisible"
@@ -61,6 +94,7 @@
   import { device, Device } from '@/hooks/device';
   import { useRouter } from 'vue-router';
 
+  const workHeaderRef = ref(null);
   const fVisible = ref(false);
   // 元数据
   const sourceData: SettingModel = fetchSourceData();
@@ -109,6 +143,9 @@
     }
   }
 
+  const simpleThemeSetting = () => {
+    workHeaderRef.value.showSettingView();
+  };
   onMounted(() => {
     const driverInfo: Device = device();
     console.log('driverInfo:', driverInfo);
@@ -116,7 +153,7 @@
       // 跳转手机端
       const router = useRouter();
       router.push('/mobile');
-    } else {
+    } else if (!theme.simplify) {
       showTipsIfNeeded();
     }
   });
@@ -128,7 +165,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 55px;
+    height: 48px;
   }
 
   #search {
@@ -180,5 +217,25 @@
 
   .tipCategoryWrapper {
     text-align: left;
+  }
+
+  #simplifyWrapper {
+    #search {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+    }
+    width: 100vw;
+    .themeSettingFloatWrapper {
+      position: absolute;
+      right: 50px;
+    }
+  }
+  .logoWrapper {
+    position: fixed;
+    z-index: 10000;
+    left: 5vw;
+    width: 120px;
+    height: 3rem;
   }
 </style>

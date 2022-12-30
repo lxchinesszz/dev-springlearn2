@@ -222,9 +222,7 @@
       ThemeSetting,
     },
     props: {
-      dataSource: {
-        type: SettingModel,
-      },
+      dataSource: SettingModel,
     },
     emits: ['export', 'import', 'ds'],
     setup(props, ctx) {

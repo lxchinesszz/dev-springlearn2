@@ -1,6 +1,10 @@
 <template>
   <div class="container" :style="style.searchBackgroundCss">
-    <div class="searchGroup animated" :class="style.searchAnimate">
+    <div
+      class="searchGroup animated"
+      :style="{ marginTop: inputOffset }"
+      :class="style.searchAnimate"
+    >
       <div id="searchTarget">
         <!--      查询源-->
         <div
@@ -11,6 +15,7 @@
               ? 'searchTargetCard searchTargetCardHover'
               : 'searchTargetCard'
           "
+          :style="style.searchTextCss"
           @click="clickCurrentCategoryIndex(index)"
           >{{ scope.categoryName }}
         </div>
@@ -35,6 +40,12 @@
             @change="changeFuseAction"
           />
         </div>
+        <div
+          v-else-if="style.searchStyle === 'supper-search'"
+          style="width: 55vw"
+        >
+          <SupperSearch :placeholder="placeholder" @do-action="search" />
+        </div>
         <div v-else style="width: 55vw; margin-left: -20px">
           <SearchStandard
             :placeholder="placeholder"
@@ -56,6 +67,7 @@
         >
           <div
             class="searchSource"
+            :style="style.searchTextCss"
             :class="
               index === currentSearchCardIndex ? 'searchSourceActive' : ''
             "
@@ -88,7 +100,6 @@
       />
     </a-modal>
     <div id="widgetWrapper" class="animated" :class="style.searchAnimate">
-      <Mx></Mx>
     </div>
   </div>
 </template>
@@ -100,8 +111,8 @@
   import SearchGoogle from '@/views/workplace/components/search/SearchGoogle.vue';
   import SearchStandard from '@/views/workplace/components/search/SearchStandard.vue';
   import SearchSimple from '@/views/workplace/components/search/SearchSimple.vue';
+  import SupperSearch from '@/views/workplace/components/search/SupperSearch.vue';
   import ThemeModel from '@/model/ThemeModel';
-  import Mx from '@/views/workplace/components/widget/Mx.vue';
   import { openWindow } from '@/api/toolList';
   import FuseToolPanel from '@/views/workplace/components/widget/FuseToolPanel.vue';
 
@@ -111,13 +122,14 @@
       SearchGoogle,
       SearchStandard,
       SearchSimple,
-      Mx,
+      SupperSearch,
       FuseToolPanel,
     },
     props: {
       categories: Array<CategoryModel>,
       searchList: Array<SearchEngineModel>,
       style: ThemeModel,
+      inputOffset: String,
     },
     emits: ['changeCategory'],
     setup(props, ctx) {
@@ -214,8 +226,8 @@
     align-items: center;
     color: #1d2129;
     background: #3c7cbe;
-    -webkit-animation: gradient 15s ease-in-out infinite;
-    animation: bganimation 15s ease-in-out infinite;
+    //-webkit-animation: gradient 15s ease-in-out infinite;
+    //animation: bganimation 15s ease-in-out infinite;
   }
 
   @keyframes bganimation {

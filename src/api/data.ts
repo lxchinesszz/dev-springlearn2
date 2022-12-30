@@ -856,8 +856,8 @@ const shortcutData = [
  * @type {{searchStyle: string}}
  */
 const style = {
-  searchStyle: 'search-google',
-  searchBackgroundCss: 'background: #3c7cbe',
+  searchStyle: 'supper-search',
+  // searchBackgroundCss: 'background: #3c7cbe',
   windowAnimate: 'fadeInUp',
   // windowAnimate: 'fadeInRight',
   searchAnimate: 'fadeInRight',
@@ -868,8 +868,10 @@ const style = {
   closeIcon: true,
   // 是否开启模糊查找
   fuzzySearch: true,
-  // searchBackgroundCss:
-  //   'background-image: linear-gradient(45deg,rgb(90, 54, 148) 0%,rgb(19, 189, 206) 33%,rgb(0, 148, 217) 66%,rgb(111, 199, 181) 100%);',
+  simplify: true,
+  searchBackgroundCss:
+    'background-image: linear-gradient(45deg,rgb(90, 54, 148) 0%,rgb(19, 189, 206) 33%,rgb(0, 148, 217) 66%,rgb(111, 199, 181) 100%); -webkit-animation: gradient 15s ease-in-out infinite;animation: bganimation 15s ease-in-out infinite;',
+  searchTextCss: 'color: #646a73;',
 };
 const setting = {
   theme: style,

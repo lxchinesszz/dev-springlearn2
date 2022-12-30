@@ -16,6 +16,11 @@ const router = createRouter({
       component: () => import('@/views/workplace/components/RoleCards.vue'),
     },
     {
+      path: '/test',
+      component: () =>
+        import('@/views/workplace/components/search/SupperSearch.vue'),
+    },
+    {
       path: '/mx',
       component: () => import('@/views/workplace/components/widget/Mx.vue'),
     },

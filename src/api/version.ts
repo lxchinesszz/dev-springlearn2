@@ -15,5 +15,17 @@ const releaseHistoryVersions: Array<Version> = [
     type: 'FEATURE',
     dotColor: '#00B42A',
   },
+  {
+    version: '1.2.0',
+    date: '2022-12-30',
+    items: [
+      '新增超级搜索',
+      '支持多搜索引擎,动态匹配关键字',
+      '新增极简模式',
+      '支持搜索分类栏文字样式修改',
+    ],
+    type: 'FEATURE',
+    dotColor: '#00B42A',
+  },
 ];
 export default releaseHistoryVersions;
