@@ -63,9 +63,11 @@ kaifa
 
 注意: `bganimation-114fda31` 因为vue中样式是由作用域的,所以要在动画后加上元素的作用域
 
-#504f4f
+
 
 ### 极简飞书风格
+
+搜索分类文本样式: `#504f4f`
 
 ```css 
     background-color: #f0f4ff;
