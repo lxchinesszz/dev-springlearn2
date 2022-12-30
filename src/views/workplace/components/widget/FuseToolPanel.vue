@@ -1,6 +1,6 @@
 <template>
   <div v-show="fuseResultList.length > 0" class="fuseWrapper animated fadeIn">
-    <a-scrollbar style="height: 50vh; overflow: auto">
+    <a-scrollbar style="max-height: 50vh; overflow: auto">
       <ul ref="fuseWindow" class="fuseU">
         <li
           v-for="(fuseResult, index) in fuseResultList"
