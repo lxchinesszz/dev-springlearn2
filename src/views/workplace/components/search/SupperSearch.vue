@@ -294,8 +294,8 @@
     position: absolute;
     background-color: white;
     width: 90%;
-    //min-height: 400px;
-    //overflow: scroll;
+    max-height: 60vh;
+    overflow: auto;
     border-radius: 8px;
     text-align: left;
     padding: 0 20px;
@@ -306,6 +306,7 @@
       display: flex;
       margin: 15px 0;
       flex-direction: column;
+      overflow: scroll;
       .tipItemTitle {
         font-weight: bolder;
         font-size: 1.2rem;
