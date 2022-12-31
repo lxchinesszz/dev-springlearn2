@@ -49,6 +49,11 @@ export default class ThemeModel {
    */
   public searchTextCss: string;
 
+  /**
+   * 超级搜索的引擎
+   */
+  public supperSearchEngine: Array<string>;
+
   constructor(
     closeIcon: boolean,
     toolGroupAnimate: string,
@@ -59,7 +64,8 @@ export default class ThemeModel {
     searchBackgroundCss: string,
     fuzzySearch: boolean,
     simplify: boolean,
-    searchTextCss: string
+    searchTextCss: string,
+    supperSearchEngine: Array<string>
   ) {
     this.closeIcon = closeIcon;
     this.toolGroupAnimate = toolGroupAnimate;
@@ -71,5 +77,6 @@ export default class ThemeModel {
     this.fuzzySearch = fuzzySearch;
     this.simplify = simplify;
     this.searchTextCss = searchTextCss;
+    this.supperSearchEngine = supperSearchEngine;
   }
 }

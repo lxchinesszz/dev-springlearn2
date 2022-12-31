@@ -42,6 +42,14 @@
           </a-switch>
         </a-form-item>
         <a-form-item label="极简模式">
+          <template #label>
+            极简模式
+            <a-tooltip
+              content="打开极简模式,下侧工具栏会消失。可点击右侧设置按钮重新进行模式选择。"
+            >
+              <icon-question-circle-fill />
+            </a-tooltip>
+          </template>
           <a-switch v-model="themeSetting.simplify">
             <template #checked> 打开 </template>
             <template #unchecked> 关闭 </template>
@@ -54,6 +62,25 @@
             <a-radio value="search-simple">简单</a-radio>
             <a-radio value="supper-search">超级搜索</a-radio>
           </a-radio-group>
+        </a-form-item>
+        <a-form-item
+          v-show="themeSetting.searchStyle === 'supper-search'"
+          class="animated fadeIn"
+        >
+          <template #label>
+            超级搜索
+            <a-tooltip content="超级搜索依赖浏览器跨域,请按照教程进行操作。">
+              <icon-question-circle-fill />
+            </a-tooltip>
+          </template>
+          <a-checkbox-group
+            v-model="themeSetting.supperSearchEngine"
+            :default-value="themeSetting.supperSearchEngine"
+          >
+            <a-checkbox value="tool">工具搜索</a-checkbox>
+            <a-checkbox value="baidu">百度</a-checkbox>
+            <a-checkbox value="kaifa">开发者搜索</a-checkbox>
+          </a-checkbox-group>
         </a-form-item>
         <a-form-item label="窗口背景样式">
           <a-trigger position="top" auto-fit-position :unmount-on-close="false">

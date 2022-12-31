@@ -44,7 +44,11 @@
           v-else-if="style.searchStyle === 'supper-search'"
           style="width: 55vw"
         >
-          <SupperSearch :placeholder="placeholder" @do-action="search" />
+          <SupperSearch
+            :placeholder="placeholder"
+            :theme="style"
+            @do-action="search"
+          />
         </div>
         <div v-else style="width: 55vw; margin-left: -20px">
           <SearchStandard

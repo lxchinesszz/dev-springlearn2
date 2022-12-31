@@ -103,6 +103,8 @@
     kaifaFuzzySearch,
     KaifaResponse,
   } from '@/api/search';
+  import ThemeModel from '@/model/ThemeModel';
+  import _ from 'lodash';
 
   const IconFont = Icon.addFromIconFontCn({
     src: 'https://at.alicdn.com/t/c/font_902793_bvf2l6r4mj4.js',
@@ -118,6 +120,7 @@
         type: String,
         default: '搜索一切',
       },
+      theme: ThemeModel,
     },
     emits: ['doAction', 'blur'],
     setup(props, ctx) {
@@ -148,34 +151,43 @@
 
       // 获取fuse插件
       const fp: FusePlugin = fusePlugin();
+
+      const manySearchEngineFuzzy = (newValue) => {
+        if (props.theme.supperSearchEngine.lastIndexOf('baidu') > -1) {
+          // 百度搜索
+          bdFuzzySearch(newValue)
+            .then((response) => {
+              const bd: BdFuzzyResponse = response.data;
+              const { g } = bd;
+              clearArray(bdFuzzyResultList);
+              for (let i = 0; i < g.length; i += 1) {
+                const bdFuzzyItem = g[i];
+                bdFuzzyResultList.push(bdFuzzyItem.q);
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+        if (props.theme.supperSearchEngine.lastIndexOf('kaifa') > -1) {
+          kaifaFuzzySearch(newValue).then((response) => {
+            const kf: KaifaResponse = response.data;
+            const kfKwList = kf.data;
+            clearArray(kfFuzzyResultList);
+            if (kfKwList && kfKwList?.length > 0) {
+              kfFuzzyResultList.push(...kfKwList);
+            }
+          });
+        }
+      };
       watch(value, (newValue) => {
         // 工具搜索
-        const result: FuseToolResult[] = fp.fuseSearch(newValue);
-        clearArray(fuseResultList);
-        fuseResultList.push(...result);
-        // 百度搜索
-        bdFuzzySearch(newValue)
-          .then((response) => {
-            const bd: BdFuzzyResponse = response.data;
-            const { g } = bd;
-            clearArray(bdFuzzyResultList);
-            for (let i = 0; i < g.length; i += 1) {
-              const bdFuzzyItem = g[i];
-              bdFuzzyResultList.push(bdFuzzyItem.q);
-            }
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-
-        kaifaFuzzySearch(newValue).then((response) => {
-          const kf: KaifaResponse = response.data;
-          const kfKwList = kf.data;
-          clearArray(kfFuzzyResultList);
-          if (kfKwList && kfKwList?.length > 0) {
-            kfFuzzyResultList.push(...kfKwList);
-          }
-        });
+        if (props.theme.supperSearchEngine.lastIndexOf('tool') > -1) {
+          const result: FuseToolResult[] = fp.fuseSearch(newValue);
+          clearArray(fuseResultList);
+          fuseResultList.push(...result);
+        }
+        manySearchEngineFuzzy(newValue);
       });
 
       const open = (url: string) => {
