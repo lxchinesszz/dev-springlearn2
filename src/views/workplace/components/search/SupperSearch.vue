@@ -176,9 +176,7 @@
       const tipVisible = ref(false);
       // 页面点击搜索触发
       const search = () => {
-        if (value.value !== '') {
-          ctx.emit('doAction', value.value);
-        }
+        ctx.emit('doAction', value.value);
       };
 
       const customSearch = (kw: string) => {

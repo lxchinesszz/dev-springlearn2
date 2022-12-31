@@ -30,7 +30,7 @@ const releaseHistoryVersions: Array<Version> = [
   {
     version: '1.2.1',
     date: '2022-12-31',
-    items: ['支持B站、知乎搜索关键字智能推荐'],
+    items: ['支持B站、知乎搜索关键字智能推荐', '允许搜索空字符'],
     type: 'FEATURE',
     dotColor: '#00B42A',
   },
