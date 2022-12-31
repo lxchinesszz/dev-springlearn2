@@ -54,7 +54,7 @@
     <Search
       id="search"
       :style="theme"
-      input-offset="-40vh"
+      input-offset="-30vh"
       :categories="categories"
       :search-list="searchList"
       @change-category="selectCategory"

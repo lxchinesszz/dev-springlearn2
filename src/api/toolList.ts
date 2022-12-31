@@ -126,7 +126,13 @@ export class FusePlugin {
     this.tools = tools;
     const options = {
       includeScore: true,
-      keys: ['categoryName', 'toolGroupName', 'tool.title', 'tool.desc'],
+      keys: [
+        'categoryName',
+        'toolGroupName',
+        'tool.title',
+        'tool.desc',
+        'tool.link',
+      ],
     };
     console.log('FusePlugin init');
     this.fuse = new Fuse(tools, options);

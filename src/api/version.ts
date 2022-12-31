@@ -20,10 +20,17 @@ const releaseHistoryVersions: Array<Version> = [
     date: '2022-12-30',
     items: [
       '新增超级搜索',
-      '支持多搜索引擎,动态匹配关键字',
+      '支持百度、开发者搜索关键字智能推荐',
       '新增极简模式',
       '支持搜索分类栏文字样式修改',
     ],
+    type: 'FEATURE',
+    dotColor: '#00B42A',
+  },
+  {
+    version: '1.2.1',
+    date: '2022-12-31',
+    items: ['支持B站、知乎搜索关键字智能推荐'],
     type: 'FEATURE',
     dotColor: '#00B42A',
   },

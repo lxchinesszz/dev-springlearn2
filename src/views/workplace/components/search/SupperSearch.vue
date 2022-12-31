@@ -1,5 +1,5 @@
 <template>
-  <div id="supperSearchWrapper">
+  <div id="supperSearchWrapper" @blur="closeTipAction">
     <div class="supperSearch">
       <div class="searchIcon">
         <icon-search :size="24" :style="{ color: '#3974ff' }" />
@@ -19,7 +19,9 @@
     v-if="
       (tipVisible && fuseResultList.length > 0) ||
       bdFuzzyResultList.length > 0 ||
-      kfFuzzyResultList.length > 0
+      kfFuzzyResultList.length > 0 ||
+      zhFuzzyResultList.length > 0 ||
+      biliFuzzyResultList.length > 0
     "
     id="supperTipWrapper"
     class="animated fadeIn"
@@ -89,6 +91,48 @@
         </a-space>
       </div>
     </div>
+    <div v-if="zhFuzzyResultList.length > 0" class="tipItemWrapper">
+      <div class="tipItemTitle"> 知乎搜索 </div>
+      <div class="tipItemList">
+        <a-space wrap>
+          <a-tag
+            v-for="(zhFuzzy, index) in zhFuzzyResultList"
+            :key="index"
+            size="large"
+            checkable
+            class="animated fadeIn"
+            @check="
+              open(`https://www.zhihu.com/search?type=content&q=${zhFuzzy}`)
+            "
+          >
+            <template #icon>
+              <icon-font type="icon-zhihu-circle-fill" />
+            </template>
+            {{ zhFuzzy }}
+          </a-tag>
+        </a-space>
+      </div>
+    </div>
+    <div v-if="biliFuzzyResultList.length > 0" class="tipItemWrapper">
+      <div class="tipItemTitle"> B站搜索 </div>
+      <div class="tipItemList">
+        <a-space wrap>
+          <a-tag
+            v-for="(bzFuzzy, index) in biliFuzzyResultList"
+            :key="index"
+            size="large"
+            checkable
+            class="animated fadeIn"
+            @check="open(`https://search.bilibili.com/all?keyword=${bzFuzzy}`)"
+          >
+            <template #icon>
+              <icon-font type="icon-bilibili1" />
+            </template>
+            {{ bzFuzzy }}
+          </a-tag>
+        </a-space>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -102,12 +146,16 @@
     BdFuzzyResponse,
     kaifaFuzzySearch,
     KaifaResponse,
+    zhihuFuzzySearch,
+    ZhihuResponse,
+    ZhihuFuzzyItem,
+    biliFuzzySearch,
+    BiliResponse,
   } from '@/api/search';
   import ThemeModel from '@/model/ThemeModel';
-  import _ from 'lodash';
 
   const IconFont = Icon.addFromIconFontCn({
-    src: 'https://at.alicdn.com/t/c/font_902793_bvf2l6r4mj4.js',
+    src: 'https://at.alicdn.com/t/c/font_902793_30zoulb2u7u.js',
   });
 
   export default {
@@ -149,6 +197,15 @@
 
       const kfFuzzyResultList: Array<string> = reactive([]);
 
+      const zhFuzzyResultList: Array<string> = reactive([]);
+
+      const biliFuzzyResultList: Array<string> = reactive([]);
+
+      const closeTipAction = () => {
+        clearArray(fuseResultList);
+        clearArray(bdFuzzyResultList);
+        clearArray(kfFuzzyResultList);
+      };
       // 获取fuse插件
       const fp: FusePlugin = fusePlugin();
 
@@ -179,6 +236,30 @@
             }
           });
         }
+        if (props.theme.supperSearchEngine.lastIndexOf('zhihu') > -1) {
+          zhihuFuzzySearch(newValue).then((response) => {
+            const zhihu: ZhihuResponse = response.data;
+            const zhKwList: Array<ZhihuFuzzyItem> = zhihu.suggest;
+            clearArray(zhFuzzyResultList);
+            if (zhKwList && zhKwList?.length > 0) {
+              for (let i = 0; i < zhKwList.length; i += 1) {
+                const zhihuFuzzyItem = zhKwList[i];
+                zhFuzzyResultList.push(zhihuFuzzyItem.query);
+              }
+            }
+          });
+        }
+
+        if (props.theme.supperSearchEngine.lastIndexOf('bili') > -1) {
+          biliFuzzySearch(newValue).then((response) => {
+            clearArray(biliFuzzyResultList);
+            const biMap: Map<string, BiliResponse> = response.data;
+            const values = Object.values(biMap);
+            for (let i = 0; i < values.length; i += 1) {
+              biliFuzzyResultList.push(values[i].value);
+            }
+          });
+        }
       };
       watch(value, (newValue) => {
         // 工具搜索
@@ -196,6 +277,9 @@
 
       return {
         open,
+        zhFuzzyResultList,
+        biliFuzzyResultList,
+        closeTipAction,
         customSearch,
         tipVisible,
         fuseResultList,

@@ -84,13 +84,11 @@
             <a-button
               shape="circle"
               size="small"
-              type="outline"
-              status="success"
               class="importBtn"
               @click="releaseHistoryVisible = true"
             >
               <a-tooltip content="点击查看发布历史">
-                <icon-history />
+                <icon-font type="icon-lishibanben" />
               </a-tooltip>
             </a-button>
             <input
@@ -206,12 +204,16 @@
   import CategoryToolTable from '@/views/workplace/components/CategoryToolTable.vue';
   import ThemeSetting from '@/views/workplace/components/ThemeSetting.vue';
   import SettingModel from '@/model/SettingModel';
-  import { Message, Modal } from '@arco-design/web-vue';
+  import { Message, Modal, Icon } from '@arco-design/web-vue';
   import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
   import { copyConfig, saveLocal, restLocalSourceData } from '@/api/toolList';
   import { readerAsync } from '@/api/lodashs';
   import releaseHistoryVersions from '@/api/version';
   import _ from 'lodash';
+
+  const IconFont = Icon.addFromIconFontCn({
+    src: 'https://at.alicdn.com/t/c/font_902793_exchtqvpzxb.js',
+  });
 
   export default defineComponent({
     name: 'WorkerHeader',
@@ -220,6 +222,7 @@
       SearchEngineTable,
       CategoryToolTable,
       ThemeSetting,
+      IconFont,
     },
     props: {
       dataSource: SettingModel,

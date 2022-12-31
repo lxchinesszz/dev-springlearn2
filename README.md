@@ -39,7 +39,13 @@ kaifa
 - https://kaifa.baidu.com/rest/v1/recommend/suggests?wd=spring
 
 
+B站
+- https://s.search.bilibili.com/main/suggest?term=%E6%99%BA%E6%85%A7
 ![img_2.png](img_2.png)
+
+知乎
+
+- https://www.zhihu.com/api/v4/search/suggest?q=
 
 已经访问过的关键字会被标记
 
@@ -80,3 +86,42 @@ kaifa
 ### 
 chrome://flags/
 关闭跨域 Block insecure private network requests
+
+
+### 二次元风格
+
+![img_3.png](img_3.png)
+
+```css 
+   background-color: #f0f4ff;
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: right top;
+   background-image: url('https://img.springlearn.cn/blog/5523c88dd347d1b7cc617f632b7efdb7.jpeg'), linear-gradient(rgb(219, 166, 166), rgb(0, 0, 172));
+```
+
+![img_4.png](img_4.png)
+```css 
+   background-color: #f0f4ff;
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-image: url('https://img.springlearn.cn/blog/83b872730d3ab4a502c2ae5d73db4dee.jpeg'), linear-gradient(rgb(219, 166, 166), rgb(0, 0, 172));
+```
+
+![img_5.png](img_5.png)
+
+```css 
+   background-color: #f0f4ff;
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-image: url('https://s1.ax1x.com/2022/12/31/pS9H7Rg.jpg'), linear-gradient(rgb(219, 166, 166), rgb(0, 0, 172));
+```
+
+![img_6.png](img_6.png)
+
+```css 
+   background-color: #f0f4ff;
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-image: url('https://s1.ax1x.com/2022/12/31/pS9b8eI.jpg'), linear-gradient(rgb(219, 166, 166), rgb(0, 0, 172));
+```

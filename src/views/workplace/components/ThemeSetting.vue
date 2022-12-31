@@ -80,43 +80,44 @@
             <a-checkbox value="tool">工具搜索</a-checkbox>
             <a-checkbox value="baidu">百度</a-checkbox>
             <a-checkbox value="kaifa">开发者搜索</a-checkbox>
+            <a-checkbox value="zhihu">知乎</a-checkbox>
+            <a-checkbox value="bili">B站</a-checkbox>
           </a-checkbox-group>
         </a-form-item>
-        <a-form-item label="窗口背景样式">
-          <a-trigger position="top" auto-fit-position :unmount-on-close="false">
-            <a-textarea
-              v-model="themeSetting.searchBackgroundCss"
-              :placeholder="theme.searchBackgroundCss"
-              allow-clear
-              show-word-limit
-            />
-            <template #content>
-              <div class="cssWrapper">
-                <highlightjs
-                  language="css"
-                  :code="themeSetting.searchBackgroundCss"
-                />
-              </div>
-            </template>
-          </a-trigger>
+        <a-form-item>
+          <template #label>
+            主窗口样式
+            <a-trigger
+              position="top"
+              auto-fit-position
+              :unmount-on-close="false"
+            >
+              <icon-eye style="cursor: pointer" />
+              <template #content>
+                <div class="cssWrapper">
+                  <highlightjs
+                    language="css"
+                    :code="themeSetting.searchBackgroundCss"
+                  />
+                </div>
+              </template>
+            </a-trigger>
+          </template>
+          <a-textarea
+            v-model="themeSetting.searchBackgroundCss"
+            :placeholder="theme.searchBackgroundCss"
+            allow-clear
+            show-word-limit
+          />
         </a-form-item>
-        <a-form-item label="搜索框文本样式">
-          <a-trigger position="top" auto-fit-position :unmount-on-close="false">
-            <a-textarea
-              v-model="themeSetting.searchTextCss"
-              :placeholder="theme.searchTextCss"
-              allow-clear
-              show-word-limit
-            />
-            <template #content>
-              <div class="cssWrapper">
-                <highlightjs
-                  language="css"
-                  :code="themeSetting.searchTextCss"
-                />
-              </div>
-            </template>
-          </a-trigger>
+        <a-form-item>
+          <template #label> 搜索框文本样式 </template>
+          <a-textarea
+            v-model="themeSetting.searchTextCss"
+            :placeholder="theme.searchTextCss"
+            allow-clear
+            show-word-limit
+          />
         </a-form-item>
         <a-form-item label="导航栏背景样式">
           <a-trigger position="top" auto-fit-position :unmount-on-close="false">
