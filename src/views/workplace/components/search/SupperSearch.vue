@@ -13,7 +13,7 @@
         />
       </div>
     </div>
-    <div class="searchBtn"> 搜索 </div>
+    <div class="searchBtn" @click="search"> 搜索 </div>
   </div>
   <div
     v-if="
