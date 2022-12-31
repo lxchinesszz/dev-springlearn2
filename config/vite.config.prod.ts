@@ -9,24 +9,6 @@ import configImageminPlugin from './plugin/imagemin';
 export default mergeConfig(
   {
     mode: 'production',
-    server: {
-      open: true,
-      proxy: {
-        '/sugrec': {
-          target: 'https://www.baidu.com',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/sugrec/, ''),
-        },
-        '/kaifa': {
-          target: 'https://kaifa.baidu.com',
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/kaifa/, ''),
-        },
-      },
-      fs: {
-        strict: true,
-      },
-    },
     plugins: [
       configCompressPlugin('gzip'),
       configVisualizerPlugin(),

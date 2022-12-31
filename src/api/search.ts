@@ -18,9 +18,7 @@ export default function bdFuzzySearch(
 ): AxiosPromise<BdFuzzyResponse> {
   const config: AxiosRequestConfig = {
     method: 'get',
-    baseURL: '/sugrec',
-    // url: `https://kaifa.baidu.com/rest/v1/recommend/suggests?wd=${kw}`,
-    url: `/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&wd=${kw}`,
+    url: `https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&wd=${kw}`,
   };
   return axios(config);
 }
@@ -38,8 +36,7 @@ export function kaifaFuzzySearch(
 ): AxiosPromise<KaifaResponse> {
   const config: AxiosRequestConfig = {
     method: 'get',
-    baseURL: '/kaifa',
-    url: `/rest/v1/recommend/suggests?wd=${kw}`,
+    url: `https://kaifa.baidu.com/rest/v1/recommend/suggests?wd=${kw}`,
   };
   return axios(config);
 }
