@@ -288,7 +288,7 @@
             setTimeout(() => {
               visibleSetting.value = false;
               window.location.reload();
-            }, 1000);
+            }, 300);
           },
         });
       };
