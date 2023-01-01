@@ -105,8 +105,8 @@
         show-word-limit
       />
     </a-modal>
-    <div id="widgetWrapper" class="animated" :class="style.searchAnimate">
-    </div>
+    <!--    <div id="widgetWrapper" class="animated" :class="style.searchAnimate">-->
+    <!--    </div>-->
   </div>
 </template>
 
