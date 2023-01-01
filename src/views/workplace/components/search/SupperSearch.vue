@@ -142,10 +142,11 @@
 </template>
 
 <script lang="ts">
-  import { onMounted, reactive, ref, watch } from 'vue';
+  import { reactive, ref, watch } from 'vue';
   import FuseToolResult from '@/model/FuseToolResult';
   import { fusePlugin, FusePlugin, openWindow } from '@/api/toolList';
   import { clearArray } from '@/api/lodashs';
+  import keyDownBinder from '@/hooks/KeyDownBinder';
   import bdFuzzySearch, {
     BdFuzzyResponse,
     kaifaFuzzySearch,
@@ -187,12 +188,6 @@
 
       const searchInputRef = ref();
 
-      onMounted(() => {
-        // if (searchInputRef.value) {
-        //   searchInputRef.value.focus();
-        // }
-      });
-
       const fuseResultList: Array<FuseToolResult> = reactive<FuseToolResult[]>(
         []
       );
@@ -208,18 +203,26 @@
         clearArray(fuseResultList);
         clearArray(bdFuzzyResultList);
         clearArray(kfFuzzyResultList);
+        clearArray(zhFuzzyResultList);
+        clearArray(biliFuzzyResultList);
       };
+
+      keyDownBinder(27, {
+        action() {
+          closeTipAction();
+        },
+      });
       // 获取fuse插件
       const fp: FusePlugin = fusePlugin();
 
       const manySearchEngineFuzzy = (newValue) => {
         if (props.theme.supperSearchEngine.lastIndexOf('baidu') > -1) {
+          clearArray(bdFuzzyResultList);
           // 百度搜索
           bdFuzzySearch(newValue)
             .then((response) => {
               const bd: BdFuzzyResponse = response.data;
               const { g } = bd;
-              clearArray(bdFuzzyResultList);
               for (let i = 0; i < g.length; i += 1) {
                 const bdFuzzyItem = g[i];
                 bdFuzzyResultList.push(bdFuzzyItem.q);
@@ -230,20 +233,20 @@
             });
         }
         if (props.theme.supperSearchEngine.lastIndexOf('kaifa') > -1) {
+          clearArray(kfFuzzyResultList);
           kaifaFuzzySearch(newValue).then((response) => {
             const kf: KaifaResponse = response.data;
             const kfKwList = kf.data;
-            clearArray(kfFuzzyResultList);
             if (kfKwList && kfKwList?.length > 0) {
               kfFuzzyResultList.push(...kfKwList);
             }
           });
         }
         if (props.theme.supperSearchEngine.lastIndexOf('zhihu') > -1) {
+          clearArray(zhFuzzyResultList);
           zhihuFuzzySearch(newValue).then((response) => {
             const zhihu: ZhihuResponse = response.data;
             const zhKwList: Array<ZhihuFuzzyItem> = zhihu.suggest;
-            clearArray(zhFuzzyResultList);
             if (zhKwList && zhKwList?.length > 0) {
               for (let i = 0; i < zhKwList.length; i += 1) {
                 const zhihuFuzzyItem = zhKwList[i];
@@ -254,8 +257,8 @@
         }
 
         if (props.theme.supperSearchEngine.lastIndexOf('bili') > -1) {
+          clearArray(biliFuzzyResultList);
           biliFuzzySearch(newValue).then((response) => {
-            clearArray(biliFuzzyResultList);
             const biMap: Map<string, BiliResponse> = response.data;
             const values = Object.values(biMap);
             for (let i = 0; i < values.length; i += 1) {

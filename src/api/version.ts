@@ -41,6 +41,7 @@ const releaseHistoryVersions: Array<Version> = [
       '😄增加背景毛玻璃特效',
       '🐛优化页面布局级动效展示',
       '搜索框添加有趣的placeholder',
+      '超级搜索模式下,ESC键关闭关键词推荐',
     ],
     type: 'FEATURE',
     dotColor: '#52C419',

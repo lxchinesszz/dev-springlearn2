@@ -125,3 +125,6 @@ chrome://flags/
    background-repeat: no-repeat;
    background-image: url('https://s1.ax1x.com/2022/12/31/pS9b8eI.jpg');
 ```
+
+
+极简模式
