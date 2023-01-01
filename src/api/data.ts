@@ -863,16 +863,21 @@ const style = {
   searchAnimate: 'fadeInRight',
   navBarBackgroundCss:
     ' background: #cae7ef url(https://img.springlearn.cn/cloudtou.svg) repeat-y 30% 22%;',
-  toolGroupAnimate: 'fadeIn',
+  toolGroupAnimate: 'fadeInUp',
   // 关闭用户icon
   closeIcon: true,
   // 是否开启模糊查找
   fuzzySearch: true,
-  simplify: true,
+  simplify: false,
   searchBackgroundCss:
-    'background-image: linear-gradient(45deg,rgb(90, 54, 148) 0%,rgb(19, 189, 206) 33%,rgb(0, 148, 217) 66%,rgb(111, 199, 181) 100%); -webkit-animation: gradient 15s ease-in-out infinite;animation: bganimation 15s ease-in-out infinite;',
-  searchTextCss: 'color: #646a73;',
+    '   background-color: #f0f4ff;\n' +
+    '   background-size: cover;\n' +
+    '   background-repeat: no-repeat;\n' +
+    "   background-image: url('https://img.springlearn.cn/blog/83b872730d3ab4a502c2ae5d73db4dee.jpeg');",
+  searchTextCss: '',
   supperSearchEngine: [],
+  hideSearchAroundText: false,
+  frostedGlass: false,
 };
 const setting = {
   theme: style,

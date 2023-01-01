@@ -21,7 +21,7 @@
           </li>
         </ul>
       </div>
-      <div class="userLogo animated swing"></div>
+      <div class="userLogo"></div>
     </div>
 
     <a-modal
@@ -50,10 +50,12 @@
               size="small"
               class="importBtn"
               :disabled="!onlyRead"
+              status="warning"
+              type="primary"
               @click="copyConfig"
             >
               <a-tooltip content="点击复制配置文件到粘贴板">
-                <icon-share-internal />
+                <icon-copy />
               </a-tooltip>
             </a-button>
             <a-button
@@ -72,13 +74,13 @@
               shape="circle"
               size="small"
               class="importBtn"
+              status="danger"
               type="primary"
               :disabled="!onlyRead"
-              status="danger"
               @click="resetConfig"
             >
               <a-tooltip content="点击恢复到默认配置">
-                <icon-empty />
+                <IconFont type="icon-shanchu" style="color: white"></IconFont>
               </a-tooltip>
             </a-button>
             <a-button
@@ -162,6 +164,7 @@
         <baidu-calendar />
       </div>
     </a-modal>
+    <!--    版本展示-->
     <a-drawer
       popup-container=".themeSettingModal"
       :visible="releaseHistoryVisible"
@@ -172,7 +175,10 @@
       @cancel="releaseHistoryVisible = false"
     >
       <template #header>
-        <span>当前版本: v{{ lastVersion.version }}</span>
+        <span>
+          <IconFont type="icon-huojian2"></IconFont>
+          当前版本: v{{ lastVersion.version }}</span
+        >
       </template>
       <a-timeline label-position="relative" reverse>
         <a-timeline-item
@@ -204,16 +210,12 @@
   import CategoryToolTable from '@/views/workplace/components/CategoryToolTable.vue';
   import ThemeSetting from '@/views/workplace/components/ThemeSetting.vue';
   import SettingModel from '@/model/SettingModel';
-  import { Message, Modal, Icon } from '@arco-design/web-vue';
+  import { Message, Modal } from '@arco-design/web-vue';
   import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
   import { copyConfig, saveLocal, restLocalSourceData } from '@/api/toolList';
   import { readerAsync } from '@/api/lodashs';
   import releaseHistoryVersions from '@/api/version';
   import _ from 'lodash';
-
-  const IconFont = Icon.addFromIconFontCn({
-    src: 'https://at.alicdn.com/t/c/font_902793_exchtqvpzxb.js',
-  });
 
   export default defineComponent({
     name: 'WorkerHeader',
@@ -222,7 +224,6 @@
       SearchEngineTable,
       CategoryToolTable,
       ThemeSetting,
-      IconFont,
     },
     props: {
       dataSource: SettingModel,
@@ -244,13 +245,14 @@
       const lastVersion = ref(
         _.sortBy(releaseHistoryVersions, (s) => s.date).reverse()[0]
       );
-      console.log('lastVersion', lastVersion.value.version);
+      console.log('当前版本lastVersion', lastVersion.value.version);
       const applySetting = () => {
         Message.info({
           content: '你的配置已重新生成,正在应用中!',
           icon: () => h(IconFaceSmileFill),
           duration: 1000,
         });
+
         // 主题配置保存
         console.log(themeSetting.value?.saveAction());
         console.log(shortcutSetting.value?.saveAction());

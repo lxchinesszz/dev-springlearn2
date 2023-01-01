@@ -1,86 +1,88 @@
 <template>
   <div class="container" :style="style.searchBackgroundCss">
-    <div
-      class="searchGroup animated"
-      :style="{ marginTop: inputOffset }"
-      :class="style.searchAnimate"
-    >
-      <div id="searchTarget">
-        <!--      查询源-->
-        <div
-          v-for="(scope, index) in categories"
-          :key="index"
-          :class="
-            index === currentCategoryIndex
-              ? 'searchTargetCard searchTargetCardHover'
-              : 'searchTargetCard'
-          "
-          :style="style.searchTextCss"
-          @click="clickCurrentCategoryIndex(index)"
-          >{{ scope.categoryName }}
-        </div>
-        <!--        <div class="searchTargetCard" @click="handleClick"><icon-edit /></div>-->
-      </div>
-      <div id="searchBox">
-        <div v-if="style.searchStyle === 'search-google'" style="width: 55vw">
-          <SearchGoogle
-            :placeholder="placeholder"
-            @do-action="search"
-            @change="changeFuseAction"
-            @blur="fuseValue = ''"
-          />
-        </div>
-        <div
-          v-else-if="style.searchStyle === 'search-simple'"
-          style="width: 55vw"
-        >
-          <SearchSimple
-            :placeholder="placeholder"
-            @do-action="search"
-            @change="changeFuseAction"
-          />
-        </div>
-        <div
-          v-else-if="style.searchStyle === 'supper-search'"
-          style="width: 55vw"
-        >
-          <SupperSearch
-            :placeholder="placeholder"
-            :theme="style"
-            @do-action="search"
-          />
-        </div>
-        <div v-else style="width: 55vw; margin-left: -20px">
-          <SearchStandard
-            :placeholder="placeholder"
-            @do-action="search"
-            @change="changeFuseAction"
-          />
-        </div>
-      </div>
-      <div v-if="style.fuzzySearch" id="fuseDiv">
-        <FuseToolPanel :value="fuseValue"></FuseToolPanel>
-      </div>
-      <div id="searchCard">
-        <!--      查询源-->
-        <div
-          v-for="(scope, index) in searchCardList"
-          :key="index"
-          class="searchSourceCard"
-          @click="clickCurrentSearchIndex(index)"
-        >
+    <div class="frostedGlass" :class="style.frostedGlass ? 'glass' : ''">
+      <div
+        class="searchGroup animated"
+        :style="{ marginTop: inputOffset }"
+        :class="style.searchAnimate"
+      >
+        <div v-if="!style.hideSearchAroundText" id="searchTarget">
+          <!--      查询源-->
           <div
-            class="searchSource"
-            :style="style.searchTextCss"
+            v-for="(scope, index) in categories"
+            :key="index"
             :class="
-              index === currentSearchCardIndex ? 'searchSourceActive' : ''
+              index === currentCategoryIndex
+                ? 'searchTargetCard searchTargetCardHover'
+                : 'searchTargetCard'
             "
-            >{{ scope.name }}
+            :style="style.searchTextCss"
+            @click="clickCurrentCategoryIndex(index)"
+            >{{ scope.categoryName }}
+          </div>
+          <!--        <div class="searchTargetCard" @click="handleClick"><icon-edit /></div>-->
+        </div>
+        <div id="searchBox">
+          <div v-if="style.searchStyle === 'search-google'" style="width: 55vw">
+            <SearchGoogle
+              :placeholder="placeholder"
+              @do-action="search"
+              @change="changeFuseAction"
+              @blur="fuseValue = ''"
+            />
+          </div>
+          <div
+            v-else-if="style.searchStyle === 'search-simple'"
+            style="width: 55vw"
+          >
+            <SearchSimple
+              :placeholder="placeholder"
+              @do-action="search"
+              @change="changeFuseAction"
+            />
+          </div>
+          <div
+            v-else-if="style.searchStyle === 'supper-search'"
+            style="width: 55vw"
+          >
+            <SupperSearch
+              :placeholder="placeholder"
+              :theme="style"
+              @do-action="search"
+            />
+          </div>
+          <div v-else style="width: 55vw; margin-left: -20px">
+            <SearchStandard
+              :placeholder="placeholder"
+              @do-action="search"
+              @change="changeFuseAction"
+            />
           </div>
         </div>
-        <!--        <div class="searchSourceCard" @click="handleAddSearch"-->
-        <!--          ><icon-edit-->
-        <!--        /></div>-->
+        <div v-if="style.fuzzySearch" id="fuseDiv">
+          <FuseToolPanel :value="fuseValue"></FuseToolPanel>
+        </div>
+        <div v-if="!style.hideSearchAroundText" id="searchCard">
+          <!--      查询源-->
+          <div
+            v-for="(scope, index) in searchCardList"
+            :key="index"
+            class="searchSourceCard"
+            @click="clickCurrentSearchIndex(index)"
+          >
+            <div
+              class="searchSource"
+              :style="style.searchTextCss"
+              :class="
+                index === currentSearchCardIndex ? 'searchSourceActive' : ''
+              "
+              >{{ scope.name }}
+            </div>
+          </div>
+          <!--        <div class="searchSourceCard" @click="handleAddSearch"-->
+          <!--          ><icon-edit-->
+          <!--        /></div>-->
+        </div>
       </div>
     </div>
     <a-modal
@@ -118,6 +120,7 @@
   import SupperSearch from '@/views/workplace/components/search/SupperSearch.vue';
   import ThemeModel from '@/model/ThemeModel';
   import { openWindow } from '@/api/toolList';
+  import defaultPlaceholder from '@/api/placeholder';
   import FuseToolPanel from '@/views/workplace/components/widget/FuseToolPanel.vue';
 
   export default defineComponent({
@@ -157,6 +160,11 @@
       const currentSearchCardIndex = ref(0);
       const currentCategoryIndex = ref(0);
       const placeholder = ref('请输入你要搜索的关键字');
+      defaultPlaceholder()
+        .then(({ data }) => {
+          placeholder.value = data.hitokoto;
+        })
+        .catch(console.error);
       function clickCurrentSearchIndex(index: number) {
         currentSearchCardIndex.value = index;
         placeholder.value = searchCardList[index].slogan;
@@ -341,5 +349,26 @@
     //height: 50vh;
     //background: #409eff;
     margin-left: 10px;
+  }
+
+  .frostedGlass {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #1d2129;
+  }
+
+  /**
+   毛玻璃特效
+   */
+  .glass {
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
   }
 </style>

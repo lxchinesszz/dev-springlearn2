@@ -15,6 +15,7 @@
 
       <div class="searchbar-center">
         <input
+          ref="searchInputRef"
           v-model="value"
           type="text"
           class="searchbar-input"
@@ -57,7 +58,7 @@
 
 <script lang="ts">
   // 抽屉工具，支持8个或者是4个
-  import { defineComponent, ref, watch } from 'vue';
+  import { defineComponent, onMounted, ref, watch } from 'vue';
 
   export default defineComponent({
     name: 'SearchGoogle',
@@ -83,7 +84,16 @@
       watch(value, (newValue) => {
         ctx.emit('change', newValue);
       });
-      return { value, search, blurAction };
+
+      const searchInputRef = ref();
+
+      onMounted(() => {
+        // if (searchInputRef.value) {
+        //   searchInputRef.value.focus();
+        // }
+      });
+
+      return { searchInputRef, value, search, blurAction };
     },
   });
 </script>

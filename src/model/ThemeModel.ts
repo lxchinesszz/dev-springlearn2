@@ -54,6 +54,16 @@ export default class ThemeModel {
    */
   public supperSearchEngine: Array<string>;
 
+  /**
+   * 隐藏搜索框上下选项
+   */
+  public hideSearchAroundText: boolean;
+
+  /**
+   * 背景毛玻璃特效
+   */
+  public frostedGlass: boolean;
+
   constructor(
     closeIcon: boolean,
     toolGroupAnimate: string,
@@ -65,7 +75,9 @@ export default class ThemeModel {
     fuzzySearch: boolean,
     simplify: boolean,
     searchTextCss: string,
-    supperSearchEngine: Array<string>
+    supperSearchEngine: Array<string>,
+    hideSearchAroundText: boolean,
+    frostedGlass: boolean
   ) {
     this.closeIcon = closeIcon;
     this.toolGroupAnimate = toolGroupAnimate;
@@ -78,5 +90,7 @@ export default class ThemeModel {
     this.simplify = simplify;
     this.searchTextCss = searchTextCss;
     this.supperSearchEngine = supperSearchEngine;
+    this.hideSearchAroundText = hideSearchAroundText;
+    this.frostedGlass = frostedGlass;
   }
 }

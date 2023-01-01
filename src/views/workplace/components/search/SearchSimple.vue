@@ -19,6 +19,7 @@
       </svg>
     </button>
     <input
+      ref="searchInputRef"
       v-model="value"
       class="input"
       :placeholder="placeholder"
@@ -52,7 +53,7 @@
 
 <script lang="ts">
   // 抽屉工具，支持8个或者是4个
-  import { defineComponent, ref, watch } from 'vue';
+  import { defineComponent, onMounted, ref, watch } from 'vue';
 
   export default defineComponent({
     name: 'SearchSimple',
@@ -80,7 +81,15 @@
         ctx.emit('change', newValue);
       });
 
-      return { value, search, blurAction };
+      const searchInputRef = ref();
+
+      onMounted(() => {
+        // if (searchInputRef.value) {
+        //   searchInputRef.value.focus();
+        // }
+      });
+
+      return { searchInputRef, value, search, blurAction };
     },
   });
 </script>

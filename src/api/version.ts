@@ -13,7 +13,7 @@ const releaseHistoryVersions: Array<Version> = [
     date: '2022-12-21',
     items: ['新增工具模糊搜索', '新增历史版本发布记录'],
     type: 'FEATURE',
-    dotColor: '#00B42A',
+    dotColor: '#F5222D',
   },
   {
     version: '1.2.0',
@@ -25,14 +25,25 @@ const releaseHistoryVersions: Array<Version> = [
       '支持搜索分类栏文字样式修改',
     ],
     type: 'FEATURE',
-    dotColor: '#00B42A',
+    dotColor: '#52C419',
   },
   {
     version: '1.2.1',
     date: '2022-12-31',
     items: ['支持B站、知乎搜索关键字智能推荐', '允许搜索空字符'],
     type: 'FEATURE',
-    dotColor: '#00B42A',
+    dotColor: '#F5222D',
+  },
+  {
+    version: '1.2.2',
+    date: '2023-01-01',
+    items: [
+      '😄增加背景毛玻璃特效',
+      '🐛优化页面布局级动效展示',
+      '搜索框添加有趣的placeholder',
+    ],
+    type: 'FEATURE',
+    dotColor: '#52C419',
   },
 ];
 export default releaseHistoryVersions;

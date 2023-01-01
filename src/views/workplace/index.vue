@@ -1,5 +1,5 @@
 <template>
-  <a-layout v-if="!theme.simplify">
+  <a-layout v-show="!theme.simplify">
     <a-layout-header id="header" :style="theme.navBarBackgroundCss">
       <WorkerHeader
         ref="workHeaderRef"
@@ -31,7 +31,12 @@
     </a-layout-content>
   </a-layout>
 
-  <div v-else id="simplifyWrapper">
+  <div
+    v-if="theme.simplify"
+    id="simplifyWrapper"
+    class="animated"
+    :class="theme.windowAnimate"
+  >
     <div class="logoWrapper">
       <img
         src="https://img.springlearn.cn/geek.png"
@@ -40,14 +45,9 @@
       />
     </div>
     <div class="themeSettingFloatWrapper">
-      <WorkerHeader
-        ref="workHeaderRef"
-        style="display: none"
-        :data-source="sourceData"
-      ></WorkerHeader>
       <a-affix :offset-top="80">
-        <a-button shape="circle">
-          <icon-settings @click="simpleThemeSetting" />
+        <a-button shape="circle" @click="simpleThemeSetting">
+          <icon-settings />
         </a-button>
       </a-affix>
     </div>
@@ -60,20 +60,6 @@
       @change-category="selectCategory"
     ></Search>
   </div>
-
-  <a-modal
-    v-model:visible="fVisible"
-    :footer="false"
-    :body-style="{
-      background: 'none',
-      display: 'flex',
-      width: 'auto',
-      justifyContent: 'center',
-    }"
-  >
-    <template #title> Title </template>
-    <RoleCards />
-  </a-modal>
 </template>
 
 <script lang="ts" setup>
@@ -89,13 +75,11 @@
   import Driver from 'driver.js'; // import driver.js
   import 'driver.js/dist/driver.min.css'; // import driver.js css
   import setps from '@/api/setps';
-  import RoleCards from '@/views/workplace/components/RoleCards.vue';
   import CategoryTool from '@/model/CategoryTool';
   import { device, Device } from '@/hooks/device';
   import { useRouter } from 'vue-router';
 
   const workHeaderRef = ref(null);
-  const fVisible = ref(false);
   // 元数据
   const sourceData: SettingModel = fetchSourceData();
   const { theme } = sourceData;

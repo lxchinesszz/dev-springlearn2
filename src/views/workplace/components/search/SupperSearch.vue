@@ -1,144 +1,148 @@
 <template>
-  <div id="supperSearchWrapper" @blur="closeTipAction">
-    <div class="supperSearch">
-      <div class="searchIcon">
-        <icon-search :size="24" :style="{ color: '#3974ff' }" />
+  <div id="supperWrapper">
+    <div id="supperSearchWrapper" @blur="closeTipAction">
+      <div class="supperSearch">
+        <div class="searchIcon">
+          <icon-search :size="24" :style="{ color: '#3974ff' }" />
+        </div>
+        <div class="searchInput">
+          <input
+            ref="searchInputRef"
+            v-model="value"
+            :placeholder="placeholder"
+            @focus="tipVisible = true"
+            @keydown.enter="search"
+          />
+        </div>
       </div>
-      <div class="searchInput">
-        <input
-          v-model="value"
-          :placeholder="placeholder"
-          @focus="tipVisible = true"
-          @keydown.enter="search"
-        />
-      </div>
+      <div class="searchBtn" @click="search"> 搜索 </div>
     </div>
-    <div class="searchBtn" @click="search"> 搜索 </div>
-  </div>
-  <div
-    v-if="
-      (tipVisible && fuseResultList.length > 0) ||
-      bdFuzzyResultList.length > 0 ||
-      kfFuzzyResultList.length > 0 ||
-      zhFuzzyResultList.length > 0 ||
-      biliFuzzyResultList.length > 0
-    "
-    id="supperTipWrapper"
-    class="animated fadeIn"
-  >
-    <div v-if="fuseResultList.length > 0" class="tipItemWrapper">
-      <div class="tipItemTitle"> 本地搜索 </div>
-      <div class="tipItemList">
-        <a-space wrap>
-          <a-tag
-            v-for="(tool, index) in fuseResultList"
-            :key="index"
-            size="large"
-            color="orangered"
-            checkable
-            class="animated fadeIn"
-            @check="open(tool.tool.link)"
-          >
-            <template #icon>
-              <icon-font type="icon-huomiao1" />
-            </template>
-            <a-tooltip :content="tool.tool.desc">
-              {{ tool.categoryName }}/
-              {{ tool.tool.title }}
-            </a-tooltip>
-          </a-tag>
-        </a-space>
+    <div
+      v-if="
+        (tipVisible && fuseResultList.length > 0) ||
+        bdFuzzyResultList.length > 0 ||
+        kfFuzzyResultList.length > 0 ||
+        zhFuzzyResultList.length > 0 ||
+        biliFuzzyResultList.length > 0
+      "
+      id="supperTipWrapper"
+      class="animated fadeIn"
+    >
+      <div v-if="fuseResultList.length > 0" class="tipItemWrapper">
+        <div class="tipItemTitle"> 本地搜索 </div>
+        <div class="tipItemList">
+          <a-space wrap>
+            <a-tag
+              v-for="(tool, index) in fuseResultList"
+              :key="index"
+              size="large"
+              color="orangered"
+              checkable
+              class="animated fadeIn"
+              @check="open(tool.tool.link)"
+            >
+              <template #icon>
+                <icon-font type="icon-huomiao1" />
+              </template>
+              <a-tooltip :content="tool.tool.desc">
+                {{ tool.categoryName }}/
+                {{ tool.tool.title }}
+              </a-tooltip>
+            </a-tag>
+          </a-space>
+        </div>
       </div>
-    </div>
-    <div v-if="bdFuzzyResultList.length > 0" class="tipItemWrapper">
-      <div class="tipItemTitle"> 百度搜索 </div>
-      <div class="tipItemList">
-        <a-space wrap>
-          <a-tag
-            v-for="(bdFuzzy, index) in bdFuzzyResultList"
-            :key="index"
-            color="blue"
-            checkable
-            size="large"
-            class="animated fadeIn"
-            @check="open(`https://www.baidu.com/s?ie=UTF-8&wd=${bdFuzzy}`)"
-          >
-            <template #icon>
-              <icon-font type="icon-baidu" />
-            </template>
-            {{ bdFuzzy }}
-          </a-tag>
-        </a-space>
+      <div v-if="bdFuzzyResultList.length > 0" class="tipItemWrapper">
+        <div class="tipItemTitle"> 百度搜索 </div>
+        <div class="tipItemList">
+          <a-space wrap>
+            <a-tag
+              v-for="(bdFuzzy, index) in bdFuzzyResultList"
+              :key="index"
+              color="blue"
+              checkable
+              size="large"
+              class="animated fadeIn"
+              @check="open(`https://www.baidu.com/s?ie=UTF-8&wd=${bdFuzzy}`)"
+            >
+              <template #icon>
+                <icon-font type="icon-baidu" />
+              </template>
+              {{ bdFuzzy }}
+            </a-tag>
+          </a-space>
+        </div>
       </div>
-    </div>
-    <div v-if="kfFuzzyResultList.length > 0" class="tipItemWrapper">
-      <div class="tipItemTitle"> 开发者搜索 </div>
-      <div class="tipItemList">
-        <a-space wrap>
-          <a-tag
-            v-for="(bdFuzzy, index) in kfFuzzyResultList"
-            :key="index"
-            size="large"
-            checkable
-            class="animated fadeIn"
-            @check="open(`https://kaifa.baidu.com/searchPage?wd=${bdFuzzy}`)"
-          >
-            <template #icon>
-              <icon-font type="icon-biancheng" />
-            </template>
-            {{ bdFuzzy }}
-          </a-tag>
-        </a-space>
+      <div v-if="kfFuzzyResultList.length > 0" class="tipItemWrapper">
+        <div class="tipItemTitle"> 开发者搜索 </div>
+        <div class="tipItemList">
+          <a-space wrap>
+            <a-tag
+              v-for="(bdFuzzy, index) in kfFuzzyResultList"
+              :key="index"
+              size="large"
+              checkable
+              class="animated fadeIn"
+              @check="open(`https://kaifa.baidu.com/searchPage?wd=${bdFuzzy}`)"
+            >
+              <template #icon>
+                <icon-font type="icon-biancheng" />
+              </template>
+              {{ bdFuzzy }}
+            </a-tag>
+          </a-space>
+        </div>
       </div>
-    </div>
-    <div v-if="zhFuzzyResultList.length > 0" class="tipItemWrapper">
-      <div class="tipItemTitle"> 知乎搜索 </div>
-      <div class="tipItemList">
-        <a-space wrap>
-          <a-tag
-            v-for="(zhFuzzy, index) in zhFuzzyResultList"
-            :key="index"
-            size="large"
-            checkable
-            class="animated fadeIn"
-            @check="
-              open(`https://www.zhihu.com/search?type=content&q=${zhFuzzy}`)
-            "
-          >
-            <template #icon>
-              <icon-font type="icon-zhihu-circle-fill" />
-            </template>
-            {{ zhFuzzy }}
-          </a-tag>
-        </a-space>
+      <div v-if="zhFuzzyResultList.length > 0" class="tipItemWrapper">
+        <div class="tipItemTitle"> 知乎搜索 </div>
+        <div class="tipItemList">
+          <a-space wrap>
+            <a-tag
+              v-for="(zhFuzzy, index) in zhFuzzyResultList"
+              :key="index"
+              size="large"
+              checkable
+              class="animated fadeIn"
+              @check="
+                open(`https://www.zhihu.com/search?type=content&q=${zhFuzzy}`)
+              "
+            >
+              <template #icon>
+                <icon-font type="icon-zhihu-circle-fill" />
+              </template>
+              {{ zhFuzzy }}
+            </a-tag>
+          </a-space>
+        </div>
       </div>
-    </div>
-    <div v-if="biliFuzzyResultList.length > 0" class="tipItemWrapper">
-      <div class="tipItemTitle"> B站搜索 </div>
-      <div class="tipItemList">
-        <a-space wrap>
-          <a-tag
-            v-for="(bzFuzzy, index) in biliFuzzyResultList"
-            :key="index"
-            size="large"
-            checkable
-            class="animated fadeIn"
-            @check="open(`https://search.bilibili.com/all?keyword=${bzFuzzy}`)"
-          >
-            <template #icon>
-              <icon-font type="icon-bilibili1" />
-            </template>
-            {{ bzFuzzy }}
-          </a-tag>
-        </a-space>
+      <div v-if="biliFuzzyResultList.length > 0" class="tipItemWrapper">
+        <div class="tipItemTitle"> B站搜索 </div>
+        <div class="tipItemList">
+          <a-space wrap>
+            <a-tag
+              v-for="(bzFuzzy, index) in biliFuzzyResultList"
+              :key="index"
+              size="large"
+              checkable
+              class="animated fadeIn"
+              @check="
+                open(`https://search.bilibili.com/all?keyword=${bzFuzzy}`)
+              "
+            >
+              <template #icon>
+                <icon-font type="icon-bilibili1" />
+              </template>
+              {{ bzFuzzy }}
+            </a-tag>
+          </a-space>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-  import { reactive, ref, watch } from 'vue';
-  import { Icon } from '@arco-design/web-vue';
+  import { onMounted, reactive, ref, watch } from 'vue';
   import FuseToolResult from '@/model/FuseToolResult';
   import { fusePlugin, FusePlugin, openWindow } from '@/api/toolList';
   import { clearArray } from '@/api/lodashs';
@@ -154,15 +158,8 @@
   } from '@/api/search';
   import ThemeModel from '@/model/ThemeModel';
 
-  const IconFont = Icon.addFromIconFontCn({
-    src: 'https://at.alicdn.com/t/c/font_902793_30zoulb2u7u.js',
-  });
-
   export default {
     name: 'SupperSearch',
-    components: {
-      IconFont,
-    },
     props: {
       placeholder: {
         type: String,
@@ -187,6 +184,14 @@
         tipVisible.value = false;
         ctx.emit('blur');
       };
+
+      const searchInputRef = ref();
+
+      onMounted(() => {
+        // if (searchInputRef.value) {
+        //   searchInputRef.value.focus();
+        // }
+      });
 
       const fuseResultList: Array<FuseToolResult> = reactive<FuseToolResult[]>(
         []
@@ -275,6 +280,7 @@
 
       return {
         open,
+        searchInputRef,
         zhFuzzyResultList,
         biliFuzzyResultList,
         closeTipAction,
@@ -292,6 +298,9 @@
 </script>
 
 <style scoped lang="less">
+  #supperWrapper {
+    position: relative;
+  }
   #supperSearchWrapper {
     height: 48px;
     display: flex;
@@ -383,9 +392,9 @@
   }
 
   #supperTipWrapper {
+    position: absolute;
     box-shadow: 0 10px 20px rgb(36 91 219 / 8%);
     margin-top: 4px;
-    position: absolute;
     background-color: white;
     width: 90%;
     max-height: 60vh;

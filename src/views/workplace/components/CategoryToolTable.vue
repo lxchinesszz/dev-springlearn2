@@ -10,7 +10,7 @@
         @sort="dragCategory"
       >
         <template #item="{ element }">
-          <a-card class="card" :style="{ width: '25%' }" :bordered="onlyRead">
+          <a-card class="card" :style="{ width: '25%' }">
             <template #title>
               <a-input
                 v-model="element.categoryName"
@@ -39,7 +39,7 @@
               <a-grid-item
                 v-for="(toolGroup, toolGroupIdx) of element.toolList"
                 :key="toolGroupIdx"
-                class="demo-item"
+                :class="!onlyRead ? 'demo-item' : 'demo-item-write'"
               >
                 <div class="toolGroupWrapper">
                   <div>
@@ -489,19 +489,23 @@
     //padding-left: 1rem;
   }
 
-  .demo-item {
+  .demo-item,
+  .demo-item-write {
     border-radius: 20px;
   }
   .grid-demo-grid .demo-item,
+  .demo-item-write,
   .grid-demo-grid .demo-suffix {
     height: 24px;
     color: var(--color-white);
     text-align: center;
   }
-  .grid-demo-grid .demo-item:nth-child(2n) {
+  .demo-item {
     background-color: rgb(var(--arcoblue-6), 0.7);
+    opacity: 0.5;
   }
-  .grid-demo-grid .demo-item:nth-child(2n + 1) {
+
+  .demo-item-write {
     background-color: rgb(var(--arcoblue-6), 0.7);
   }
   :deep(.arco-input[disabled]) {
