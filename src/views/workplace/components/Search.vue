@@ -84,6 +84,25 @@
           <!--        /></div>-->
         </div>
       </div>
+      <div
+        id="widgetWrapper"
+        class="widgetWrapper animated"
+        :class="style.searchAnimate"
+      >
+        <Vue3DraggableResizable
+          v-for="(wp, index) in wps"
+          :key="index"
+          :w="wp.w"
+          :h="wp.h"
+          :y="wp.y"
+          :x="wp.x"
+          parent=".widgetWrapper"
+          class-name="dragWidgetPlugin"
+          :draggable="wpsDraggable"
+        >
+          <component :is="wp.name"></component>
+        </Vue3DraggableResizable>
+      </div>
     </div>
     <a-modal
       v-model:visible="visible"
@@ -105,8 +124,6 @@
         show-word-limit
       />
     </a-modal>
-    <!--    <div id="widgetWrapper" class="animated" :class="style.searchAnimate">-->
-    <!--    </div>-->
   </div>
 </template>
 
@@ -122,6 +139,10 @@
   import { openWindow } from '@/api/toolList';
   import defaultPlaceholder from '@/api/placeholder';
   import FuseToolPanel from '@/views/workplace/components/widget/FuseToolPanel.vue';
+  import Vue3DraggableResizable from 'vue3-draggable-resizable';
+  import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css';
+  import WidgetPlugin from '@/model/WidgetPlugin';
+  import SettingModel from '@/model/SettingModel';
 
   export default defineComponent({
     name: 'Search',
@@ -131,12 +152,14 @@
       SearchSimple,
       SupperSearch,
       FuseToolPanel,
+      Vue3DraggableResizable,
     },
     props: {
       categories: Array<CategoryModel>,
       searchList: Array<SearchEngineModel>,
       style: ThemeModel,
       inputOffset: String,
+      dataSource: SettingModel,
     },
     emits: ['changeCategory'],
     setup(props, ctx) {
@@ -190,9 +213,17 @@
 
       const changeFuseAction = (newValue) => {
         fuseValue.value = newValue;
-        console.log(` fuseValue.value `, fuseValue.value);
       };
+
+      const wpsDraggable = ref(true);
+
+      const wps: Array<WidgetPlugin> = reactive<Array<WidgetPlugin>>(
+        props.dataSource.wps
+      );
+
       return {
+        wps,
+        wpsDraggable,
         fuseValue,
         changeFuseAction,
         searchCardList,
@@ -225,6 +256,7 @@
     display: none;
   }
   .searchGroup {
+    z-index: 2;
   }
   .container {
     //overflow: hidden;
@@ -333,13 +365,14 @@
     font-family: 'Arial', 'Microsoft YaHei', '黑体', '宋体', sans-serif;
   }
   #widgetWrapper {
-    width: 20vw;
-    height: 40vh;
     position: absolute;
-    top: 10px;
+    top: 50px;
     right: 0;
+    left: 0;
+    bottom: 0;
     //border-radius: 50%;
     overflow: hidden;
+    z-index: 1;
     //background: #ffffff;
     //box-shadow: 0 0 10px 10px #9fb1c5;
   }
@@ -349,6 +382,7 @@
     //height: 50vh;
     //background: #409eff;
     margin-left: 10px;
+    z-index: 30;
   }
 
   .frostedGlass {

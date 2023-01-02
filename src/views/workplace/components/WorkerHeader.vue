@@ -147,6 +147,16 @@
             :theme="dataSource.theme"
           ></ThemeSetting>
         </a-tab-pane>
+        <a-tab-pane key="5">
+          <template #title>
+            <icon-skin />
+            小组件
+          </template>
+          <WidgetPluginStore
+            :only-read="onlyRead"
+            :wps="dataSource.wps"
+          ></WidgetPluginStore>
+        </a-tab-pane>
       </a-tabs>
     </a-modal>
 
@@ -215,6 +225,7 @@
   import { copyConfig, saveLocal, restLocalSourceData } from '@/api/toolList';
   import { readerAsync } from '@/api/lodashs';
   import releaseHistoryVersions from '@/api/version';
+  import WidgetPluginStore from '@/views/workplace/components/WidgetPluginStore.vue';
   import _ from 'lodash';
 
   export default defineComponent({
@@ -224,6 +235,7 @@
       SearchEngineTable,
       CategoryToolTable,
       ThemeSetting,
+      WidgetPluginStore,
     },
     props: {
       dataSource: SettingModel,
@@ -245,7 +257,7 @@
       const lastVersion = ref(
         _.sortBy(releaseHistoryVersions, (s) => s.date).reverse()[0]
       );
-      console.log('当前版本lastVersion', lastVersion.value.version);
+      console.log('当前版本 v', lastVersion.value.version);
       const applySetting = () => {
         Message.info({
           content: '你的配置已重新生成,正在应用中!',

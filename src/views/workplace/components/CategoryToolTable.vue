@@ -125,7 +125,7 @@
               canEditorCategories[dragCategoryIdx].toolList[dragToolGroupIdx]
                 .toolList[rowIndex].title
             "
-            :max-length="6"
+            :max-length="16"
             :disabled="!onlyRead"
             placeholder="网站名"
             show-word-limit
@@ -501,12 +501,19 @@
     text-align: center;
   }
   .demo-item {
-    background-color: rgb(var(--arcoblue-6), 0.7);
+    background-image: linear-gradient(
+      to bottom,
+      #2766ff,
+      #5d74f6,
+      #7b83ec,
+      #9192e2,
+      #a4a2d8
+    );
     opacity: 0.5;
   }
 
   .demo-item-write {
-    background-color: rgb(var(--arcoblue-6), 0.7);
+    background-color: #165dff;
   }
   :deep(.arco-input[disabled]) {
     -webkit-text-fill-color: #929396;

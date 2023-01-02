@@ -7,7 +7,6 @@
       type="text"
       :placeholder="placeholder"
       @keydown.enter="search"
-      @blur="blurAction"
     />
     <a-button id="searchButton" type="primary" class="btn-15" @click="search"
       >搜索

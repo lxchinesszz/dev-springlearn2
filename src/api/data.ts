@@ -1,3 +1,5 @@
+import WidgetPlugin from '@/model/WidgetPlugin';
+
 const data = [
   {
     categoryName: '常用',
@@ -879,11 +881,30 @@ const style = {
   hideSearchAroundText: false,
   frostedGlass: false,
 };
+
+const wps = [
+  {
+    name: 'SearchGoogle',
+    x: 100,
+    y: 100,
+    w: 100,
+    h: 100,
+    desc: '超级搜索',
+  },
+  {
+    name: 'photoshop',
+    x: 300,
+    y: 300,
+    w: 300,
+    h: 300,
+  },
+];
 const setting = {
   theme: style,
   shortcut: shortcutData,
   categories: data,
   searchEngineList: searchList,
+  wps,
 };
 
 export default setting;

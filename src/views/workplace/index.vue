@@ -10,6 +10,7 @@
       <Search
         id="search"
         :style="theme"
+        :data-source="sourceData"
         :categories="categories"
         :search-list="searchList"
         @change-category="selectCategory"
@@ -54,6 +55,7 @@
     <Search
       id="search"
       :style="theme"
+      :data-source="sourceData"
       input-offset="-30vh"
       :categories="categories"
       :search-list="searchList"
@@ -66,8 +68,14 @@
   import WorkerHeader from '@/views/workplace/components/WorkerHeader.vue';
   import Search from '@/views/workplace/components/Search.vue';
   import ToolDrawer from '@/views/workplace/components/ToolDrawer.vue';
-  import { onMounted, reactive, ref } from 'vue';
-  import { fetchSourceData, isNewUser, saveLocal } from '@/api/toolList';
+  import { onMounted, reactive, ref, provide } from 'vue';
+  import {
+    fetchSourceData,
+    isNewUser,
+    saveLocal,
+    fusePlugin,
+    FusePlugin,
+  } from '@/api/toolList';
   import deepClone from '@/api/lodashs';
   import CategoryModel from '@/model/CategoryModel';
   import SearchEngineModel from '@/model/SearchEngineModel';
@@ -79,6 +87,8 @@
   import { device, Device } from '@/hooks/device';
   import { useRouter } from 'vue-router';
 
+  // 向子组件注入fuse数据
+  provide<FusePlugin>('fuse', fusePlugin());
   const workHeaderRef = ref(null);
   // 元数据
   const sourceData: SettingModel = fetchSourceData();
@@ -132,7 +142,7 @@
   };
   onMounted(() => {
     const driverInfo: Device = device();
-    console.log('driverInfo:', driverInfo);
+    console.log('当前设备信息:', driverInfo);
     if (driverInfo.mobile) {
       // 跳转手机端
       const router = useRouter();

@@ -25,7 +25,6 @@
       :placeholder="placeholder"
       type="text"
       @keydown.enter="search"
-      @blur="blurAction"
     />
     <button
       class="reset"

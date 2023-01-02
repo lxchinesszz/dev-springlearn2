@@ -27,7 +27,6 @@
           list="q"
           :placeholder="placeholder"
           @keydown.enter="search"
-          @blur="blurAction"
         />
       </div>
 

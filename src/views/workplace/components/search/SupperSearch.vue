@@ -18,13 +18,7 @@
       <div class="searchBtn" @click="search"> 搜索 </div>
     </div>
     <div
-      v-if="
-        (tipVisible && fuseResultList.length > 0) ||
-        bdFuzzyResultList.length > 0 ||
-        kfFuzzyResultList.length > 0 ||
-        zhFuzzyResultList.length > 0 ||
-        biliFuzzyResultList.length > 0
-      "
+      v-if="manySearchTipVisible"
       id="supperTipWrapper"
       class="animated fadeIn"
     >
@@ -38,7 +32,8 @@
               size="large"
               color="orangered"
               checkable
-              class="animated fadeIn"
+              class="searchTipItem animated fadeIn"
+              @mouseover="true"
               @check="open(tool.tool.link)"
             >
               <template #icon>
@@ -62,7 +57,7 @@
               color="blue"
               checkable
               size="large"
-              class="animated fadeIn"
+              class="searchTipItem animated fadeIn"
               @check="open(`https://www.baidu.com/s?ie=UTF-8&wd=${bdFuzzy}`)"
             >
               <template #icon>
@@ -82,7 +77,7 @@
               :key="index"
               size="large"
               checkable
-              class="animated fadeIn"
+              class="searchTipItem animated fadeIn"
               @check="open(`https://kaifa.baidu.com/searchPage?wd=${bdFuzzy}`)"
             >
               <template #icon>
@@ -102,7 +97,7 @@
               :key="index"
               size="large"
               checkable
-              class="animated fadeIn"
+              class="searchTipItem animated fadeIn"
               @check="
                 open(`https://www.zhihu.com/search?type=content&q=${zhFuzzy}`)
               "
@@ -124,7 +119,7 @@
               :key="index"
               size="large"
               checkable
-              class="animated fadeIn"
+              class="searchTipItem animated fadeIn"
               @check="
                 open(`https://search.bilibili.com/all?keyword=${bzFuzzy}`)
               "
@@ -142,7 +137,7 @@
 </template>
 
 <script lang="ts">
-  import { reactive, ref, watch } from 'vue';
+  import { reactive, ref, watch, inject } from 'vue';
   import FuseToolResult from '@/model/FuseToolResult';
   import { fusePlugin, FusePlugin, openWindow } from '@/api/toolList';
   import { clearArray } from '@/api/lodashs';
@@ -213,7 +208,7 @@
         },
       });
       // 获取fuse插件
-      const fp: FusePlugin = fusePlugin();
+      const fp: FusePlugin = inject('fuse');
 
       const manySearchEngineFuzzy = (newValue) => {
         if (props.theme.supperSearchEngine.lastIndexOf('baidu') > -1) {
@@ -223,7 +218,7 @@
             .then((response) => {
               const bd: BdFuzzyResponse = response.data;
               const { g } = bd;
-              for (let i = 0; i < g.length; i += 1) {
+              for (let i = 0; i < g?.length; i += 1) {
                 const bdFuzzyItem = g[i];
                 bdFuzzyResultList.push(bdFuzzyItem.q);
               }
@@ -267,6 +262,8 @@
           });
         }
       };
+
+      const manySearchTipVisible = ref(false);
       watch(value, (newValue) => {
         // 工具搜索
         if (props.theme.supperSearchEngine.lastIndexOf('tool') > -1) {
@@ -275,6 +272,13 @@
           fuseResultList.push(...result);
         }
         manySearchEngineFuzzy(newValue);
+        // 判断是否展示
+        manySearchTipVisible.value =
+          (tipVisible.value && fuseResultList.length > 0) ||
+          bdFuzzyResultList.length > 0 ||
+          kfFuzzyResultList.length > 0 ||
+          zhFuzzyResultList.length > 0 ||
+          biliFuzzyResultList.length > 0;
       });
 
       const open = (url: string) => {
@@ -289,6 +293,7 @@
         closeTipAction,
         customSearch,
         tipVisible,
+        manySearchTipVisible,
         fuseResultList,
         value,
         search,
@@ -414,12 +419,17 @@
       flex-direction: column;
       overflow: scroll;
       .tipItemTitle {
+        display: inline-block;
         font-weight: bolder;
         font-size: 1.2rem;
+        width: auto;
       }
       .tipItemList {
         margin-top: 15px;
       }
     }
+  }
+  .searchTipItemHover {
+    color: red !important;
   }
 </style>

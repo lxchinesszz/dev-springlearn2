@@ -27,9 +27,9 @@
 
 <script lang="ts">
   //
-  import { defineComponent, reactive, watch } from 'vue';
+  import { defineComponent, inject, reactive, watch } from 'vue';
   import FuseToolResult from '@/model/FuseToolResult';
-  import { FusePlugin, fusePlugin, openWindow } from '@/api/toolList';
+  import { FusePlugin, openWindow } from '@/api/toolList';
   import { clearArray } from '@/api/lodashs';
 
   export default defineComponent({
@@ -44,7 +44,7 @@
         []
       );
       // 获取fuse插件
-      const fp: FusePlugin = fusePlugin();
+      const fp: FusePlugin = inject('fuse');
       watch(
         () => props.value,
         (newValue) => {
@@ -65,15 +65,16 @@
 <style lang="less" scoped>
   .fuseWrapper {
     position: absolute;
-    width: 90%;
+    width: 100%;
     margin: 0 20px;
     padding: 0;
+    margin-top: 2px;
     background: linear-gradient(134.76deg, #fff 22.69%, #f8faff 104.23%);
-    box-shadow: 0 6px 12px -10px rgb(36 91 219 / 6%),
-      0 8px 24px rgb(36 91 219 / 4%), 0 10px 36px 10px rgb(36 91 219 / 4%);
+    box-shadow: 0 10px 20px rgb(36 91 219 / 8%);
     z-index: 9999;
+    border-radius: var(--border-radius-medium);
     &:hover {
-      box-shadow: 0 5.18771px 20px rgb(19 60 154 / 16%), inset 0 2px 0 #fff;
+      box-shadow: 0 20px 40px rgb(36 91 219 / 8%);
     }
     .fuseU {
       margin: 0.5px;
@@ -82,6 +83,7 @@
       padding: 0px;
       overflow: scroll;
       border-radius: 2px;
+      z-index: 50;
     }
     .fuseL {
       height: 3rem;

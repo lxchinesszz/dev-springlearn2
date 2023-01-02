@@ -8211,6 +8211,11 @@
     "resize-observer-polyfill" "^1.5.1"
     "vue" "^3.2.26"
 
+"vue3-draggable-resizable@^1.6.5":
+  "integrity" "sha512-31142E31fGNnq3HKqvmFLSsqIbhck7TyGuQWhUKrDw6DOcGAuRx4ddRjaxvT6fe7dgeKH53qAh+i0ZlWtPLl2g=="
+  "resolved" "https://registry.npmmirror.com/vue3-draggable-resizable/-/vue3-draggable-resizable-1.6.5.tgz"
+  "version" "1.6.5"
+
 "vuedraggable@^4.1.0":
   "integrity" "sha512-FU5HCWBmsf20GpP3eudURW3WdWTKIbEIQxh9/8GE806hydR9qZqRRxRE3RjqX7PkuLuMQG/A7n3cfj9rCEchww=="
   "resolved" "https://registry.npmmirror.com/vuedraggable/-/vuedraggable-4.1.0.tgz"

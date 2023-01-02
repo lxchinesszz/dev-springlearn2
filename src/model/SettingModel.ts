@@ -2,6 +2,7 @@ import SearchEngineModel from '@/model/SearchEngineModel';
 import CategoryModel from '@/model/CategoryModel';
 import ShortcutModel from '@/model/ShortcutModel';
 import ThemeModel from '@/model/ThemeModel';
+import WidgetPlugin from '@/model/WidgetPlugin';
 
 /**
  * 1. 导航栏
@@ -29,15 +30,22 @@ export default class SettingModel {
    */
   public searchEngineList: Array<SearchEngineModel>;
 
+  /**
+   * 插件
+   */
+  public wps: Array<WidgetPlugin>;
+
   constructor(
     style: ThemeModel,
     shortcut: Array<ShortcutModel>,
     categories: Array<CategoryModel>,
-    searchEngineList: Array<SearchEngineModel>
+    searchEngineList: Array<SearchEngineModel>,
+    wps: Array<WidgetPlugin>
   ) {
     this.theme = style;
     this.shortcut = shortcut;
     this.categories = categories;
     this.searchEngineList = searchEngineList;
+    this.wps = wps;
   }
 }
