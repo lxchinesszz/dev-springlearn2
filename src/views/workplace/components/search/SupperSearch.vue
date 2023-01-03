@@ -139,7 +139,7 @@
 <script lang="ts">
   import { reactive, ref, watch, inject } from 'vue';
   import FuseToolResult from '@/model/FuseToolResult';
-  import { fusePlugin, FusePlugin, openWindow } from '@/api/toolList';
+  import { FusePlugin, openWindow } from '@/api/toolList';
   import { clearArray } from '@/api/lodashs';
   import keyDownBinder from '@/hooks/KeyDownBinder';
   import bdFuzzySearch, {

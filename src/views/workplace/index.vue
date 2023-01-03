@@ -160,6 +160,8 @@
     justify-content: space-between;
     align-items: center;
     height: 48px;
+    position: sticky;
+    top: 0;
   }
 
   #search {
