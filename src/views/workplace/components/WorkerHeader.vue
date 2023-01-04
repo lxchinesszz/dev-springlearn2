@@ -1,29 +1,39 @@
 <template>
   <div id="header">
-    <div class="navLogo">
+    <div class="headerLeft">
       <img src="https://img.springlearn.cn/geek.png" alt="" class="navLogo" />
     </div>
     <div class="menuContainer">
-      <div class="menuList">
-        <ul class="nav">
-          <li
-            v-for="(_, index) in dataSource.shortcut"
-            v-show="_.name !== ''"
-            :key="index"
-            class="navItem"
-            @click="openUrl(_.href, _.openType)"
-          >
-            {{ _.name }}
-          </li>
-          <li class="navItem" @click="openCalendarView">日历</li>
-          <li id="settingBtn" @click="showSettingView">
-            <icon-code />
-          </li>
-        </ul>
-      </div>
-      <div class="userLogo"></div>
+      <a-menu mode="horizontal" class="menuContainer">
+        <a-menu-item
+          v-for="(_, index) in dataSource.shortcut"
+          :key="index"
+          @click="openUrl(_.href, _.openType)"
+        >
+          {{ _.name }}
+        </a-menu-item>
+        <a-sub-menu key="2">
+          <template #icon>
+            <Icon-Font type="icon-kaifa1"></Icon-Font>
+          </template>
+          <template #title>功能设置</template>
+          <a-menu-item-group title="功能">
+            <a-menu-item>
+              <a-menu-item @click="openCalendarView">日历</a-menu-item>
+            </a-menu-item>
+          </a-menu-item-group>
+          <a-menu-item-group title="主题设置">
+            <a-menu-item>
+              <a-menu-item disabled> 小组件 </a-menu-item>
+            </a-menu-item>
+            <a-menu-item>
+              <a-menu-item @click="showSettingView"> 设置 </a-menu-item>
+            </a-menu-item>
+          </a-menu-item-group>
+        </a-sub-menu>
+      </a-menu>
     </div>
-
+    <!--    主体设置-->
     <a-modal
       v-model:visible="visibleSetting"
       :closable="false"
@@ -403,20 +413,20 @@
 
   #header {
     padding: 0;
-    /*background: #cae7ef url(https://img.springlearn.cn/cloudtou.svg) repeat-y*/
-    /*  30% 22%;*/
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-content: center;
     width: 100%;
   }
 
   .menuContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-grow: 1;
+    text-align: right;
   }
 
+  .headerLeft {
+    flex-grow: 1;
+  }
   .navLogo {
     margin-left: 8%;
     width: 120px;
@@ -424,35 +434,9 @@
     /*background-image: url('https://img.springlearn.cn/geek.png');*/
   }
 
-  .userLogo {
-    margin-right: 25px;
-  }
-
-  .nav {
-    display: flex;
-    font-size: 1.2rem;
-  }
-
-  .nav li {
-    list-style: none;
-    padding: 0;
-    margin: 0 15px;
-    cursor: pointer;
-  }
-
-  .exportBtn {
-    min-width: 40px;
-    height: 24px;
-  }
-
   .importBtn {
     min-width: 24px;
     height: 24px;
     border-radius: 25%;
-  }
-
-  .weather {
-    width: 60px !important;
-    height: 100%;
   }
 </style>

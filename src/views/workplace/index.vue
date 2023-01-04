@@ -157,7 +157,7 @@
   #header {
     padding: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     height: 48px;
     position: sticky;

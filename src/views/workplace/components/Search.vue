@@ -89,20 +89,24 @@
         class="widgetWrapper animated"
         :class="style.searchAnimate"
       >
-        <Vue3DraggableResizable
-          v-for="(wp, index) in wps"
-          :key="index"
-          :w="wp.w"
-          :h="wp.h"
-          :y="wp.y"
-          :x="wp.x"
-          parent=".widgetWrapper"
-          class-name="dragWidgetPlugin"
-          :draggable="wpsDraggable"
-          lock-aspect-ratio
-        >
-          <component :is="wp.name"></component>
-        </Vue3DraggableResizable>
+        <DraggableContainer :adsorb-parent="true">
+          <Vue3DraggableResizable
+            v-for="(wp, index) in wps"
+            :key="index"
+            :w="wp.w"
+            :h="wp.h"
+            :y="wp.y"
+            :x="wp.x"
+            parent=".widgetWrapper"
+            class-name="dragWidgetPlugin"
+            :draggable="wpsDraggable"
+            lock-aspect-ratio
+            @drag-end="dragEnd(wp, $event)"
+            @resize-end="resize(wp, $event)"
+          >
+            <component :is="wp.name"></component>
+          </Vue3DraggableResizable>
+        </DraggableContainer>
       </div>
     </div>
     <a-modal
@@ -137,14 +141,17 @@
   import SearchSimple from '@/views/workplace/components/search/SearchSimple.vue';
   import SupperSearch from '@/views/workplace/components/search/SupperSearch.vue';
   import ThemeModel from '@/model/ThemeModel';
-  import { openWindow } from '@/api/toolList';
+  import { openWindow, setWeight } from '@/api/toolList';
   import defaultPlaceholder from '@/api/placeholder';
   import FuseToolPanel from '@/views/workplace/components/widget/FuseToolPanel.vue';
-  import Vue3DraggableResizable from 'vue3-draggable-resizable';
+  import Vue3DraggableResizable, {
+    DraggableContainer,
+  } from 'vue3-draggable-resizable';
   import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css';
   import WidgetPlugin from '@/model/WidgetPlugin';
   import SettingModel from '@/model/SettingModel';
   import Gushici from '@/views/workplace/components/widget/Gushici.vue';
+  import deepClone from '@/api/lodashs';
 
   export default defineComponent({
     name: 'Search',
@@ -156,6 +163,7 @@
       FuseToolPanel,
       Vue3DraggableResizable,
       Gushici,
+      DraggableContainer,
     },
     props: {
       categories: Array<CategoryModel>,
@@ -228,11 +236,28 @@
       };
 
       const wps: Array<WidgetPlugin> = reactive<Array<WidgetPlugin>>(
-        props.dataSource.wps
+        deepClone(props.dataSource.wps)
       );
 
+      const dragEnd = (wp: WidgetPlugin, e: any) => {
+        console.log(`dragEnd`, wp, e);
+        wp.x = e.x;
+        wp.y = e.y;
+        setWeight(wps);
+      };
+
+      const resize = (wp: WidgetPlugin, e: any) => {
+        console.log(`resize`, wp, e);
+        wp.x = e.x;
+        wp.y = e.y;
+        wp.w = e.w;
+        wp.h = e.h;
+        setWeight(wps);
+      };
       return {
         wps,
+        resize,
+        dragEnd,
         triggerWpsDraggable,
         wpsDraggable,
         fuseValue,

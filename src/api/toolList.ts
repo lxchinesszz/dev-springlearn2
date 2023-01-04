@@ -9,6 +9,7 @@ import useClipboard from 'vue-clipboard3';
 import { Message } from '@arco-design/web-vue';
 import Fuse from 'fuse.js';
 import FuseToolResult from '@/model/FuseToolResult';
+import WidgetPlugin from '@/model/WidgetPlugin';
 
 export function isNewUser() {
   return isEmpty(localStorage.getItem('ds'));
@@ -92,6 +93,12 @@ export function setTheme(arg: ThemeModel) {
   settingModel.theme = arg;
   // eslint-disable-next-line no-console
   console.log('保存主题', arg);
+  saveLocal(settingModel);
+}
+
+export function setWeight(arg: Array<WidgetPlugin>) {
+  const settingModel = localDataSource();
+  settingModel.wps = arg;
   saveLocal(settingModel);
 }
 
