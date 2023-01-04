@@ -147,9 +147,10 @@
             :theme="dataSource.theme"
           ></ThemeSetting>
         </a-tab-pane>
-        <a-tab-pane key="5">
+        <a-tab-pane key="5" disabled>
           <template #title>
-            <icon-skin />
+            <!--            <Icon-Font type="icon-shop"></Icon-Font>-->
+            <Icon-Font type="icon-chajian1"></Icon-Font>
             小组件
           </template>
           <WidgetPluginStore

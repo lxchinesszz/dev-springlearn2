@@ -99,6 +99,7 @@
           parent=".widgetWrapper"
           class-name="dragWidgetPlugin"
           :draggable="wpsDraggable"
+          lock-aspect-ratio
         >
           <component :is="wp.name"></component>
         </Vue3DraggableResizable>
@@ -143,6 +144,7 @@
   import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css';
   import WidgetPlugin from '@/model/WidgetPlugin';
   import SettingModel from '@/model/SettingModel';
+  import Gushici from '@/views/workplace/components/widget/Gushici.vue';
 
   export default defineComponent({
     name: 'Search',
@@ -153,6 +155,7 @@
       SupperSearch,
       FuseToolPanel,
       Vue3DraggableResizable,
+      Gushici,
     },
     props: {
       categories: Array<CategoryModel>,
@@ -217,12 +220,20 @@
 
       const wpsDraggable = ref(true);
 
+      /**
+       * 触发改变
+       */
+      const triggerWpsDraggable = () => {
+        wpsDraggable.value = !wpsDraggable.value;
+      };
+
       const wps: Array<WidgetPlugin> = reactive<Array<WidgetPlugin>>(
         props.dataSource.wps
       );
 
       return {
         wps,
+        triggerWpsDraggable,
         wpsDraggable,
         fuseValue,
         changeFuseAction,

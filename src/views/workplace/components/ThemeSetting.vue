@@ -11,8 +11,9 @@
         <a-form-item field="radio" label="窗口进场动画">
           <a-radio-group v-model="themeSetting.windowAnimate">
             <a-radio value="fadeInUp">弹出</a-radio>
-            <a-radio value="fadeInRight">从右滑入</a-radio>
-            <a-radio value="none">无</a-radio>
+            <a-radio value="bounce">上下跳动</a-radio>
+            <a-radio value="fadeInRightBig">从右滑入</a-radio>
+            <a-radio value="pulse">放大</a-radio>
           </a-radio-group>
         </a-form-item>
         <a-form-item label="搜索框进场动画">
@@ -21,14 +22,14 @@
             <a-radio value="bounce">上下跳动</a-radio>
             <a-radio value="fadeInRightBig">从右滑入</a-radio>
             <a-radio value="pulse">放大</a-radio>
-            <a-radio value="none">无</a-radio>
           </a-radio-group>
         </a-form-item>
         <a-form-item label="工具栏切换动画">
           <a-radio-group v-model="themeSetting.toolGroupAnimate">
             <a-radio value="fadeInUp">弹出</a-radio>
-            <a-radio value="fadeInRight">从右滑入</a-radio>
-            <a-radio value="none">无</a-radio>
+            <a-radio value="bounce">上下跳动</a-radio>
+            <a-radio value="fadeInRightBig">从右滑入</a-radio>
+            <a-radio value="pulse">放大</a-radio>
           </a-radio-group>
         </a-form-item>
         <a-form-item label="系统ICON">

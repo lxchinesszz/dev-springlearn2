@@ -17,7 +17,7 @@
                 :style="{ width: '120px' }"
                 placeholder="分类名称"
                 :disabled="!onlyRead"
-                :max-length="4"
+                :max-length="12"
                 show-word-limit
               />
             </template>
@@ -491,7 +491,6 @@
 
   .demo-item,
   .demo-item-write {
-    border-radius: 20px;
   }
   .grid-demo-grid .demo-item,
   .demo-item-write,
@@ -501,19 +500,19 @@
     text-align: center;
   }
   .demo-item {
-    background-image: linear-gradient(
-      to bottom,
-      #2766ff,
-      #5d74f6,
-      #7b83ec,
-      #9192e2,
-      #a4a2d8
-    );
+    background-color: #c9cdd3;
+    //border: 2px solid rgba(74, 134, 232, 1);
     opacity: 0.5;
+    border-radius: 20px;
+    transition: background-color 200ms cubic-bezier(0.42, 0, 0.58, 1);
   }
 
   .demo-item-write {
     background-color: #165dff;
+    border-radius: 5px;
+    //transition: border-radius 200s cubic-bezier(0.42, 0, 0.58, 1) 10ms;
+    transition: background-color 200ms cubic-bezier(0.42, 0, 0.58, 1),
+      border-radius 200ms cubic-bezier(0.42, 0, 0.58, 1);
   }
   :deep(.arco-input[disabled]) {
     -webkit-text-fill-color: #929396;

@@ -5,7 +5,7 @@ const data = [
     categoryName: '常用',
     toolList: [
       {
-        toolGroupName: '开发',
+        toolGroupName: '开发运维平台',
         toolList: [
           {
             title: 'Vercel',
@@ -36,19 +36,15 @@ const data = [
         ],
       },
       {
-        toolGroupName: '前端',
+        toolGroupName: '前端UI框架',
         toolList: [
           {
-            title: 'BootCDN',
-            desc: '稳定、快速、免费的前端开源项目 CDN 加速服务',
-            link: 'https://www.bootcdn.cn/',
-            icon: 'https://www.bootcdn.cn/assets/ico/apple-touch-icon-144-precomposed.png?1623516011439',
-          },
-          {
-            icon: 'https://img.alicdn.com/imgextra/i2/O1CN01ZyAlrn1MwaMhqz36G_!!6000000001499-73-tps-64-64.ico',
-            title: 'IconFont',
-            desc: 'iconfont-阿里巴巴矢量图标库',
-            link: 'https://www.iconfont.cn/',
+            title: '字节Arco',
+            desc: '字节跳动出品的企业级设计系统',
+            link: 'https://arco.design/vue/docs/pro/start',
+            icon: 'https://unpkg.byted-static.com/latest/byted/arco-config/assets/favicon.ico',
+            source: 0,
+            iconTextBackgroundColor: '',
           },
           {
             icon: 'https://element.eleme.cn/favicon.ico',
@@ -62,10 +58,22 @@ const data = [
             desc: '企业级产品设计体系，创造高效愉悦的工作体验',
             link: 'https://ant.design/index-cn',
           },
+          {
+            title: 'BootCDN',
+            desc: '稳定、快速、免费的前端开源项目 CDN 加速服务',
+            link: 'https://www.bootcdn.cn/',
+            icon: 'https://www.bootcdn.cn/assets/ico/apple-touch-icon-144-precomposed.png?1623516011439',
+          },
+          {
+            icon: 'https://img.alicdn.com/imgextra/i2/O1CN01ZyAlrn1MwaMhqz36G_!!6000000001499-73-tps-64-64.ico',
+            title: 'IconFont',
+            desc: 'iconfont-阿里巴巴矢量图标库',
+            link: 'https://www.iconfont.cn/',
+          },
         ],
       },
       {
-        toolGroupName: '设计',
+        toolGroupName: '图像设计',
         toolList: [
           {
             icon: 'https://cdn.dancf.com/gaodingx/favicon.ico',
@@ -76,8 +84,9 @@ const data = [
           {
             icon: 'https://img.springlearn.cn/mycolor.png',
             title: '颜色搭配',
-            desc: '匹配和谐颜色',
+            desc: '输入主色调，生成搭配颜色。',
             link: 'https://mycolor.space/',
+            source: 1,
           },
           {
             icon: 'https://img.springlearn.cn/blog/learn_1618677883000.png',
@@ -86,22 +95,18 @@ const data = [
             link: 'https://www.chuangkit.com/designtools/designindex',
           },
           {
-            icon: 'https://www.91sotu.com/file/img/favicon.ico',
-            title: '搜图导航',
-            desc: '搜图导航 免费 国内,提供一站式快速搜索图像服务',
-            link: 'https://www.91sotu.com/',
+            title: '图片压缩',
+            desc: '图片压缩工具',
+            link: 'https://squoosh.app/',
+            icon: 'https://squoosh.app/c/icon-large-maskable-c2078ced.png',
+            source: 1,
+            iconTextBackgroundColor: '',
           },
         ],
       },
       {
-        toolGroupName: '公众号',
+        toolGroupName: '文章发布平台',
         toolList: [
-          {
-            icon: 'https://res.wx.qq.com/mpres/htmledition/weui-desktopSkin/svg/buildless/new_bg_icon_primary4c67b4.svg',
-            title: '微信公众平台',
-            desc: '微信公众号是开发者或商家在微信公众平台上申请的应用账号',
-            link: 'https://mp.weixin.qq.com/cgi-bin/home?t=home/index&lang=zh_CN&token=292341597',
-          },
           {
             icon: 'https://sf3-cdn-tos.douyinstatic.com/obj/eden-cn/uhbfnupkbps/toutiao_favicon.ico',
             title: '今日头条',
@@ -109,16 +114,18 @@ const data = [
             link: 'https://www.toutiao.com/',
           },
           {
-            icon: 'https://www.mdnice.com/favicon.svg',
-            title: '墨滴',
-            desc: 'Markdown 微信编辑器,拥有良好的兼容性、海量主题样式、免费的图床。',
-            link: 'https://editor.mdnice.com/',
+            title: 'CSDN',
+            desc: 'CSDN',
+            link: 'https://blog.csdn.net/Message_lx?spm=1011.2415.3001.5343',
+            icon: 'https://g.csdnimg.cn/static/logo/favicon32.ico',
+            source: 0,
+            iconTextBackgroundColor: '',
           },
           {
-            icon: 'http://md.aclickall.com/favicon.ico',
-            title: 'Markdown排版利器',
-            desc: 'Markdown排版利器，还能让Markdown内容，无需作任何调整就能同时在微信公众号、博客园、掘金、csdn等平台正确显示当前预览的效果',
-            link: 'http://md.aclickall.com/',
+            icon: 'https://res.wx.qq.com/mpres/htmledition/weui-desktopSkin/svg/buildless/new_bg_icon_primary4c67b4.svg',
+            title: '微信公众平台',
+            desc: '微信公众号是开发者或商家在微信公众平台上申请的应用账号',
+            link: 'https://mp.weixin.qq.com/cgi-bin/home?t=home/index&lang=zh_CN&token=292341597',
           },
         ],
       },
@@ -210,13 +217,21 @@ const data = [
         toolGroupName: 'UI框架',
         toolList: [
           {
+            title: 'Arco',
+            desc: '字节UI框架',
+            link: 'https://arco.design/vue/docs/pro/start',
+            icon: 'https://unpkg.byted-static.com/latest/byted/arco-config/assets/favicon.ico',
+            source: 0,
+            iconTextBackgroundColor: '',
+          },
+          {
             id: 17,
             tid: 5,
             icon: 'https://element.eleme.cn/favicon.ico',
             title: 'ElementUI',
             desc: 'Element，一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库',
             link: 'https://element.eleme.cn/#/zh-CN',
-            source: 1,
+            source: 0,
           },
           {
             id: 18,
@@ -225,7 +240,7 @@ const data = [
             title: 'Ant Design',
             desc: '企业级产品设计体系，创造高效愉悦的工作体验',
             link: 'https://ant.design/index-cn',
-            source: 1,
+            source: 0,
           },
           {
             id: 19,
@@ -234,7 +249,7 @@ const data = [
             title: 'Landing',
             desc: '首页编辑器,快速搭建一个属于你的专属首页',
             link: 'https://element.eleme.cn/#/zh-CN',
-            source: 1,
+            source: 0,
           },
           {
             id: 20,
@@ -269,10 +284,10 @@ const data = [
           {
             id: 22,
             tid: 6,
-            icon: 'https://zh-hans.reactjs.org/favicon.ico',
-            title: 'React',
-            desc: 'React 是一个用于构建用户界面的 JavaScript 库。',
-            link: 'https://zh-hans.reactjs.org/docs/getting-started.html',
+            icon: '',
+            title: 'router',
+            desc: 'Vue-router组合式API示例',
+            link: 'https://router.vuejs.org/zh/guide/advanced/composition-api.html#%E5%9C%A8-setup-%E4%B8%AD%E8%AE%BF%E9%97%AE%E8%B7%AF%E7%94%B1%E5%92%8C%E5%BD%93%E5%89%8D%E8%B7%AF%E7%94%B1',
             source: 1,
           },
           {
@@ -292,6 +307,22 @@ const data = [
             desc: 'JavaScript是一门基于原型、头等函数的语言，是一门多范式的语言，它支持面向对象程式設計，命令式编程，以及函数式编程。',
             link: 'https://www.w3school.com.cn/js/js_output.asp',
             source: 1,
+          },
+          {
+            title: 'Vite中文',
+            desc: 'Vite中文',
+            link: 'https://vitejs.cn/vite3-cn/config/',
+            icon: '',
+            source: 1,
+            iconTextBackgroundColor: '',
+          },
+          {
+            title: 'TS教程',
+            desc: 'TS教程',
+            link: 'https://www.runoob.com/typescript/ts-function.html',
+            icon: '',
+            source: 0,
+            iconTextBackgroundColor: '',
           },
         ],
       },
@@ -392,10 +423,10 @@ const data = [
           {
             id: 76,
             tid: 15,
-            icon: 'https://uiverse.io/build/_assets/icon-OR7QQX33.svg',
-            title: '样式',
-            desc: '样式',
-            link: 'https://uiverse.io/',
+            icon: '',
+            title: 'Base64',
+            desc: '图片转Base64',
+            link: 'https://www.tuboshu.mobi/tool/imagetobase64',
             source: 2,
           },
         ],
@@ -496,11 +527,11 @@ const data = [
           {
             id: 53,
             tid: 9,
-            icon: 'https://typescript.bootcss.com/favicon-32x32.png',
-            title: 'TS教程',
-            desc: 'TypeScript支持与JavaScript几乎相同的数据类型',
-            link: 'https://typescript.bootcss.com/basic-types.html',
-            source: 2,
+            icon: '',
+            title: 'fuse',
+            desc: 'js模糊搜索插件',
+            link: 'https://fusejs.io/getting-started/installation.html',
+            source: 1,
           },
           {
             id: 74,
@@ -544,17 +575,8 @@ const data = [
             tid: 11,
             icon: 'https://www.hdrainbow.com/favicon.ico',
             title: '颜色提取',
-            desc: '从图片提取颜色',
+            desc: '上传图片从图片中提取颜色信息,生成色卡',
             link: 'https://www.hdrainbow.com/',
-            source: 1,
-          },
-          {
-            id: 45,
-            tid: 11,
-            icon: null,
-            title: '颜色搭配',
-            desc: '输入文字自动搭配色板',
-            link: 'https://www.91sotu.com/colors/plate',
             source: 1,
           },
         ],
@@ -563,12 +585,9 @@ const data = [
         toolGroupName: '搜图',
         toolList: [
           {
-            id: 46,
-            tid: 13,
-            icon: 'null',
-            title: '图片搜索',
+            title: '有图网',
             desc: '图片搜索',
-            link: 'https://www.91sotu.com/images',
+            link: 'https://www.yotopic.com/',
             source: 1,
           },
           {
@@ -655,65 +674,80 @@ const data = [
         toolGroupName: '博客平台',
         toolList: [
           {
-            id: 63,
-            tid: 20,
             icon: 'https://img.springlearn.cn/learn_d98f09cdad8fa38168ec59c15a508490.ico',
             title: '程序猿升级课',
             desc: '自建博客平台',
             link: 'https://blog.springlearn.cn/',
-            source: 1,
           },
           {
-            id: 64,
-            tid: 20,
             icon: 'https://g.csdnimg.cn/static/icon/favicon32.ico',
             title: 'CSDN',
             desc: 'CSDN主页',
             link: 'https://blog.csdn.net/Message_lx',
-            source: 1,
           },
           {
-            id: 65,
-            tid: 20,
             icon: '',
             title: '51CTO',
             desc: '51CTO',
             link: 'https://blog.51cto.com/springlearn',
-            source: 1,
           },
           {
-            id: 66,
-            tid: 20,
             icon: 'https://www.cnblogs.com/images/icon.svg?v=R9M0WmLAIPVydmdzE2keuvnjl-bPR7_35oHqtiBzGsM',
             title: '博客园',
             desc: '博客园',
             link: 'https://www.cnblogs.com/lxchinesszz/',
-            source: 1,
           },
           {
-            id: 67,
-            tid: 20,
             icon: 'https://img.springlearn.cn/blog/learn_1628687063000.png',
             title: 'segmentfault',
             desc: 'segmentfault',
             link: 'https://segmentfault.com/',
-            source: 1,
           },
           {
-            id: 75,
-            tid: 20,
             icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/yvahlyj_upfbvk_zlp/ljhwZthlaukjlkulzlp/pc_creator/favicon_v2_7145ff0.ico',
             title: '抖音',
             desc: '抖音',
             link: 'https://creator.douyin.com/creator-micro/content/manage',
-            source: 1,
+          },
+          {
+            title: '阿里云',
+            desc: '阿里云',
+            link: 'https://developer.aliyun.com/profile/expert/f5rvdaab4y3ai',
+            icon: 'https://img.alicdn.com/tfs/TB1_ZXuNcfpK1RjSZFOXXa6nFXa-32-32.ico',
+            source: 0,
+            iconTextBackgroundColor: '',
+          },
+          {
+            title: '华为云博客',
+            desc: '华为云博客',
+            link: 'https://bbs.huaweicloud.com/community/myblog',
+            icon: 'https://res-static.hc-cdn.cn/aem/content/dam/cloudbu-site/archive/commons/web_resoure/framework/favicon/favicon.ico',
+            source: 0,
+            iconTextBackgroundColor: '',
+          },
+        ],
+      },
+      {
+        toolGroupName: '文字处理',
+        toolList: [
+          {
+            icon: 'https://www.mdnice.com/favicon.svg',
+            title: '我的文章编辑',
+            desc: 'Markdown 微信编辑器,拥有良好的兼容性、海量主题样式、免费的图床。',
+            link: 'https://editor.mdnice.com/',
+          },
+          {
+            icon: 'http://md.aclickall.com/favicon.ico',
+            title: '公众号排版利器',
+            desc: 'Markdown排版利器，还能让Markdown内容，无需作任何调整就能同时在微信公众号、博客园、掘金、csdn等平台正确显示当前预览的效果',
+            link: 'http://md.aclickall.com/',
           },
         ],
       },
     ],
   },
   {
-    categoryName: '在线工具',
+    categoryName: '运维工具',
     toolList: [
       {
         toolGroupName: 'Linux',
@@ -726,6 +760,14 @@ const data = [
             desc: '常用Linux命令',
             link: 'https://www.tuboshu.mobi/tool/linux-command',
             source: 1,
+          },
+          {
+            title: 'Nginx',
+            desc: 'Nginx可视化配置',
+            link: 'https://www.digitalocean.com/community/tools/nginx?global.app.lang=zhCN',
+            icon: '',
+            source: 0,
+            iconTextBackgroundColor: '',
           },
         ],
       },
@@ -764,19 +806,101 @@ const data = [
     ],
   },
   {
-    categoryName: '斗图',
+    categoryName: '在线工具',
     toolList: [
       {
-        toolGroupName: '表情包制作',
+        toolGroupName: '在线工具',
         toolList: [
           {
             id: 39,
             tid: 10,
-            icon: 'https://www.doutula.com/favicon.ico',
-            title: '斗图啦',
-            desc: '表情包制作',
-            link: 'https://www.doutula.com/maker',
+            icon: '',
+            title: 'JSON格式',
+            desc: 'JSON格式化',
+            link: 'https://c.runoob.com/front-end/53/',
+            source: 0,
+          },
+          {
+            title: '时间戳转换',
+            desc: '时间戳转换',
+            link: 'https://c.runoob.com/front-end/852/',
+            icon: '',
+            source: 0,
+            iconTextBackgroundColor: '',
+          },
+          {
+            title: '进制转换器',
+            desc: '进制转换器',
+            link: 'https://c.runoob.com/front-end/58/',
+            icon: '',
+            source: 0,
+            iconTextBackgroundColor: '',
+          },
+          {
+            title: 'MD5',
+            desc: 'MD5',
+            link: 'https://c.runoob.com/front-end/703/',
+            icon: '',
+            source: 0,
+            iconTextBackgroundColor: '',
+          },
+          {
+            title: '正则匹配',
+            desc: '正则匹配',
+            link: 'https://tool.lu/regex/',
+            icon: '',
+            source: 0,
+            iconTextBackgroundColor: '',
+          },
+          {
+            title: 'Cron生成',
+            desc: 'Cron生成器',
+            link: 'https://www.bejson.com/othertools/cron/',
+            icon: '',
+            source: 0,
+            iconTextBackgroundColor: '',
+          },
+        ],
+      },
+      {
+        toolGroupName: '文本处理',
+        toolList: [
+          {
+            title: '统计字数',
+            desc: '统计字数',
+            link: 'https://www.tuboshu.mobi/tool/letters',
+            icon: '',
+            source: 0,
+            iconTextBackgroundColor: '',
+          },
+          {
+            title: '大小写转换',
+            desc: '英文大小写转换',
+            link: 'https://www.tuboshu.mobi/tool/letterconvert',
+            icon: '',
+            source: 0,
+            iconTextBackgroundColor: '',
+          },
+        ],
+      },
+      {
+        toolGroupName: '图片处理',
+        toolList: [
+          {
+            title: '图片压缩',
+            desc: '图片压缩工具',
+            link: 'https://squoosh.app/',
+            icon: 'https://squoosh.app/c/icon-large-maskable-c2078ced.png',
             source: 1,
+            iconTextBackgroundColor: '',
+          },
+          {
+            title: '路过图床',
+            desc: '一款免费的图床工具网站',
+            link: 'https://imgse.com/lxchinesszz',
+            icon: 'https://imgse.com/content/images/system/favicon_1587118523486_91617a.png',
+            source: 1,
+            iconTextBackgroundColor: '',
           },
         ],
       },
@@ -820,34 +944,34 @@ const searchList = [
 
 const shortcutData = [
   {
+    name: 'Vue3',
+    href: 'https://cn.vuejs.org/guide/introduction.html',
+    openType: '_blank',
+  },
+  {
     name: 'JSON',
     href: 'https://www.json.cn/',
     openType: '_blank',
   },
   {
     name: '配色',
-    href: 'https://coolors.co/78bc61-c0c781-c59b76-e9806e-76bbb0',
+    href: 'https://mycolor.space/',
     openType: '_blank',
   },
   {
-    name: '我的博客',
+    name: '个人博客',
     href: 'https://blog.springlearn.cn',
     openType: '_blank',
   },
   {
-    name: '',
-    href: '',
-    openType: '_target',
+    name: 'CSDN',
+    href: 'https://mp.csdn.net/mp_blog/manage/article?spm=1001.2014.3001.5448',
+    openType: '_blank',
   },
   {
-    name: '',
-    href: '',
-    openType: '_target',
-  },
-  {
-    name: '',
-    href: '',
-    openType: '_target',
+    name: '今日热榜',
+    href: 'https://tophub.today/',
+    openType: '_blank',
   },
 ];
 
@@ -859,27 +983,20 @@ const shortcutData = [
  */
 const style = {
   searchStyle: 'supper-search',
-  // searchBackgroundCss: 'background: #3c7cbe',
-  windowAnimate: 'fadeInUp',
-  // windowAnimate: 'fadeInRight',
-  searchAnimate: 'fadeInRight',
+  searchBackgroundCss:
+    "background-color: #f0f4ff;\n   background-size: cover;\n   background-repeat: no-repeat;\n   background-image: url('https://s1.ax1x.com/2023/01/01/pSCzRu8.jpg');",
+  windowAnimate: 'fadeInRightBig',
+  searchAnimate: 'fadeInRightBig',
   navBarBackgroundCss:
     ' background: #cae7ef url(https://img.springlearn.cn/cloudtou.svg) repeat-y 30% 22%;',
-  toolGroupAnimate: 'fadeInUp',
-  // 关闭用户icon
-  closeIcon: true,
-  // 是否开启模糊查找
+  toolGroupAnimate: 'fadeInRightBig',
+  closeIcon: false,
   fuzzySearch: true,
   simplify: false,
-  searchBackgroundCss:
-    '   background-color: #f0f4ff;\n' +
-    '   background-size: cover;\n' +
-    '   background-repeat: no-repeat;\n' +
-    "   background-image: url('https://img.springlearn.cn/blog/83b872730d3ab4a502c2ae5d73db4dee.jpeg');",
   searchTextCss: '',
-  supperSearchEngine: [],
+  supperSearchEngine: ['tool'],
+  frostedGlass: true,
   hideSearchAroundText: false,
-  frostedGlass: false,
 };
 
 const wps = [
@@ -891,8 +1008,15 @@ const wps = [
   //   h: 100,
   //   desc: '超级搜索',
   // },
+  {
+    name: 'Gushici',
+    x: 300,
+    y: 300,
+    w: 300,
+    h: 100,
+  },
   // {
-  //   name: 'photoshop',
+  //   name: 'ColorHabit',
   //   x: 300,
   //   y: 300,
   //   w: 300,

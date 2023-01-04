@@ -46,5 +46,12 @@ const releaseHistoryVersions: Array<Version> = [
     type: 'FEATURE',
     dotColor: '#52C419',
   },
+  {
+    version: '1.2.3',
+    date: '2023-01-18',
+    items: ['😄增加小插件', '🐛修复若干问题'],
+    type: 'FEATURE',
+    dotColor: '#52C419',
+  },
 ];
 export default releaseHistoryVersions;
