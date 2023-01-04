@@ -5,7 +5,6 @@ import BaiduCalendar from 'vue-baidu-calendar';
 import iconfont from '@/iconfont/iconfont';
 import router from './router';
 import store from './store';
-import directive from './directive';
 import App from './App.vue';
 import '@arco-design/web-vue/dist/arco.css';
 import '@/assets/style/global.less';
@@ -30,7 +29,6 @@ app.use(ArcoVueIcon);
 app.use(iconfont);
 app.use(router);
 app.use(store);
-app.use(directive);
 
 app.use(BaiduCalendar);
 

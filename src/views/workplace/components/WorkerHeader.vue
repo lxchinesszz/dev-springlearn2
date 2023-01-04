@@ -6,8 +6,7 @@
     <div class="menuContainer">
       <a-menu mode="horizontal" class="menuContainer">
         <a-menu-item
-          v-for="(_, index) in dataSource.shortcut"
-          :key="index"
+          v-for="_ in dataSource.shortcut"
           @click="openUrl(_.href, _.openType)"
         >
           {{ _.name }}
