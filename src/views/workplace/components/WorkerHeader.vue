@@ -1,12 +1,13 @@
 <template>
-  <div id="header">
+  <div id="header" :style="dataSource.theme.navBarBackgroundCss">
     <div class="headerLeft">
       <img src="https://img.springlearn.cn/geek.png" alt="" class="navLogo" />
     </div>
     <div class="menuContainer">
       <a-menu mode="horizontal" class="menuContainer">
         <a-menu-item
-          v-for="_ in dataSource.shortcut"
+          v-for="(_, index) in dataSource.shortcut"
+          :key="index"
           @click="openUrl(_.href, _.openType)"
         >
           {{ _.name }}
@@ -156,13 +157,14 @@
             :theme="dataSource.theme"
           ></ThemeSetting>
         </a-tab-pane>
-        <a-tab-pane key="5" disabled>
+        <a-tab-pane key="5">
           <template #title>
             <!--            <Icon-Font type="icon-shop"></Icon-Font>-->
             <Icon-Font type="icon-chajian1"></Icon-Font>
             小组件
           </template>
           <WidgetPluginStore
+            ref="widgetSetting"
             :only-read="onlyRead"
             :wps="dataSource.wps"
           ></WidgetPluginStore>
@@ -256,6 +258,7 @@
       const searchEngineSetting = ref(null);
       const shortcutSetting = ref(null);
       const themeSetting = ref(null);
+      const widgetSetting = ref(null);
       const categorySetting = ref(null);
       const calendarView = ref(false);
       const onlyRead = ref(false);
@@ -280,6 +283,7 @@
         console.log(shortcutSetting.value?.saveAction());
         console.log(searchEngineSetting.value?.saveAction());
         console.log(categorySetting.value?.saveAction());
+        console.log(widgetSetting.value?.saveAction());
         setTimeout(() => {
           visibleSetting.value = false;
           window.location.reload();
@@ -369,6 +373,7 @@
       // });
       return {
         lastVersion,
+        widgetSetting,
         resetConfig,
         switchDataSourceAction,
         categorySetting,
@@ -394,6 +399,27 @@
 </script>
 
 <style scoped>
+  :deep(.arco-menu-selected) {
+    color: var(--color-text-2) !important;
+  }
+  :deep(.arco-menu-selected:active) {
+    background-color: rgb(0 0 0 / 5%);
+  }
+  :deep(.arco-menu-item:hover) {
+    background-color: rgb(0 0 0 / 5%);
+  }
+  :deep(.arco-menu-pop:hover) {
+    background-color: rgb(0 0 0 / 5%);
+  }
+  :deep(.arco-menu-light) {
+    background-color: rgb(0 0 0 / 0);
+  }
+  :deep(.arco-menu-item) {
+    background-color: rgb(0 0 0 / 0);
+  }
+  :deep(.arco-menu-pop) {
+    background-color: rgb(0 0 0 / 0);
+  }
   :deep(.arco-modal-wrapper) {
     opacity: 0.01;
   }

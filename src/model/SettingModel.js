@@ -4,15 +4,12 @@
  * 3. 搜索引擎
  */
 export default class SettingModel {
-    constructor(categories, searchEngineList) {
+    constructor(style, shortcut, categories, searchEngineList, wps) {
+        this.theme = style;
+        this.shortcut = shortcut;
         this.categories = categories;
         this.searchEngineList = searchEngineList;
-    }
-    get getCategories() {
-        return this.categories;
-    }
-    get getSearchEngineList() {
-        return this.searchEngineList;
+        this.wps = wps;
     }
 }
 //# sourceMappingURL=SettingModel.js.map

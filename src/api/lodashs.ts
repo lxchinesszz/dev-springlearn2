@@ -5,7 +5,7 @@ import _ from 'lodash';
  * @param t
  */
 export default function deepClone<T>(t: T): T {
-  return _.cloneDeep(t);
+  return JSON.parse(JSON.stringify(t));
 }
 
 export function randomObject<T>(list: Array<T> | T[] | string[]): T | string {

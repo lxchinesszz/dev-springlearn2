@@ -1,7 +1,4 @@
-import permission from './permission';
-export default {
-    install(Vue) {
-        Vue.directive('permission', permission);
-    },
-};
+// 挂载，注册
+const directives = {};
+export default directives;
 //# sourceMappingURL=index.js.map

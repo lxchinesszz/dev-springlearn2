@@ -3,6 +3,7 @@ import ArcoVue from '@arco-design/web-vue';
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 import BaiduCalendar from 'vue-baidu-calendar';
 import iconfont from '@/iconfont/iconfont';
+import _ from 'lodash';
 import router from './router';
 import store from './store';
 import App from './App.vue';
@@ -33,3 +34,5 @@ app.use(store);
 app.use(BaiduCalendar);
 
 app.mount('#app');
+
+window._ = _;

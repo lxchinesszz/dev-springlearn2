@@ -95,16 +95,24 @@
             :key="index"
             :w="wp.w"
             :h="wp.h"
-            :y="wp.y"
-            :x="wp.x"
+            :y="calculateY(wp.y)"
+            :x="calculateX(wp.x)"
             parent=".widgetWrapper"
             class-name="dragWidgetPlugin"
-            :draggable="wpsDraggable"
-            lock-aspect-ratio
+            :draggable="wp.draggable"
+            :lock-aspect-ratio="false"
             @drag-end="dragEnd(wp, $event)"
             @resize-end="resize(wp, $event)"
           >
-            <component :is="wp.name"></component>
+            <a-popconfirm
+              :popup-visible="wp.tip && wp.draggable"
+              content="检测到位置发生了变化,是否要保存当前的位置变化"
+              type="info"
+              @ok="setWeightAndRef(wp)"
+              @cancel="wp.tip = false"
+            >
+              <component :is="wp.name"></component>
+            </a-popconfirm>
           </Vue3DraggableResizable>
         </DraggableContainer>
       </div>
@@ -151,6 +159,8 @@
   import WidgetPlugin from '@/model/WidgetPlugin';
   import SettingModel from '@/model/SettingModel';
   import Gushici from '@/views/workplace/components/widget/Gushici.vue';
+  import { Device, device } from '@/hooks/device';
+  import _ from 'lodash';
   import deepClone from '@/api/lodashs';
 
   export default defineComponent({
@@ -226,40 +236,84 @@
         fuseValue.value = newValue;
       };
 
-      const wpsDraggable = ref(true);
-
-      /**
-       * 触发改变
-       */
-      const triggerWpsDraggable = () => {
-        wpsDraggable.value = !wpsDraggable.value;
-      };
-
       const wps: Array<WidgetPlugin> = reactive<Array<WidgetPlugin>>(
-        deepClone(props.dataSource.wps)
+        _.filter(deepClone(props.dataSource.wps), (w) => {
+          return w.show;
+        })
       );
 
+      for (let i = 0; i < wps.length; i += 1) {
+        wps[i].tip = false;
+      }
+
+      console.log('当前wps', wps);
       const dragEnd = (wp: WidgetPlugin, e: any) => {
         console.log(`dragEnd`, wp, e);
-        wp.x = e.x;
-        wp.y = e.y;
+        const d: Device = device();
+        const oldWpx = wp.x;
+        const oldWpy = wp.y;
+        wp.x = e.x / d.clientWidth;
+        wp.y = e.y / d.clientHeight;
+        if (oldWpx !== wp.x || oldWpy !== wp.y) {
+          wp.tip = true;
+        } else {
+          wp.tip = false;
+        }
         setWeight(wps);
       };
 
       const resize = (wp: WidgetPlugin, e: any) => {
         console.log(`resize`, wp, e);
-        wp.x = e.x;
-        wp.y = e.y;
+        const d: Device = device();
+        const oldWpx = wp.x;
+        const oldWpy = wp.y;
+        const oldW = wp.y;
+        const oldH = wp.h;
+        wp.x = e.x / d.clientWidth;
+        wp.y = e.y / d.clientHeight;
         wp.w = e.w;
         wp.h = e.h;
+        if (
+          oldWpx !== wp.x ||
+          oldWpy !== wp.y ||
+          oldW !== wp.w ||
+          oldH !== wp.h
+        ) {
+          wp.tip = true;
+        } else {
+          wp.tip = false;
+        }
         setWeight(wps);
       };
+
+      /**
+       * 确认后不再允许变更,只能从配置中重新打开拖动按钮
+       * @param w
+       */
+      const setWeightAndRef = (w: WidgetPlugin) => {
+        w.draggable = false;
+        w.tip = false;
+        setWeight(wps);
+        window.location.reload();
+      };
+
+      const calculateX = (x: number) => {
+        const d: Device = device();
+        return x * d.clientWidth;
+      };
+
+      const calculateY = (y: number) => {
+        const d: Device = device();
+        return y * d.clientHeight;
+      };
+
       return {
         wps,
+        setWeightAndRef,
+        calculateX,
+        calculateY,
         resize,
         dragEnd,
-        triggerWpsDraggable,
-        wpsDraggable,
         fuseValue,
         changeFuseAction,
         searchCardList,

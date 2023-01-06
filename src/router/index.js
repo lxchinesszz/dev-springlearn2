@@ -9,6 +9,22 @@ const router = createRouter({
             path: '/',
             component: () => import('@/views/workplace/index.vue'),
         },
+        {
+            path: '/ts',
+            component: () => import('@/views/workplace/components/RoleCards.vue'),
+        },
+        {
+            path: '/test',
+            component: () => import('@/views/workplace/components/search/SupperSearch.vue'),
+        },
+        {
+            path: '/mx',
+            component: () => import('@/views/workplace/components/widget/Mx.vue'),
+        },
+        {
+            path: '/mobile',
+            component: () => import('@/views/workplace/MobileIndex.vue'),
+        },
     ],
     scrollBehavior() {
         return { top: 0 };

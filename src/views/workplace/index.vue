@@ -1,6 +1,6 @@
 <template>
   <a-layout v-show="!theme.simplify">
-    <a-layout-header id="header" :style="theme.navBarBackgroundCss">
+    <a-layout-header id="header">
       <WorkerHeader
         ref="workHeaderRef"
         :data-source="sourceData"
@@ -146,7 +146,7 @@
     if (driverInfo.mobile) {
       // 跳转手机端
       const router = useRouter();
-      router.push('/mobile');
+      router.push('/');
     } else if (!theme.simplify) {
       showTipsIfNeeded();
     }

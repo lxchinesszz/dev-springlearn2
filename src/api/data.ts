@@ -999,30 +999,7 @@ const style = {
   hideSearchAroundText: false,
 };
 
-const wps = [
-  // {
-  //   name: 'SearchGoogle',
-  //   x: 100,
-  //   y: 100,
-  //   w: 100,
-  //   h: 100,
-  //   desc: '超级搜索',
-  // },
-  {
-    name: 'Gushici',
-    x: 300,
-    y: 300,
-    w: 300,
-    h: 100,
-  },
-  // {
-  //   name: 'ColorHabit',
-  //   x: 300,
-  //   y: 300,
-  //   w: 300,
-  //   h: 300,
-  // },
-];
+const wps = [];
 const setting = {
   theme: style,
   shortcut: shortcutData,

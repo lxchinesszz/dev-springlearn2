@@ -224,9 +224,11 @@
           if (newValue) {
             // 修改工具类样式为none
             themeSetting.toolGroupAnimate = 'none';
+            themeSetting.hideSearchAroundText = true;
           } else {
             // 当关闭极简模式,恢复工具栏动画
             themeSetting.toolGroupAnimate = toolGroupAnimateBackup;
+            themeSetting.hideSearchAroundText = false;
           }
         }
       );

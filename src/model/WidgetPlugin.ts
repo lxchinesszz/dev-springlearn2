@@ -39,4 +39,21 @@ export default class WidgetPlugin {
    * 图片
    */
   public img?: string;
+
+  /**
+   * 作者
+   */
+  public author?: string;
+
+  /**
+   * 是否可编辑
+   */
+  public draggable: boolean;
+
+  /**
+   * 是否展示
+   */
+  public show?: boolean;
+
+  public tip?: boolean;
 }
