@@ -64,7 +64,7 @@ B站
     background-size: 400%;
     background-position: 0 100%;
     -webkit-animation: gradient 15s ease-in-out infinite;
-    animation: bganimation-6451782f 15s ease-in-out infinite;
+    animation: bganimation-114fda31 15s ease-in-out infinite;
 ```
 
 注意: `bganimation-114fda31` 因为vue中样式是由作用域的,所以要在动画后加上元素的作用域

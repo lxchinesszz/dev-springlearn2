@@ -125,6 +125,19 @@
           draggable: true,
           show: false,
         },
+        {
+          name: 'NowTime',
+          x: 0.1,
+          y: 0.2,
+          w: 210,
+          h: 90,
+          img: 'https://img.springlearn.cn/blog/ff0ac4f4a0324992d1f53d912928ee8b.jpg',
+          author: '西魏陶渊明',
+          desc: '实时时间',
+          draggable: true,
+          show: false,
+          lockRatio: true,
+        },
       ];
 
       const wpsStore = useWpsStore();

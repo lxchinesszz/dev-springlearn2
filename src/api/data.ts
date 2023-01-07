@@ -984,12 +984,28 @@ const shortcutData = [
 const style = {
   searchStyle: 'supper-search',
   searchBackgroundCss:
-    "background-color: #f0f4ff;\n   background-size: cover;\n   background-repeat: no-repeat;\n   background-image: url('https://s1.ax1x.com/2023/01/01/pSCzRu8.jpg');",
+    ' background-image: linear-gradient(\n' +
+    '      45deg,\n' +
+    '      rgb(90, 54, 148) 0%,\n' +
+    '      rgb(19, 189, 206) 33%,\n' +
+    '      rgb(0, 148, 217) 66%,\n' +
+    '      rgb(111, 199, 181) 100%\n' +
+    '    );\n' +
+    '    background-size: 400%;\n' +
+    '    background-position: 0 100%;\n' +
+    '    -webkit-animation: gradient 15s ease-in-out infinite;\n' +
+    '    animation: bganimation-114fda31 15s ease-in-out infinite;\n',
   windowAnimate: 'fadeInRightBig',
   searchAnimate: 'fadeInRightBig',
   navBarBackgroundCss:
-    ' background: #cae7ef url(https://img.springlearn.cn/cloudtou.svg) repeat-y 30% 22%;',
-  toolGroupAnimate: 'fadeInRightBig',
+    'background-color: rgba(255, 255, 255, 0.25);\n' +
+    'backdrop-filter: blur(30px);\n' +
+    '-webkit-backdrop-filter: blur(30px);\n' +
+    'border: 1px solid rgba(255, 255, 255, 0.18);\n' +
+    'box-shadow: rgba(142, 142, 142, 0.19) 0px 6px 15px 0px;\n' +
+    '-webkit-box-shadow: rgba(142, 142, 142, 0.19) 0px 6px 15px 0px;\n' +
+    'color: rgba(255, 255, 255, 0.75);',
+  toolGroupAnimate: 'fadeInUp',
   closeIcon: false,
   fuzzySearch: true,
   simplify: false,

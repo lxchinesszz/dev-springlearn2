@@ -100,7 +100,7 @@
             parent=".widgetWrapper"
             class-name="dragWidgetPlugin"
             :draggable="wp.draggable"
-            :lock-aspect-ratio="false"
+            :lock-aspect-ratio="wp.lockRatio"
             @drag-end="dragEnd(wp, $event)"
             @resize-end="resize(wp, $event)"
           >
@@ -164,6 +164,7 @@
   import SettingModel from '@/model/SettingModel';
   import Gushici from '@/views/workplace/components/widget/Gushici.vue';
   import EyeDropper from '@/views/workplace/components/widget/EyeDropper.vue';
+  import NowTime from '@/views/workplace/components/widget/NowTime.vue';
   import { Device, device } from '@/hooks/device';
   import { useWpsStore } from '@/store';
   import _ from 'lodash';
@@ -180,6 +181,7 @@
       Gushici,
       DraggableContainer,
       EyeDropper,
+      NowTime,
     },
     props: {
       categories: Array<CategoryModel>,

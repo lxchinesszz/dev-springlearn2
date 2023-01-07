@@ -56,4 +56,9 @@ export default class WidgetPlugin {
   public show?: boolean;
 
   public tip?: boolean;
+
+  /**
+   * 是否锁定比例
+   */
+  public lockRatio?: boolean;
 }
