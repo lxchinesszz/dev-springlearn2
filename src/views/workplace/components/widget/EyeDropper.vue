@@ -1,5 +1,5 @@
 <template>
-  <div class="xgContainer" @click="open">
+  <div class="xgContainer" @click="open()">
     <div class="xgWrapper">
       <Icon-Font type="icon-xiguan" size="1.2rem" />
       <div class="xgColorWrapper" :style="{ backgroundColor: sRGBHex }"> </div>

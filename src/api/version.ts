@@ -58,5 +58,12 @@ const releaseHistoryVersions: Array<Version> = [
     type: 'FEATURE',
     dotColor: '#52C419',
   },
+  {
+    version: '1.2.4',
+    date: '2023-01-07',
+    items: ['正式开放小组件', '新增诗词歌赋组件', '新增颜色吸管小组件'],
+    type: 'FEATURE',
+    dotColor: '#52C419',
+  },
 ];
 export default releaseHistoryVersions;
