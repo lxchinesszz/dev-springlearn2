@@ -84,12 +84,10 @@
 
 <script lang="ts">
   // 抽屉工具，支持8个或者是4个
-  import { defineComponent, reactive, toRaw } from 'vue';
+  import { defineComponent, toRaw } from 'vue';
   import WidgetPlugin from '@/model/WidgetPlugin';
-  import { setWeight } from '@/api/toolList';
-  import deepClone from '@/api/lodashs';
-  import _ from 'lodash';
   import { useWpsStore } from '@/store';
+  import { setWeight } from '@/api/toolList';
 
   export default defineComponent({
     name: 'WidgetPluginStore',
@@ -100,7 +98,7 @@
       },
       wps: Array<WidgetPlugin>,
     },
-    setup(props) {
+    setup() {
       // 需要添加的
       const addList: Array<WidgetPlugin> = [
         {
@@ -113,31 +111,25 @@
           author: '西魏陶渊明',
           desc: '调用古诗词API,每次刷新会获取新的古诗词',
           draggable: true,
+          show: false,
+        },
+        {
+          name: 'EyeDropper',
+          x: 0.5,
+          y: 0.2,
+          w: 50,
+          h: 50,
+          img: 'https://img.springlearn.cn/blog/7fdb3452939b59e7ca8ba1c52d5e1bf1.jpg',
+          author: '西魏陶渊明',
+          desc: '吸色板,设计师专用',
+          draggable: true,
+          show: false,
         },
       ];
-      // 用户的小组件
-      const userWidgets = deepClone(
-        _.filter(props.wps, (w) => {
-          return w.show;
-        })
-      );
-      console.log(`us`, userWidgets);
-      const userWidgetNameList = _.map(userWidgets, (w) => w.name);
-
-      const newList: Array<WidgetPlugin> = [];
-      for (let i = 0; i < addList.length; i += 1) {
-        const addElement = addList[i];
-        // 用户小组件中不包括新的就直接添加新组件选项
-        if (!userWidgetNameList.includes(addElement.name)) {
-          newList.push(addElement);
-        }
-      }
-      newList.push(...userWidgets);
 
       const wpsStore = useWpsStore();
-      wpsStore.mergeNewWps(userWidgets,addList)
       // 最终数据
-      const wList: Array<WidgetPlugin> = reactive(newList);
+      const wList: Array<WidgetPlugin> = wpsStore.mergeNewWps(addList);
 
       /**
        * 每个子方法提供一个这样的方法用于父组件调用

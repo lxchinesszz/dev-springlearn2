@@ -105,13 +105,17 @@
             @resize-end="resize(wp, $event)"
           >
             <a-popconfirm
-              :popup-visible="wp.tip && wp.draggable"
-              content="检测到位置发生了变化,是否要保存当前的位置变化"
+              content="检测到小组件位置发生了变化,请确认是否要保存当前的位置"
               type="info"
+              popup-container="widgetCls"
+              :disabled="!wp.tip"
               @ok="setWeightAndRef(wp)"
               @cancel="wp.tip = false"
             >
-              <component :is="wp.name"></component>
+              <template #icon>
+                <Icon-Font type="icon-yidong1" />
+              </template>
+              <component :is="wp.name" class="widgetCls"></component>
             </a-popconfirm>
           </Vue3DraggableResizable>
         </DraggableContainer>
@@ -159,9 +163,10 @@
   import WidgetPlugin from '@/model/WidgetPlugin';
   import SettingModel from '@/model/SettingModel';
   import Gushici from '@/views/workplace/components/widget/Gushici.vue';
+  import EyeDropper from '@/views/workplace/components/widget/EyeDropper.vue';
   import { Device, device } from '@/hooks/device';
+  import { useWpsStore } from '@/store';
   import _ from 'lodash';
-  import deepClone from '@/api/lodashs';
 
   export default defineComponent({
     name: 'Search',
@@ -174,6 +179,7 @@
       Vue3DraggableResizable,
       Gushici,
       DraggableContainer,
+      EyeDropper,
     },
     props: {
       categories: Array<CategoryModel>,
@@ -236,12 +242,12 @@
         fuseValue.value = newValue;
       };
 
-      const wps: Array<WidgetPlugin> = reactive<Array<WidgetPlugin>>(
-        _.filter(deepClone(props.dataSource.wps), (w) => {
+      const wps: Array<WidgetPlugin> = _.filter(
+        useWpsStore().currentUserWps,
+        (w) => {
           return w.show;
-        })
+        }
       );
-
       for (let i = 0; i < wps.length; i += 1) {
         wps[i].tip = false;
       }
@@ -294,7 +300,7 @@
         w.draggable = false;
         w.tip = false;
         setWeight(wps);
-        window.location.reload();
+        // window.location.reload();
       };
 
       const calculateX = (x: number) => {

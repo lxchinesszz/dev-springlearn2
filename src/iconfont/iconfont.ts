@@ -1,7 +1,7 @@
 import { App } from 'vue';
 import { Icon } from '@arco-design/web-vue';
 
-const href = '//at.alicdn.com/t/c/font_902793_1kxz4bwyj7k.js';
+const href = '//at.alicdn.com/t/c/font_902793_s09phiasisj.js';
 
 /**
  * 阿里图标
