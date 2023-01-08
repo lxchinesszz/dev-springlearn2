@@ -46,11 +46,29 @@
       />
     </div>
     <div class="themeSettingFloatWrapper">
-      <a-affix :offset-top="80">
+      <a-trigger :trigger="['click', 'hover']" click-to-close position="top">
         <a-button shape="circle" @click="simpleThemeSetting">
           <icon-settings />
         </a-button>
-      </a-affix>
+        <template #content>
+          <a-menu
+            :style="{ marginBottom: '-4px' }"
+            mode="popButton"
+            :tooltip-props="{ position: 'left' }"
+            show-collapse-button
+          >
+            <a-menu-item key="1" @click="showTheme">
+              <template #icon>
+                <icon-skin />
+              </template>
+              主题皮肤
+            </a-menu-item>
+          </a-menu>
+        </template>
+      </a-trigger>
+      <!--      <a-affix :offset-top="80">-->
+      <!--        -->
+      <!--      </a-affix>-->
     </div>
     <Search
       id="search"
@@ -121,6 +139,10 @@
       }
       return false;
     });
+  }
+
+  function showTheme() {
+    workHeaderRef.value.showThemeSwitch();
   }
 
   /**
@@ -234,6 +256,8 @@
     .themeSettingFloatWrapper {
       position: absolute;
       right: 10rem;
+      top: 10rem;
+      z-index: 1000;
     }
   }
   .logoWrapper {

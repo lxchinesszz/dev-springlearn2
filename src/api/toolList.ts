@@ -10,6 +10,7 @@ import { Message } from '@arco-design/web-vue';
 import Fuse from 'fuse.js';
 import FuseToolResult from '@/model/FuseToolResult';
 import WidgetPlugin from '@/model/WidgetPlugin';
+import ExtThemeModel from "@/model/ExtThemeModel";
 
 export function isNewUser() {
   return isEmpty(localStorage.getItem('ds'));
@@ -88,7 +89,7 @@ export function setSearchEngine(arg: Array<SearchEngineModel>) {
   saveLocal(settingModel);
 }
 
-export function setTheme(arg: ThemeModel) {
+export function setTheme(arg: ExtThemeModel) {
   const settingModel = localDataSource();
   settingModel.theme = arg;
   // eslint-disable-next-line no-console

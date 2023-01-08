@@ -88,6 +88,28 @@
     {
       searchStyle: 'supper-search',
       searchBackgroundCss:
+        "background-color: #f0f4ff;\n   background-size: cover;\n   background-repeat: no-repeat;\n   background-image: url('https://img.springlearn.cn/blog/5523c88dd347d1b7cc617f632b7efdb7.jpeg');",
+      windowAnimate: 'fadeInRightBig',
+      searchAnimate: 'fadeInRightBig',
+      navBarBackgroundCss: '',
+      toolGroupAnimate: 'none',
+      closeIcon: false,
+      fuzzySearch: true,
+      simplify: true,
+      searchTextCss: '',
+      supperSearchEngine: ['tool'],
+      frostedGlass: false,
+      hideSearchAroundText: false,
+
+      img: 'https://img.springlearn.cn/blog/c288c8b168bac8e95dbe0bfa5d2b4324.png',
+      author: '西魏陶渊明',
+      name: '二次元之集原美一',
+      desc: '极简模式下二次元风格',
+      show: false,
+    },
+    {
+      searchStyle: 'supper-search',
+      searchBackgroundCss:
         ' background-image: linear-gradient(\n      45deg,\n      rgb(90, 54, 148) 0%,\n      rgb(19, 189, 206) 33%,\n      rgb(0, 148, 217) 66%,\n      rgb(111, 199, 181) 100%\n    );\n    background-size: 400%;\n    background-position: 0 100%;\n    -webkit-animation: gradient 15s ease-in-out infinite;\n    animation: bganimation-114fda31 15s ease-in-out infinite;\n',
       windowAnimate: 'fadeInRightBig',
       searchAnimate: 'fadeInRightBig',
