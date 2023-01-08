@@ -7,10 +7,14 @@ export enum FormatsEnums {
   TIME = 'H:i:s',
 }
 
-export const dateFormat = function (
-  timestamp: number,
-  formats: FormatsEnums
-): string {
+function zero(value: number): string | number {
+  if (value < 10) {
+    return `0${value}`;
+  }
+  return value;
+}
+
+export function dateFormat(timestamp: number, formats: FormatsEnums): string {
   // formats格式包括
   // 1. Y-m-d
   // 2. Y-m-d H:i:s
@@ -19,13 +23,6 @@ export const dateFormat = function (
   if (!formats) {
     formats = FormatsEnums.YMD;
   }
-
-  const zero = function (value: number): string | number {
-    if (value < 10) {
-      return `0${value}`;
-    }
-    return value;
-  };
 
   const myDate = timestamp ? new Date(timestamp) : new Date();
 
@@ -37,7 +34,7 @@ export const dateFormat = function (
   const minite = zero(myDate.getMinutes());
   const second = zero(myDate.getSeconds());
 
-  return formats.replace(/Y|m|d|H|i|s/gi, function (matches: string): any {
+  function m(matches: string): any {
     return {
       Y: year,
       m: month,
@@ -46,5 +43,7 @@ export const dateFormat = function (
       i: minite,
       s: second,
     }[matches];
-  });
-};
+  }
+
+  return formats.replace(/Y|m|d|H|i|s/gi, m);
+}

@@ -86,12 +86,21 @@
   import CategoryTool from '@/model/CategoryTool';
   import { device, Device } from '@/hooks/device';
   import { useRouter } from 'vue-router';
+  import { useFavicon, useTitle } from '@vueuse/core';
 
   // 向子组件注入fuse数据
   provide<FusePlugin>('fuse', fusePlugin());
   const workHeaderRef = ref(null);
   // 元数据
   const sourceData: SettingModel = fetchSourceData();
+  if (sourceData.theme.favicon) {
+    const icon = useFavicon();
+    icon.value = sourceData.theme.favicon;
+  }
+  if (sourceData.theme.webTitle) {
+    const title = useTitle();
+    title.value = sourceData.theme.webTitle;
+  }
   const { theme } = sourceData;
   const categories: Array<CategoryModel> = deepClone(sourceData.categories);
   // 初始化数据

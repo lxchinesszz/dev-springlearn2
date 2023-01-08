@@ -36,3 +36,5 @@ app.use(BaiduCalendar);
 app.mount('#app');
 
 window._ = _;
+
+app.config.globalProperties.msg = 'hello';

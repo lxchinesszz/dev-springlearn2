@@ -64,6 +64,10 @@ export default class ThemeModel {
    */
   public frostedGlass: boolean;
 
+  public favicon: string;
+
+  public webTitle: string;
+
   constructor(
     closeIcon: boolean,
     toolGroupAnimate: string,
@@ -77,7 +81,8 @@ export default class ThemeModel {
     searchTextCss: string,
     supperSearchEngine: Array<string>,
     hideSearchAroundText: boolean,
-    frostedGlass: boolean
+    frostedGlass: boolean,
+    favicon: string
   ) {
     this.closeIcon = closeIcon;
     this.toolGroupAnimate = toolGroupAnimate;
@@ -92,5 +97,6 @@ export default class ThemeModel {
     this.supperSearchEngine = supperSearchEngine;
     this.hideSearchAroundText = hideSearchAroundText;
     this.frostedGlass = frostedGlass;
+    this.favicon = favicon;
   }
 }

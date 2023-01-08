@@ -272,22 +272,20 @@
       );
       console.log('当前版本 v', lastVersion.value.version);
       const applySetting = () => {
-        Message.info({
+        Message.success({
           content: '你的配置已重新生成,正在应用中!',
-          icon: () => h(IconFaceSmileFill),
-          duration: 1000,
         });
 
-        // 主题配置保存
-        console.log(themeSetting.value?.saveAction());
-        console.log(shortcutSetting.value?.saveAction());
-        console.log(searchEngineSetting.value?.saveAction());
-        console.log(categorySetting.value?.saveAction());
-        console.log(widgetSetting.value?.saveAction());
         setTimeout(() => {
+          // 主题配置保存
+          console.log(themeSetting.value?.saveAction());
+          console.log(shortcutSetting.value?.saveAction());
+          console.log(searchEngineSetting.value?.saveAction());
+          console.log(categorySetting.value?.saveAction());
+          console.log(widgetSetting.value?.saveAction());
           visibleSetting.value = false;
           window.location.reload();
-        }, 1000);
+        }, 100);
       };
       const openUrl = (url: string, openType = '_blank') => {
         console.log('openType', openType);

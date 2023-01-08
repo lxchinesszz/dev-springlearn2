@@ -165,9 +165,11 @@
   import Gushici from '@/views/workplace/components/widget/Gushici.vue';
   import EyeDropper from '@/views/workplace/components/widget/EyeDropper.vue';
   import NowTime from '@/views/workplace/components/widget/NowTime.vue';
+  import Wangyiyun from '@/views/workplace/components/widget/Wangyiyun.vue';
   import { Device, device } from '@/hooks/device';
   import { useWpsStore } from '@/store';
   import _ from 'lodash';
+  import Test2 from '@/views/workplace/components/widget/Test2.vue';
 
   export default defineComponent({
     name: 'Search',
@@ -182,6 +184,8 @@
       DraggableContainer,
       EyeDropper,
       NowTime,
+      Wangyiyun,
+      Test2,
     },
     props: {
       categories: Array<CategoryModel>,

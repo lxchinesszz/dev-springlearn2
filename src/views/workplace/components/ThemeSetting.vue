@@ -26,10 +26,18 @@
         </a-form-item>
         <a-form-item label="工具栏切换动画">
           <a-radio-group v-model="themeSetting.toolGroupAnimate">
-            <a-radio value="fadeInUp">弹出</a-radio>
-            <a-radio value="bounce">上下跳动</a-radio>
-            <a-radio value="fadeInRightBig">从右滑入</a-radio>
-            <a-radio value="pulse">放大</a-radio>
+            <a-radio value="fadeInUp" :disabled="themeSetting.simplify"
+              >弹出</a-radio
+            >
+            <a-radio value="bounce" :disabled="themeSetting.simplify"
+              >上下跳动</a-radio
+            >
+            <a-radio value="fadeInRightBig" :disabled="themeSetting.simplify"
+              >从右滑入</a-radio
+            >
+            <a-radio value="pulse" :disabled="themeSetting.simplify"
+              >放大</a-radio
+            >
           </a-radio-group>
         </a-form-item>
         <a-form-item label="系统ICON">
@@ -61,7 +69,9 @@
         <a-form-item>
           <template #label>
             毛玻璃特效
-            <a-tooltip content="打开后,会给主窗口背景添加毛玻璃特效">
+            <a-tooltip
+              content="给主窗口背景添加毛玻璃特效,当你自定义主窗口背景时候,可以根据需要打开,增加画面层次感。"
+            >
               <icon-question-circle-fill />
             </a-tooltip>
           </template>
@@ -77,6 +87,12 @@
             <a-radio value="search-simple">简单</a-radio>
             <a-radio value="supper-search">超级搜索</a-radio>
           </a-radio-group>
+        </a-form-item>
+        <a-form-item label="favicon">
+          <a-input v-model="themeSetting.favicon" />
+        </a-form-item>
+        <a-form-item label="自定义网站名称">
+          <a-input v-model="themeSetting.webTitle" />
         </a-form-item>
         <a-form-item
           v-show="themeSetting.searchStyle === 'supper-search'"
@@ -186,6 +202,7 @@
   import 'highlight.js/lib/common';
   import 'highlight.js/styles/github.css';
   import hljsVuePlugin from '@highlightjs/vue-plugin';
+  import { useFavicon } from '@vueuse/core';
 
   export default defineComponent({
     name: 'ThemeSetting',
@@ -204,11 +221,13 @@
         deepClone(props.theme)
       );
 
+      const icon = useFavicon();
       /**
        * 每个子方法提供一个这样的方法用于父组件调用
        */
       function saveAction(): ThemeModel {
         setTheme(themeSetting);
+        icon.value = themeSetting.favicon;
         return themeSetting;
       }
 

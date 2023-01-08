@@ -138,6 +138,19 @@
           show: false,
           lockRatio: true,
         },
+        {
+          name: 'Wangyiyun',
+          x: 0.1,
+          y: 0.2,
+          w: 210,
+          h: 90,
+          img: 'https://img.springlearn.cn/blog/fba5433b189ab715f5f7b08d2e5846c5.jpg',
+          author: '西魏陶渊明',
+          desc: '网抑云',
+          draggable: true,
+          show: false,
+          lockRatio: false,
+        },
       ];
 
       const wpsStore = useWpsStore();
