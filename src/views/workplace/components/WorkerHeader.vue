@@ -39,7 +39,7 @@
       :closable="false"
       width="60vw"
       ok-text="主题应用"
-      title="切换主题"
+      title="🎉  切换主题"
       title-align="start"
       @ok="themeApply"
     >
