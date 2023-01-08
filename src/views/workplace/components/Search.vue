@@ -51,6 +51,16 @@
               @do-action="search"
             />
           </div>
+          <div
+            v-else-if="style.searchStyle === 'supper-glass-search'"
+            style="width: 55vw"
+          >
+            <SupperGlassSearch
+              :placeholder="placeholder"
+              :theme="style"
+              @do-action="search"
+            />
+          </div>
           <div v-else style="width: 55vw; margin-left: -20px">
             <SearchStandard
               :placeholder="placeholder"
@@ -152,6 +162,7 @@
   import SearchStandard from '@/views/workplace/components/search/SearchStandard.vue';
   import SearchSimple from '@/views/workplace/components/search/SearchSimple.vue';
   import SupperSearch from '@/views/workplace/components/search/SupperSearch.vue';
+  import SupperGlassSearch from "@/views/workplace/components/search/SupperGlassSearch.vue";
   import ThemeModel from '@/model/ThemeModel';
   import { openWindow, setWeight } from '@/api/toolList';
   import defaultPlaceholder from '@/api/placeholder';
@@ -178,6 +189,7 @@
       SearchStandard,
       SearchSimple,
       SupperSearch,
+      SupperGlassSearch,
       FuseToolPanel,
       Vue3DraggableResizable,
       Gushici,

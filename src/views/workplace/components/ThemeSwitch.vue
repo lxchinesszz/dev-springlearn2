@@ -18,7 +18,21 @@
                 @preview-visible-change="previewIndex = -1"
               />
             </template>
-            <a-card-meta :description="w.desc"> </a-card-meta>
+            <a-card-meta>
+              <template #avatar>
+                <div
+                  :style="{
+                    display: 'flex',
+                    alignItems: 'center',
+                    color: '#1D2129',
+                  }"
+                >
+                  <a-typography-text>{{ w.desc }}</a-typography-text>
+                </div>
+              </template>
+            </a-card-meta>
+
+            <!--            <a-card-meta :description="w.desc"> </a-card-meta>-->
             <template #extra>
               <a-space>
                 <div></div>
@@ -110,6 +124,28 @@
     {
       searchStyle: 'supper-search',
       searchBackgroundCss:
+        "background-color: #f0f4ff;\n   background-size: cover;\n   background-repeat: no-repeat;\n   background-image: url('https://img.springlearn.cn/blog/83b872730d3ab4a502c2ae5d73db4dee.jpeg');",
+      windowAnimate: 'fadeInRightBig',
+      searchAnimate: 'fadeInRightBig',
+      navBarBackgroundCss: '',
+      toolGroupAnimate: 'none',
+      closeIcon: false,
+      fuzzySearch: true,
+      simplify: true,
+      searchTextCss: '',
+      supperSearchEngine: ['tool'],
+      frostedGlass: false,
+      hideSearchAroundText: true,
+
+      img: 'https://img.springlearn.cn/blog/d1f918c39e4b7750cbe9b2ba5b9e7c2c.jpg',
+      author: '西魏陶渊明',
+      name: '黑色风暴',
+      desc: '黑色风暴',
+      show: false,
+    },
+    {
+      searchStyle: 'supper-search',
+      searchBackgroundCss:
         ' background-image: linear-gradient(\n      45deg,\n      rgb(90, 54, 148) 0%,\n      rgb(19, 189, 206) 33%,\n      rgb(0, 148, 217) 66%,\n      rgb(111, 199, 181) 100%\n    );\n    background-size: 400%;\n    background-position: 0 100%;\n    -webkit-animation: gradient 15s ease-in-out infinite;\n    animation: bganimation-114fda31 15s ease-in-out infinite;\n',
       windowAnimate: 'fadeInRightBig',
       searchAnimate: 'fadeInRightBig',
@@ -129,6 +165,160 @@
       author: '周杰伦',
       name: '蓝色简约工作台',
       desc: '蓝色简约工作台',
+      show: false,
+    },
+    {
+      searchStyle: 'supper-glass-search',
+      searchBackgroundCss:
+        "background-color: #f0f4ff;\n   background-size: cover;\n   background-repeat: no-repeat;\n   background-image: url('https://img.springlearn.cn/blog/88a7e8a7c9aa804c44f9c0a55b7715a2.jpg');",
+      windowAnimate: 'fadeInRightBig',
+      searchAnimate: 'fadeInRightBig',
+      navBarBackgroundCss: '',
+      toolGroupAnimate: 'none',
+      closeIcon: false,
+      fuzzySearch: true,
+      simplify: true,
+      searchTextCss: '',
+      supperSearchEngine: ['tool'],
+      frostedGlass: false,
+      hideSearchAroundText: true,
+
+      img: 'https://img.springlearn.cn/blog/6226f7cbe59e99a90b5cef6f94f966fd.jpg',
+      author: '西魏陶渊明',
+      name: '宫崎骏原野',
+      desc: '宫崎骏原野',
+      show: false,
+    },
+    {
+      searchStyle: 'supper-glass-search',
+      searchBackgroundCss:
+        "background-color: #f0f4ff;\n   background-size: cover;\n   background-repeat: no-repeat;\n   background-image: url('https://img.springlearn.cn/blog/f6c760c712097db7099b69a59f26f9e5.jpg');",
+      windowAnimate: 'fadeInRightBig',
+      searchAnimate: 'fadeInRightBig',
+      navBarBackgroundCss: '',
+      toolGroupAnimate: 'none',
+      closeIcon: false,
+      fuzzySearch: true,
+      simplify: true,
+      searchTextCss: '',
+      supperSearchEngine: ['tool'],
+      frostedGlass: false,
+      hideSearchAroundText: true,
+
+      img: 'https://img.springlearn.cn/blog/4145a87ec0e7a641ccddff79ec42ee6d.jpg',
+      author: '西魏陶渊明',
+      name: '浪漫午后',
+      desc: '浪漫午后',
+      show: false,
+    },
+    {
+      searchStyle: 'supper-glass-search',
+      searchBackgroundCss:
+        "background-color: #f0f4ff;\n   background-size: cover;\n   background-repeat: no-repeat;\n   background-image: url('https://img.springlearn.cn/blog/d351b2f8d107f943ddc50637e304bbb3.jpg');",
+      windowAnimate: 'fadeInRightBig',
+      searchAnimate: 'fadeInRightBig',
+      navBarBackgroundCss: '',
+      toolGroupAnimate: 'none',
+      closeIcon: false,
+      fuzzySearch: true,
+      simplify: true,
+      searchTextCss: '',
+      supperSearchEngine: ['tool'],
+      frostedGlass: false,
+      hideSearchAroundText: true,
+
+      img: 'https://img.springlearn.cn/blog/de205af6f89c9f6043cd589403eccecc.jpg',
+      author: '西魏陶渊明',
+      name: '雨天车内',
+      desc: '雨天车内',
+      show: false,
+    },
+    {
+      searchStyle: 'supper-glass-search',
+      searchBackgroundCss:
+        "background-color: #f0f4ff;\n   background-size: cover;\n   background-repeat: no-repeat;\n   background-image: url('https://img.springlearn.cn/blog/bf5f3c2fae6d345ce9e2e4e24599fb3d.jpg');",
+      windowAnimate: 'fadeInRightBig',
+      searchAnimate: 'fadeInRightBig',
+      navBarBackgroundCss: '',
+      toolGroupAnimate: 'none',
+      closeIcon: false,
+      fuzzySearch: true,
+      simplify: true,
+      searchTextCss: '',
+      supperSearchEngine: ['tool'],
+      frostedGlass: false,
+      hideSearchAroundText: true,
+
+      img: 'https://img.springlearn.cn/blog/6e453d094299ca1c9935281e6b250d31.jpg',
+      author: '西魏陶渊明',
+      name: '杀手',
+      desc: '杀手',
+      show: false,
+    },
+    {
+      searchStyle: 'supper-glass-search',
+      searchBackgroundCss:
+        "background-color: #f0f4ff;\n   background-size: cover;\n   background-repeat: no-repeat;\n   background-image: url('https://img.springlearn.cn/blog/d0110864aa91044cad0bdddfcf5ad6c8.jpg');",
+      windowAnimate: 'fadeInRightBig',
+      searchAnimate: 'fadeInRightBig',
+      navBarBackgroundCss: '',
+      toolGroupAnimate: 'none',
+      closeIcon: false,
+      fuzzySearch: true,
+      simplify: true,
+      searchTextCss: '',
+      supperSearchEngine: ['tool'],
+      frostedGlass: false,
+      hideSearchAroundText: true,
+
+      img: 'https://img.springlearn.cn/blog/5cddb13af10e6ecdd7e726fc91183219.jpg',
+      author: '西魏陶渊明',
+      name: '雨夜静坐',
+      desc: '雨夜静坐',
+      show: false,
+    },
+    {
+      searchStyle: 'supper-glass-search',
+      searchBackgroundCss:
+        "background-color: #f0f4ff;\n   background-size: cover;\n   background-repeat: no-repeat;\n   background-image: url('https://img.springlearn.cn/blog/a8d0fc7c68ce751c1cbb5dcfa5d76aed.jpg');",
+      windowAnimate: 'fadeInRightBig',
+      searchAnimate: 'fadeInRightBig',
+      navBarBackgroundCss: '',
+      toolGroupAnimate: 'none',
+      closeIcon: false,
+      fuzzySearch: true,
+      simplify: true,
+      searchTextCss: '',
+      supperSearchEngine: ['tool'],
+      frostedGlass: false,
+      hideSearchAroundText: true,
+
+      img: 'https://img.springlearn.cn/blog/b8abf5dbd91b38cf8d776a0c72caaf9b.jpg',
+      author: '西魏陶渊明',
+      name: '窗内',
+      desc: '窗内',
+      show: false,
+    },
+    {
+      searchStyle: 'supper-glass-search',
+      searchBackgroundCss:
+        "background-color: #f0f4ff;\n   background-size: cover;\n   background-repeat: no-repeat;\n   background-image: url('https://img.springlearn.cn/blog/75ccbde9c978870ba0ed0e603388455a.jpg');",
+      windowAnimate: 'fadeInRightBig',
+      searchAnimate: 'fadeInRightBig',
+      navBarBackgroundCss: '',
+      toolGroupAnimate: 'none',
+      closeIcon: false,
+      fuzzySearch: true,
+      simplify: true,
+      searchTextCss: '',
+      supperSearchEngine: ['tool'],
+      frostedGlass: false,
+      hideSearchAroundText: true,
+
+      img: 'https://img.springlearn.cn/blog/7a456609681010038aa6c556771d8559.jpg',
+      author: '西魏陶渊明',
+      name: '雨夜花店',
+      desc: '雨夜花店',
       show: false,
     },
   ]);
@@ -155,7 +345,7 @@
   };
 
   function saveAction(): boolean {
-    if (themeList[selectedThemeIndex.value].show) {
+    if (themeList[selectedThemeIndex.value]?.show) {
       setTheme(themeList[selectedThemeIndex.value]);
       return true;
     }

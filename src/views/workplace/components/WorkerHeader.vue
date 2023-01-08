@@ -160,7 +160,7 @@
         </a-tab-pane>
         <a-tab-pane key="4">
           <template #title>
-            <icon-skin />
+            <icon-settings />
             样式动画
           </template>
           <ThemeSetting
@@ -180,6 +180,14 @@
             :only-read="onlyRead"
             :wps="dataSource.wps"
           ></WidgetPluginStore>
+        </a-tab-pane>
+        <a-tab-pane key="6">
+          <template #title>
+            <!--            <Icon-Font type="icon-shop"></Icon-Font>-->
+            <icon-skin />
+            主题预设
+          </template>
+          <ThemeSwitch ref="themeStyleSetting2" />
         </a-tab-pane>
       </a-tabs>
     </a-modal>
@@ -274,6 +282,7 @@
       const shortcutSetting = ref(null);
       const themeSetting = ref(null);
       const themeStyleSetting = ref(null);
+      const themeStyleSetting2 = ref(null);
       const widgetSetting = ref(null);
       const categorySetting = ref(null);
       const calendarView = ref(false);
@@ -313,15 +322,15 @@
         Message.success({
           content: '你的配置已重新生成,正在应用中!',
         });
-
         setTimeout(() => {
+          visibleSetting.value = false;
           // 主题配置保存
           console.log(themeSetting.value?.saveAction());
           console.log(shortcutSetting.value?.saveAction());
           console.log(searchEngineSetting.value?.saveAction());
           console.log(categorySetting.value?.saveAction());
           console.log(widgetSetting.value?.saveAction());
-          visibleSetting.value = false;
+          themeStyleSetting2.value?.saveAction();
           window.location.reload();
         }, 100);
       };
@@ -412,6 +421,7 @@
         themeSwitch.value = true;
       };
       return {
+        themeStyleSetting2,
         themeStyleSetting,
         themeApply,
         showThemeSwitch,

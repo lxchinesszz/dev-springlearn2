@@ -86,6 +86,7 @@
             <a-radio value="search-google">Google</a-radio>
             <a-radio value="search-simple">简单</a-radio>
             <a-radio value="supper-search">超级搜索</a-radio>
+            <a-radio value="supper-glass-search">玻璃风</a-radio>
           </a-radio-group>
         </a-form-item>
         <a-form-item label="favicon">
@@ -95,7 +96,10 @@
           <a-input v-model="themeSetting.webTitle" />
         </a-form-item>
         <a-form-item
-          v-show="themeSetting.searchStyle === 'supper-search'"
+          v-show="
+            themeSetting.searchStyle === 'supper-search' ||
+            themeSetting.searchStyle === 'supper-glass-search'
+          "
           class="animated fadeIn"
         >
           <template #label>
@@ -116,7 +120,10 @@
           </a-checkbox-group>
         </a-form-item>
         <a-form-item
-          v-show="themeSetting.searchStyle === 'supper-search'"
+          v-show="
+            themeSetting.searchStyle === 'supper-search' ||
+            themeSetting.searchStyle === 'supper-glass-search'
+          "
           class="animated fadeIn"
         >
           <template #label>
