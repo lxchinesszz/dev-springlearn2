@@ -203,6 +203,7 @@
   import 'highlight.js/styles/github.css';
   import hljsVuePlugin from '@highlightjs/vue-plugin';
   import { useFavicon } from '@vueuse/core';
+  import ExtThemeModel from '@/model/ExtThemeModel';
 
   export default defineComponent({
     name: 'ThemeSetting',
@@ -210,14 +211,14 @@
       highlightjs: hljsVuePlugin.component,
     },
     props: {
-      theme: ThemeModel,
+      theme: ExtThemeModel,
       onlyRead: {
         type: Boolean,
         default: false,
       },
     },
     setup(props) {
-      const themeSetting: ThemeModel = reactive<ThemeModel>(
+      const themeSetting: ExtThemeModel = reactive<ExtThemeModel>(
         deepClone(props.theme)
       );
 
@@ -225,7 +226,7 @@
       /**
        * 每个子方法提供一个这样的方法用于父组件调用
        */
-      function saveAction(): ThemeModel {
+      function saveAction(): ExtThemeModel {
         setTheme(themeSetting);
         icon.value = themeSetting.favicon;
         return themeSetting;

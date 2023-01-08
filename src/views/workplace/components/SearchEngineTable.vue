@@ -95,7 +95,6 @@
           title: '操作',
           dataIndex: 'show',
           slotName: 'show',
-          width: 100,
         },
       ]);
       /**
