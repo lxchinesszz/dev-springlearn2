@@ -10,6 +10,8 @@ export default class SearchEngineModel {
 
   public href: string;
 
+  public show: boolean;
+
   constructor(name: string, slogan: string, href: string) {
     this.name = name;
     this.slogan = slogan;

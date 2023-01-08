@@ -4,8 +4,14 @@ import _ from 'lodash';
 import { fetchSourceData } from '@/api/toolList';
 import { reactive } from 'vue';
 import deepClone from '@/api/lodashs';
+import ExtThemeModel from "@/model/ExtThemeModel";
 
 const useWpsStore = defineStore('wpsStore', () => {
+  /**
+   * 主题
+   */
+  const theme: ExtThemeModel = deepClone(fetchSourceData().theme);
+
   // 用户的小组件
   const userWidgets: Array<WidgetPlugin> = deepClone(
     _.filter(fetchSourceData().wps, (w) => {
@@ -40,6 +46,7 @@ const useWpsStore = defineStore('wpsStore', () => {
     mergeNewWps,
     canConfigWps,
     currentUserWps,
+    theme
   };
 });
 

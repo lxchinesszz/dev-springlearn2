@@ -252,6 +252,7 @@
           title: '工具介绍',
           dataIndex: 'desc',
           slotName: 'desc',
+          tooltip: true,
         },
         {
           title: '访问地址',

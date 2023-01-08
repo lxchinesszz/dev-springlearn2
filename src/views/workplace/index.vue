@@ -233,7 +233,7 @@
     width: 100vw;
     .themeSettingFloatWrapper {
       position: absolute;
-      right: 50px;
+      right: 10rem;
     }
   }
   .logoWrapper {

@@ -64,9 +64,9 @@ export default class ThemeModel {
    */
   public frostedGlass: boolean;
 
-  public favicon: string;
+  public favicon?: string;
 
-  public webTitle: string;
+  public webTitle?: string;
 
   constructor(
     closeIcon: boolean,

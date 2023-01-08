@@ -27,13 +27,14 @@
     timer: 0,
   });
 
-  const weekList = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+  const weekList = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 
   const getTime = () => {
     dateObj.time = dateFormat(0, FormatsEnums.TIME);
     dateObj.date = dateFormat(0, FormatsEnums.YMD);
+    // getDay() 方法返回指定日期是星期几（从 0 到 6）。
     const weekDay = new Date().getDay();
-    dateObj.week = weekList[weekDay - 1];
+    dateObj.week = weekList[weekDay];
   };
 
   onMounted(() => {

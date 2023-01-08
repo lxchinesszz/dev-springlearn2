@@ -65,5 +65,19 @@ const releaseHistoryVersions: Array<Version> = [
     type: 'FEATURE',
     dotColor: '#52C419',
   },
+  {
+    version: '1.2.5',
+    date: '2023-01-07',
+    items: [
+      '优化极简模式下设置按钮',
+      '增加预设主题安装',
+      '搜索引擎移除数量限制,支持增删',
+      '快捷标签移除数量限制,支持增删',
+      '分类工具栏移除数量限制,支持增删',
+      '分类工具最多展示6个,超过后隐藏',
+    ],
+    type: 'FEATURE',
+    dotColor: '#52C419',
+  },
 ];
 export default releaseHistoryVersions;

@@ -1,6 +1,6 @@
 <template>
   <div class="tableWrapper">
-    <a-divider :margin="1" />
+    <!--    <a-divider :margin="1" />-->
     <a-scrollbar style="height: 400px; overflow: auto">
       <a-grid :col-gap="4" :row-gap="4" class="grid-demo-grid">
         <a-grid-item
@@ -42,6 +42,7 @@
             </a-card-meta>
             <template #extra>
               <a-space>
+                <div></div>
                 <a-tooltip content="添加小组件" position="left">
                   <a-switch v-model="w.show" type="line" :disabled="!onlyRead">
                     <template #checked-icon>
@@ -52,6 +53,7 @@
                     </template>
                   </a-switch>
                 </a-tooltip>
+                <div></div>
               </a-space>
             </template>
             <!--        卡片的slot-->
@@ -63,7 +65,7 @@
                     v-model="w.draggable"
                     type="round"
                     size="small"
-                    :disabled="!onlyRead"
+                    :disabled="!onlyRead || !w.show"
                   >
                     <template #checked-icon>
                       <Icon-Font type="icon-xianxingtuodong" />

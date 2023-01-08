@@ -40,6 +40,16 @@
           show-word-limit
         ></a-input>
       </template>
+      <template #show="{ rowIndex }">
+        <a-switch
+          v-model="canEditorTableData[rowIndex].show"
+          type="round"
+          :disabled="!onlyRead"
+        >
+          <template #checked> 展示 </template>
+          <template #unchecked> 隐藏 </template>
+        </a-switch>
+      </template>
     </a-table>
   </div>
 </template>
@@ -80,6 +90,12 @@
           title: 'slogan',
           dataIndex: 'slogan',
           slotName: 'slogan',
+        },
+        {
+          title: '操作',
+          dataIndex: 'show',
+          slotName: 'show',
+          width: 100,
         },
       ]);
       /**

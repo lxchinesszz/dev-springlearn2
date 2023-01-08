@@ -3,6 +3,7 @@ import CategoryModel from '@/model/CategoryModel';
 import ShortcutModel from '@/model/ShortcutModel';
 import ThemeModel from '@/model/ThemeModel';
 import WidgetPlugin from '@/model/WidgetPlugin';
+import ExtThemeModel from '@/model/ExtThemeModel';
 
 /**
  * 1. 导航栏
@@ -10,7 +11,7 @@ import WidgetPlugin from '@/model/WidgetPlugin';
  * 3. 搜索引擎
  */
 export default class SettingModel {
-  public theme: ThemeModel;
+  public theme: ExtThemeModel;
 
   /**
    * 快捷标签用于导航栏显示
@@ -36,7 +37,7 @@ export default class SettingModel {
   public wps: Array<WidgetPlugin>;
 
   constructor(
-    style: ThemeModel,
+    style: ExtThemeModel,
     shortcut: Array<ShortcutModel>,
     categories: Array<CategoryModel>,
     searchEngineList: Array<SearchEngineModel>,

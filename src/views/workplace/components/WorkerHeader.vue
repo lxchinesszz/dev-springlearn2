@@ -6,7 +6,7 @@
     <div class="menuContainer">
       <a-menu mode="horizontal" class="menuContainer">
         <a-menu-item
-          v-for="(_, index) in dataSource.shortcut"
+          v-for="(_, index) in shortcutList"
           :key="index + ''"
           @click="openUrl(_.href, _.openType)"
         >
@@ -24,7 +24,7 @@
           </a-menu-item-group>
           <a-menu-item-group title="主题设置">
             <a-menu-item>
-              <a-menu-item disabled> 小组件 </a-menu-item>
+              <a-menu-item @click="showThemeSwitch"> 主题 </a-menu-item>
             </a-menu-item>
             <a-menu-item>
               <a-menu-item @click="showSettingView"> 设置 </a-menu-item>
@@ -33,6 +33,18 @@
         </a-sub-menu>
       </a-menu>
     </div>
+    <!--    主体切换-->
+    <a-modal
+      v-model:visible="themeSwitch"
+      :closable="false"
+      width="60vw"
+      ok-text="主题应用"
+      title="切换主题"
+      title-align="start"
+      @ok="themeApply"
+    >
+      <ThemeSwitch ref="themeStyleSetting"></ThemeSwitch>
+    </a-modal>
     <!--    主体设置-->
     <a-modal
       v-model:visible="visibleSetting"
@@ -42,7 +54,7 @@
       body-class="themeSettingModal"
       @ok="handleOk"
     >
-      <a-tabs type="rounded">
+      <a-tabs type="rounded" :animation="true">
         <template #extra>
           <a-space>
             <a-switch v-model="onlyRead">
@@ -239,6 +251,8 @@
   import releaseHistoryVersions from '@/api/version';
   import WidgetPluginStore from '@/views/workplace/components/WidgetPluginStore.vue';
   import _ from 'lodash';
+  import ShortcutModel from '@/model/ShortcutModel';
+  import ThemeSwitch from '@/views/workplace/components/ThemeSwitch.vue';
 
   export default defineComponent({
     name: 'WorkerHeader',
@@ -248,6 +262,7 @@
       CategoryToolTable,
       ThemeSetting,
       WidgetPluginStore,
+      ThemeSwitch,
     },
     props: {
       dataSource: SettingModel,
@@ -258,11 +273,18 @@
       const searchEngineSetting = ref(null);
       const shortcutSetting = ref(null);
       const themeSetting = ref(null);
+      const themeStyleSetting = ref(null);
       const widgetSetting = ref(null);
       const categorySetting = ref(null);
       const calendarView = ref(false);
       const onlyRead = ref(false);
       const visibleSetting = ref(false);
+      const shortcutList: Array<ShortcutModel> = _.filter(
+        props.dataSource.shortcut,
+        (p) => {
+          return p?.show;
+        }
+      );
       const showSettingView = () => {
         visibleSetting.value = true;
       };
@@ -271,6 +293,22 @@
         _.sortBy(releaseHistoryVersions, (s) => s.date).reverse()[0]
       );
       console.log('当前版本 v', lastVersion.value.version);
+
+      const themeSwitch = ref(false);
+
+      const themeApply = () => {
+        themeSwitch.value = false;
+        // 主题配置保存
+        if (themeStyleSetting.value?.saveAction()) {
+          Message.success({
+            content: '主题应用中!',
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
+        }
+      };
+
       const applySetting = () => {
         Message.success({
           content: '你的配置已重新生成,正在应用中!',
@@ -369,7 +407,16 @@
       //     'https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0';
       //   document.getElementsByTagName('head')[0].appendChild(script);
       // });
+
+      const showThemeSwitch = () => {
+        themeSwitch.value = true;
+      };
       return {
+        themeStyleSetting,
+        themeApply,
+        showThemeSwitch,
+        themeSwitch,
+        shortcutList,
         lastVersion,
         widgetSetting,
         resetConfig,

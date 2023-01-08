@@ -210,8 +210,12 @@
       });
       const searchInputText = ref('');
 
-      const searchCardList = reactive<Array<SearchEngineModel>>(
-        props.searchList
+      const searchCardList: Array<SearchEngineModel> = reactive<
+        Array<SearchEngineModel>
+      >(
+        _.filter(props.searchList, (p) => {
+          return p.show;
+        })
       );
       const currentSearchCardIndex = ref(0);
       const currentCategoryIndex = ref(0);
