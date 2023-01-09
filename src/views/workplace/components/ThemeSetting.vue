@@ -203,7 +203,6 @@
 <script lang="ts">
   // 抽屉工具，支持8个或者是4个
   import { defineComponent, reactive, watch } from 'vue';
-  import ThemeModel from '@/model/ThemeModel';
   import deepClone from '@/api/lodashs';
   import { setTheme } from '@/api/toolList';
   import 'highlight.js/lib/common';
