@@ -45,7 +45,6 @@
         } else {
           glassV.value = true;
         }
-        console.log(`获取焦点`);
       }
 
       function notFuzzy() {
