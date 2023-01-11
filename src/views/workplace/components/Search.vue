@@ -61,7 +61,7 @@
               @do-action="search"
             />
           </div>
-          <div v-else style="width: 55vw; margin-left: -20px">
+          <div v-else style="width: 55vw">
             <SearchStandard
               :placeholder="placeholder"
               @do-action="search"
@@ -105,8 +105,8 @@
             :key="index"
             :w="wp.w"
             :h="wp.h"
-            :y="calculateY(wp.y)"
-            :x="calculateX(wp.x)"
+            :y="wp.y * d.clientHeight"
+            :x="wp.x * d.clientWidth"
             parent=".widgetWrapper"
             class-name="dragWidgetPlugin"
             :draggable="wp.draggable"
@@ -115,7 +115,8 @@
             @resize-end="resize(wp, $event)"
           >
             <a-popconfirm
-              content="检测到小组件位置发生了变化,请确认是否要保存当前的位置"
+              content="检测到小组件位置发
+              生了变化,请确认是否要保存当前的位置"
               type="info"
               popup-container="widgetCls"
               :disabled="!wp.tip"
@@ -125,7 +126,12 @@
               <template #icon>
                 <Icon-Font type="icon-yidong1" />
               </template>
-              <component :is="wp.name" class="widgetCls"></component>
+              <component
+                :is="wp.name"
+                v-longPress="{ fn: longPressDrag, arg: wp }"
+                class="widgetCls"
+                style="left: 50%"
+              ></component>
             </a-popconfirm>
           </Vue3DraggableResizable>
         </DraggableContainer>
@@ -162,7 +168,7 @@
   import SearchStandard from '@/views/workplace/components/search/SearchStandard.vue';
   import SearchSimple from '@/views/workplace/components/search/SearchSimple.vue';
   import SupperSearch from '@/views/workplace/components/search/SupperSearch.vue';
-  import SupperGlassSearch from "@/views/workplace/components/search/SupperGlassSearch.vue";
+  import SupperGlassSearch from '@/views/workplace/components/search/SupperGlassSearch.vue';
   import ThemeModel from '@/model/ThemeModel';
   import { openWindow, setWeight } from '@/api/toolList';
   import defaultPlaceholder from '@/api/placeholder';
@@ -246,7 +252,12 @@
         ctx.emit('changeCategory', index);
       }
       function search(value: any) {
-        const url = searchCardList[currentSearchCardIndex.value].href + value;
+        let url;
+        if (searchCardList[currentSearchCardIndex.value]?.href) {
+          url = searchCardList[currentSearchCardIndex.value].href + value;
+        } else {
+          url = `https://www.baidu.com/s?ie=UTF-8&wd=${value}`;
+        }
         openWindow(url);
       }
       const handleClick = () => {
@@ -264,19 +275,15 @@
         fuseValue.value = newValue;
       };
 
-      const wps: Array<WidgetPlugin> = _.filter(
-        useWpsStore().currentUserWps,
-        (w) => {
-          return w.show;
-        }
-      );
+      const wpStore = useWpsStore();
+      const wps: Array<WidgetPlugin> = _.filter(wpStore.currentUserWps, (w) => {
+        return w.show;
+      });
       for (let i = 0; i < wps.length; i += 1) {
         wps[i].tip = false;
       }
 
-      console.log('当前wps', wps);
       const dragEnd = (wp: WidgetPlugin, e: any) => {
-        console.log(`dragEnd`, wp, e);
         const d: Device = device();
         const oldWpx = wp.x;
         const oldWpy = wp.y;
@@ -290,9 +297,16 @@
         setWeight(wps);
       };
 
+      const longPressDrag = (w: WidgetPlugin) => {
+        // 如果小组件是锁定状态,长按后允许拖动
+        console.log(`长按操作`);
+        if (!w.draggable) {
+          w.draggable = true;
+        }
+      };
+      const d = reactive(device());
+
       const resize = (wp: WidgetPlugin, e: any) => {
-        console.log(`resize`, wp, e);
-        const d: Device = device();
         const oldWpx = wp.x;
         const oldWpy = wp.y;
         const oldW = wp.y;
@@ -322,24 +336,13 @@
         w.draggable = false;
         w.tip = false;
         setWeight(wps);
-        // window.location.reload();
-      };
-
-      const calculateX = (x: number) => {
-        const d: Device = device();
-        return x * d.clientWidth;
-      };
-
-      const calculateY = (y: number) => {
-        const d: Device = device();
-        return y * d.clientHeight;
       };
 
       return {
         wps,
+        d,
+        longPressDrag,
         setWeightAndRef,
-        calculateX,
-        calculateY,
         resize,
         dragEnd,
         fuseValue,

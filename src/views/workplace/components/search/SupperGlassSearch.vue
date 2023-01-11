@@ -2,7 +2,7 @@
   <div id="supperWrapper">
     <div id="supperSearchWrapper" @blur="closeTipAction">
       <div class="supperSearch">
-        <div class="searchIcon" @click="search" style="cursor: pointer">
+        <div class="searchIcon" style="cursor: pointer" @click="search">
           <icon-search :size="24" :style="{ color: '#dedddd' }" />
         </div>
         <div class="searchInput">

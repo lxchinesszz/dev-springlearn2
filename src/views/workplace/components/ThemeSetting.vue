@@ -82,7 +82,6 @@
         </a-form-item>
         <a-form-item label="搜索框样式">
           <a-radio-group v-model="themeSetting.searchStyle" type="button">
-            <a-radio value="search-standard">标准</a-radio>
             <a-radio value="search-google">Google</a-radio>
             <a-radio value="search-simple">简单</a-radio>
             <a-radio value="supper-search">超级搜索</a-radio>

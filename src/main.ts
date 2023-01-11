@@ -4,6 +4,7 @@ import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 import BaiduCalendar from 'vue-baidu-calendar';
 import iconfont from '@/iconfont/iconfont';
 import _ from 'lodash';
+import directive from '@/directive';
 import router from './router';
 import store from './store';
 import App from './App.vue';
@@ -25,6 +26,7 @@ if (import.meta.env.MODE === 'development') {
   app.config.warnHandler = () => {};
 }
 
+app.use(directive);
 app.use(ArcoVue, {});
 app.use(ArcoVueIcon);
 app.use(iconfont);

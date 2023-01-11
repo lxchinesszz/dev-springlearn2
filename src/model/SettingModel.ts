@@ -1,7 +1,6 @@
 import SearchEngineModel from '@/model/SearchEngineModel';
 import CategoryModel from '@/model/CategoryModel';
 import ShortcutModel from '@/model/ShortcutModel';
-import ThemeModel from '@/model/ThemeModel';
 import WidgetPlugin from '@/model/WidgetPlugin';
 import ExtThemeModel from '@/model/ExtThemeModel';
 

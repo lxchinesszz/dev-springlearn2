@@ -4,13 +4,12 @@ import CategoryModel from '@/model/CategoryModel';
 import SearchEngineModel from '@/model/SearchEngineModel';
 import deepClone, { isEmpty, isJson } from '@/api/lodashs';
 import ShortcutModel from '@/model/ShortcutModel';
-import ThemeModel from '@/model/ThemeModel';
 import useClipboard from 'vue-clipboard3';
 import { Message } from '@arco-design/web-vue';
 import Fuse from 'fuse.js';
 import FuseToolResult from '@/model/FuseToolResult';
 import WidgetPlugin from '@/model/WidgetPlugin';
-import ExtThemeModel from "@/model/ExtThemeModel";
+import ExtThemeModel from '@/model/ExtThemeModel';
 
 export function isNewUser() {
   return isEmpty(localStorage.getItem('ds'));

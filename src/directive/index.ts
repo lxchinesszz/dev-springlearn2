@@ -1,3 +1,9 @@
 // 挂载，注册
-const directives = {};
-export default directives;
+import { App } from 'vue';
+import LongPress from '@/directive/longpress/longpress';
+
+export default {
+  install(app: App) {
+    app.directive('longPress', LongPress);
+  },
+};

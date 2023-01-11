@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { fetchSourceData } from '@/api/toolList';
 import { reactive } from 'vue';
 import deepClone from '@/api/lodashs';
-import ExtThemeModel from "@/model/ExtThemeModel";
+import ExtThemeModel from '@/model/ExtThemeModel';
 
 const useWpsStore = defineStore('wpsStore', () => {
   /**
@@ -42,11 +42,22 @@ const useWpsStore = defineStore('wpsStore', () => {
     return canConfigWps;
   }
 
+  function draggable(w: WidgetPlugin) {
+    for (let i = 0; i < currentUserWps?.length; i += 1) {
+      console.log(currentUserWps[i].name, w.name);
+      if (currentUserWps[i].name === w.name) {
+        currentUserWps[i].draggable = true;
+        console.log(`currentUserWps[i].draggable = true;`);
+      }
+    }
+  }
+
   return {
+    draggable,
     mergeNewWps,
     canConfigWps,
     currentUserWps,
-    theme
+    theme,
   };
 });
 
