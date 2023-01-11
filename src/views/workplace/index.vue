@@ -177,7 +177,7 @@
     if (driverInfo.mobile) {
       // 跳转手机端
       const router = useRouter();
-      router.push('/');
+      router.push('/mobile');
     } else if (!theme.simplify) {
       showTipsIfNeeded();
     }

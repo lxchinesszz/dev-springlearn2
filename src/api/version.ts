@@ -79,5 +79,12 @@ const releaseHistoryVersions: Array<Version> = [
     type: 'FEATURE',
     dotColor: '#52C419',
   },
+  {
+    version: '1.2.6',
+    date: '2023-01-11',
+    items: ['🎉手机端引导页'],
+    type: 'FEATURE',
+    dotColor: '#52C419',
+  },
 ];
 export default releaseHistoryVersions;

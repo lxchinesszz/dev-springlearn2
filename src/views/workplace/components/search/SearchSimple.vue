@@ -24,6 +24,7 @@
       class="input"
       :placeholder="placeholder"
       type="text"
+      @blur="blurAction"
       @keydown.enter="search"
     />
     <button
