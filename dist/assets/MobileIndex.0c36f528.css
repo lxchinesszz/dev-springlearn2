@@ -1,0 +1,5 @@
+#mobileWrapper[data-v-4fb11bd2]{display:flex;align-items:center;justify-content:center;width:100vw;height:100vh;background-image:url(https://img.springlearn.cn/blog/83b872730d3ab4a502c2ae5d73db4dee.jpeg);background-position:center center;background-size:cover}
+
+.searchDiv[data-v-4fb11bd2]{position:absolute;bottom:2rem;width:100vw}
+
+.glass[data-v-4fb11bd2]{backdrop-filter:blur(2px);backdrop-filter:blur(2px);transition:all .5s}
