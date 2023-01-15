@@ -913,32 +913,37 @@ const searchList = [
     name: 'Baidu',
     slogan: '百度一下,你就知道',
     href: 'https://www.baidu.com/s?ie=UTF-8&wd=',
+    show: true,
   },
   {
-    name: 'Google2',
+    name: 'Google',
     slogan: '使用谷歌试试手气吧',
-    // djt: 1,
     href: 'https://www.google.com/search?q=',
+    show: true,
   },
   {
     name: 'Github',
     slogan: '全球最大的代码仓库平台',
     href: 'https://github.com/search?q=',
+    show: true,
   },
   {
     name: 'Oschina',
     slogan: 'OSCHINA - 中文开源技术交流社区_开源中国',
     href: 'https://www.oschina.net/search?q=',
+    show: true,
   },
   {
     name: 'CSDN',
     slogan: 'CSDN - 专业开发者社区',
     href: 'https://so.csdn.net/so/search?q=',
+    show: true,
   },
   {
     name: 'Bilibi',
     slogan: '哔哩哔哩 (゜-゜)つロ 干杯~-bilibili',
     href: 'https://search.bilibili.com/all?keyword=',
+    show: true,
   },
 ];
 
@@ -1013,6 +1018,9 @@ const style = {
   supperSearchEngine: ['tool'],
   frostedGlass: true,
   hideSearchAroundText: false,
+  favicon:
+    'https://img.springlearn.cn/blog/fc38db5ff45e41d4dee70ccd2e0e58aa.png',
+  webTitle: '我的工作台',
 };
 
 const wps = [];

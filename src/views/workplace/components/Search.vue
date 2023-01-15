@@ -130,7 +130,6 @@
                 :is="wp.name"
                 v-longPress="{ fn: longPressDrag, arg: wp }"
                 class="widgetCls"
-                style="left: 50%"
               ></component>
             </a-popconfirm>
           </Vue3DraggableResizable>

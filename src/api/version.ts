@@ -61,7 +61,7 @@ const releaseHistoryVersions: Array<Version> = [
   {
     version: '1.2.4',
     date: '2023-01-07',
-    items: ['🎉正式开放小组件', '新增诗词歌赋组件', '🎉新增颜色吸管小组件'],
+    items: ['正式开放小组件', '新增诗词歌赋组件', '新增颜色吸管小组件'],
     type: 'FEATURE',
     dotColor: '#52C419',
   },
@@ -69,12 +69,12 @@ const releaseHistoryVersions: Array<Version> = [
     version: '1.2.5',
     date: '2023-01-08',
     items: [
-      '🎉优化极简模式下设置按钮',
+      '优化极简模式下设置按钮',
       '增加预设主题安装',
-      '🎉搜索引擎支持设置是否展示',
+      '搜索引擎支持设置是否展示',
       '快捷标签支持设置是否展示',
       '支持自定义网站标题',
-      '🎉支持自定义网站favicon',
+      '支持自定义网站favicon',
     ],
     type: 'FEATURE',
     dotColor: '#52C419',
@@ -82,7 +82,7 @@ const releaseHistoryVersions: Array<Version> = [
   {
     version: '1.2.6',
     date: '2023-01-11',
-    items: ['🎉手机端引导页'],
+    items: ['手机端引导页'],
     type: 'FEATURE',
     dotColor: '#52C419',
   },

@@ -75,24 +75,20 @@ export function saveLocal(arg: SettingModel) {
 export function setShortcut(arg: Array<ShortcutModel>) {
   const settingModel = localDataSource();
   settingModel.shortcut = arg;
-  // eslint-disable-next-line no-console
-  console.log('保存快捷方式', arg);
   saveLocal(settingModel);
 }
 
 export function setSearchEngine(arg: Array<SearchEngineModel>) {
   const settingModel = localDataSource();
   settingModel.searchEngineList = arg;
-  // eslint-disable-next-line no-console
-  console.log('保存搜索引擎', arg);
   saveLocal(settingModel);
 }
 
 export function setTheme(arg: ExtThemeModel) {
   const settingModel = localDataSource();
+  arg.webTitle = settingModel.theme.webTitle;
+  arg.favicon = settingModel.theme.favicon;
   settingModel.theme = arg;
-  // eslint-disable-next-line no-console
-  console.log('保存主题', arg);
   saveLocal(settingModel);
 }
 

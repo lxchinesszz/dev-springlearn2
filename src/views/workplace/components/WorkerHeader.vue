@@ -217,10 +217,7 @@
       @cancel="releaseHistoryVisible = false"
     >
       <template #header>
-        <span>
-          <IconFont type="icon-huojian2"></IconFont>
-          当前版本: v{{ lastVersion.version }}</span
-        >
+        <span> 🎉 当前版本: v{{ lastVersion.version }}</span>
       </template>
       <a-timeline label-position="relative" reverse>
         <a-timeline-item
@@ -505,7 +502,8 @@
   }
 
   .headerLeft {
-    flex-grow: 1;
+    /*flex-grow: 1;*/
+    margin-left: 12rem;
   }
   .navLogo {
     margin-left: 8%;
