@@ -86,5 +86,12 @@ const releaseHistoryVersions: Array<Version> = [
     type: 'FEATURE',
     dotColor: '#52C419',
   },
+  {
+    version: '1.2.7',
+    date: '2023-01-11',
+    items: ['🐛 fix 浏览器多窗口保存配置不一致问题'],
+    type: 'FEATURE',
+    dotColor: '#52C419',
+  },
 ];
 export default releaseHistoryVersions;

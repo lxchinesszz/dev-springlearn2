@@ -71,7 +71,6 @@
               shape="circle"
               size="small"
               class="importBtn"
-              :disabled="!onlyRead"
               status="warning"
               type="primary"
               @click="copyConfig"
@@ -251,7 +250,12 @@
   import SettingModel from '@/model/SettingModel';
   import { Message, Modal } from '@arco-design/web-vue';
   import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
-  import { copyConfig, saveLocal, restLocalSourceData } from '@/api/toolList';
+  import {
+    copyConfig,
+    saveLocal,
+    restLocalSourceData,
+    fetchSourceData,
+  } from '@/api/toolList';
   import { readerAsync } from '@/api/lodashs';
   import releaseHistoryVersions from '@/api/version';
   import WidgetPluginStore from '@/views/workplace/components/WidgetPluginStore.vue';
@@ -269,9 +273,9 @@
       WidgetPluginStore,
       ThemeSwitch,
     },
-    props: {
-      dataSource: SettingModel,
-    },
+    // props: {
+    //   dataSource: SettingModel,
+    // },
     emits: ['export', 'import', 'ds'],
     setup(props, ctx) {
       const releaseHistoryVisible = ref(false);
@@ -285,14 +289,16 @@
       const calendarView = ref(false);
       const onlyRead = ref(false);
       const visibleSetting = ref(false);
+      let dataSource: SettingModel = reactive(fetchSourceData());
       const shortcutList: Array<ShortcutModel> = _.filter(
-        props.dataSource.shortcut,
+        dataSource.shortcut,
         (p) => {
           return p?.show;
         }
       );
       const showSettingView = () => {
         visibleSetting.value = true;
+        dataSource = fetchSourceData();
       };
       const rhv = reactive(releaseHistoryVersions);
       const lastVersion = ref(
@@ -418,6 +424,7 @@
         themeSwitch.value = true;
       };
       return {
+        dataSource,
         themeStyleSetting2,
         themeStyleSetting,
         themeApply,

@@ -1,10 +1,7 @@
 <template>
   <a-layout v-show="!theme.simplify">
     <a-layout-header id="header">
-      <WorkerHeader
-        ref="workHeaderRef"
-        :data-source="sourceData"
-      ></WorkerHeader>
+      <WorkerHeader ref="workHeaderRef"></WorkerHeader>
     </a-layout-header>
     <a-layout-content class="animated" :class="theme.windowAnimate">
       <Search
