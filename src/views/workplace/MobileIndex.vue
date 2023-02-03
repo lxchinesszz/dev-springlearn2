@@ -1,58 +1,14 @@
 <template>
   <div id="mobileWrapper">
-    <div
-      style="position: relative; height: 100vh; width: 100vw"
-      :class="glassV ? 'glass' : ''"
-      @focus="fuzzy"
-    >
-      <div class="searchDiv">
-        <SearchSimple
-          :placeholder="placeholder"
-          @do-action="search"
-          @change="fuzzy"
-          @blur="notFuzzy"
-        />
-      </div>
+    <div style="position: relative; height: 100vh; width: 100vw" class="glass">
+      <div></div>
+      <h1 style="color: #ffffff; text-align: center">设计狮 🦁,疯狂加班中。</h1>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
   // 抽屉工具，支持8个或者是4个
-  import { defineComponent, ref } from 'vue';
-  import SearchSimple from '@/views/workplace/components/search/SearchSimple.vue';
-  import defaultPlaceholder from '@/api/placeholder';
-  import { openWindow } from '@/api/toolList';
-
-  export default defineComponent({
-    name: 'MobileIndex',
-    components: { SearchSimple },
-    setup() {
-      const glassV = ref(false);
-      const placeholder = ref();
-      defaultPlaceholder()
-        .then(({ data }) => {
-          placeholder.value = data.hitokoto;
-        })
-        .catch(console.error);
-      function search(value: any) {
-        const url = `https://www.baidu.com/s?ie=UTF-8&wd=${value}`;
-        openWindow(url);
-      }
-      function fuzzy(newValue) {
-        if (newValue === '') {
-          glassV.value = false;
-        } else {
-          glassV.value = true;
-        }
-      }
-
-      function notFuzzy() {
-        glassV.value = false;
-      }
-      return { search, placeholder, glassV, fuzzy, notFuzzy };
-    },
-  });
 </script>
 
 <style lang="less" scoped>
@@ -78,5 +34,15 @@
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
     transition: all 0.5s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-demo {
+    width: 100%;
+  }
+  .card-demo :deep(.arco-card-header) {
+    border: none;
   }
 </style>

@@ -1003,9 +1003,6 @@ const style = {
   windowAnimate: 'fadeInRightBig',
   searchAnimate: 'fadeInRightBig',
   navBarBackgroundCss:
-    'background-color: rgba(255, 255, 255, 0.25);\n' +
-    'backdrop-filter: blur(30px);\n' +
-    '-webkit-backdrop-filter: blur(30px);\n' +
     'border: 1px solid rgba(255, 255, 255, 0.18);\n' +
     'box-shadow: rgba(142, 142, 142, 0.19) 0px 6px 15px 0px;\n' +
     '-webkit-box-shadow: rgba(142, 142, 142, 0.19) 0px 6px 15px 0px;\n' +
@@ -1016,7 +1013,7 @@ const style = {
   simplify: false,
   searchTextCss: '',
   supperSearchEngine: ['tool'],
-  frostedGlass: true,
+  frostedGlass: false,
   hideSearchAroundText: false,
   favicon:
     'https://img.springlearn.cn/blog/fc38db5ff45e41d4dee70ccd2e0e58aa.png',

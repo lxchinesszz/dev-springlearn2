@@ -92,6 +92,12 @@ const releaseHistoryVersions: Array<Version> = [
     items: ['🐛 fix 浏览器多窗口保存配置不一致问题'],
     type: 'FEATURE',
     dotColor: '#52C419',
+  },{
+    version: '1.2.8',
+    date: '2023-02-03',
+    items: ['🐛 fix 引导步骤显示问题', '增加产品吐槽论坛'],
+    type: 'FEATURE',
+    dotColor: '#52C419',
   },
 ];
 export default releaseHistoryVersions;

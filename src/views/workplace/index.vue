@@ -156,7 +156,6 @@
         allowClose: false,
         onReset: () => {
           // 获取默认数据保存到本地
-          console.log('报错本地');
           saveLocal(sourceData);
         },
       });
@@ -187,8 +186,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 48px;
-    position: sticky;
+    height: auto;
     top: 0;
   }
 

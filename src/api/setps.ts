@@ -3,7 +3,7 @@
 // bottom, bottom-center, bottom-right, mid-center
 const steps = [
   {
-    element: '.navLogo',
+    element: '#jikeLogo',
     popover: {
       className: 'tipWrapper',
       title: '极客导航',
@@ -18,15 +18,6 @@ const steps = [
       title: '搜索区域',
       description: '你可以定义这部分的动画及样式',
       position: 'bottom-center',
-    },
-  },
-  {
-    element: '.searchTargetCardHover',
-    popover: {
-      className: 'tipCategoryWrapper',
-      title: '分类',
-      description: '最多支持你建立7个分类栏',
-      position: 'top-center',
     },
   },
   {
