@@ -16,7 +16,7 @@
       </div>
     </div>
     <div
-      v-if="manySearchTipVisible"
+      v-if="manySearchTipVisible && theme.fuzzySearch"
       id="supperTipWrapper"
       class="animated fadeIn"
     >
@@ -269,13 +269,16 @@
           fuseResultList.push(...result);
         }
         manySearchEngineFuzzy(newValue);
-        // 判断是否展示
-        manySearchTipVisible.value =
-          (tipVisible.value && fuseResultList.length > 0) ||
-          bdFuzzyResultList.length > 0 ||
-          kfFuzzyResultList.length > 0 ||
-          zhFuzzyResultList.length > 0 ||
-          biliFuzzyResultList.length > 0;
+
+        setTimeout(() => {
+          // 判断是否展示
+          manySearchTipVisible.value =
+            (tipVisible.value && fuseResultList.length > 0) ||
+            bdFuzzyResultList.length > 0 ||
+            kfFuzzyResultList.length > 0 ||
+            zhFuzzyResultList.length > 0 ||
+            biliFuzzyResultList.length > 0;
+        }, 300);
       });
 
       const open = (url: string) => {

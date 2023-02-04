@@ -46,7 +46,7 @@
             <template #unchecked> 关闭 </template>
           </a-switch>
         </a-form-item>
-        <a-form-item label="模糊查找工具">
+        <a-form-item label="超级搜索">
           <a-switch v-model="themeSetting.fuzzySearch">
             <template #checked> 打开 </template>
             <template #unchecked> 关闭 </template>
