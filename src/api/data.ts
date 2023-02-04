@@ -1027,6 +1027,7 @@ const setting = {
   categories: data,
   searchEngineList: searchList,
   wps,
+  version: 0,
 };
 
 export default setting;

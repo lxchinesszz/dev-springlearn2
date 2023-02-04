@@ -35,6 +35,8 @@ export default class SettingModel {
    */
   public wps: Array<WidgetPlugin>;
 
+  public version: number;
+
   constructor(
     style: ExtThemeModel,
     shortcut: Array<ShortcutModel>,

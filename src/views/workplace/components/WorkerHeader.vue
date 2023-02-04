@@ -308,8 +308,21 @@
         }
       );
       const showSettingView = () => {
-        visibleSetting.value = true;
+        const oldVersion = dataSource.version;
         dataSource = fetchSourceData();
+        const newVersion = dataSource.version;
+        if (oldVersion !== newVersion) {
+          Message.warning({
+            content:
+              '当前配置已发生变更,强制保存可能会导致数据丢失,准备刷新页面。',
+            duration: 3000,
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
+        } else {
+          visibleSetting.value = true;
+        }
       };
       const rhv = reactive(releaseHistoryVersions);
       const lastVersion = ref(

@@ -387,6 +387,28 @@
       desc: '代码一生',
       show: false,
     },
+    {
+      searchStyle: 'supper-glass-search',
+      searchBackgroundCss:
+        "background-color: #f0f4ff;\n   background-size: cover;\n   background-repeat: no-repeat;\n   background-image: url('https://img.springlearn.cn/learn_e8eaa49e60853dcea83e553e43b102d1.svg');",
+      windowAnimate: 'fadeInRightBig',
+      searchAnimate: 'fadeInRightBig',
+      navBarBackgroundCss: '',
+      toolGroupAnimate: 'none',
+      closeIcon: false,
+      fuzzySearch: true,
+      simplify: true,
+      searchTextCss: '',
+      supperSearchEngine: ['tool'],
+      frostedGlass: false,
+      hideSearchAroundText: true,
+
+      img: 'https://img.springlearn.cn/blog/ba386c93bb4af0b31e05ddd9348e9d02.png',
+      author: '西魏陶渊明',
+      name: 'Github',
+      desc: 'Github',
+      show: false,
+    },
   ]);
 
   const store = useWpsStore();

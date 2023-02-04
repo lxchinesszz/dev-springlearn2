@@ -50,11 +50,9 @@ export function fetchSourceData(): SettingModel {
   let sourceData: SettingModel;
   if (isNewUser()) {
     // eslint-disable-next-line no-console
-    console.log('加载新用户配置');
     sourceData = defaultSourceData();
   } else {
     // eslint-disable-next-line no-console
-    console.log('加载本地用户配置');
     sourceData = localDataSource();
   }
   return sourceData;
@@ -69,6 +67,7 @@ export function fetchSearchList(): Array<SearchEngineModel> {
 }
 
 export function saveLocal(arg: SettingModel) {
+  arg.version += 1;
   localStorage.setItem('ds', JSON.stringify(arg));
 }
 

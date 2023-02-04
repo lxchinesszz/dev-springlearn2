@@ -296,8 +296,8 @@
           }
         }
         dragToolGroupIdx.value = toolGroupIdx;
-        console.log(`currentCategoryIdx`, dragCategoryIdx.value);
-        console.log(`currentToolGroupIdx`, dragToolGroupIdx.value);
+        // console.log(`currentCategoryIdx`, dragCategoryIdx.value);
+        // console.log(`currentToolGroupIdx`, dragToolGroupIdx.value);
         // updateCurrentToolGroup(toolGroup);
         const toolGroupList =
           canEditorCategories[dragCategoryIdx.value].toolList[
