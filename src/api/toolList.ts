@@ -85,8 +85,12 @@ export function setSearchEngine(arg: Array<SearchEngineModel>) {
 
 export function setTheme(arg: ExtThemeModel) {
   const settingModel = localDataSource();
-  arg.webTitle = settingModel.theme.webTitle;
-  arg.favicon = settingModel.theme.favicon;
+  if (!arg.webTitle) {
+    arg.webTitle = settingModel.theme.webTitle;
+  }
+  if (!arg.favicon) {
+    arg.favicon = settingModel.theme.favicon;
+  }
   settingModel.theme = arg;
   saveLocal(settingModel);
 }

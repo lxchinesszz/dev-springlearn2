@@ -102,7 +102,7 @@ const releaseHistoryVersions: Array<Version> = [
   },
   {
     version: '1.2.9',
-    date: '2023-02-03',
+    date: '2023-02-04',
     items: ['🐛 fix 超级搜索不展示问题'],
     type: 'FEATURE',
     dotColor: '#52C419',
