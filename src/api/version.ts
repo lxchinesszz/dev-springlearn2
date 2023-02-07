@@ -77,7 +77,7 @@ const releaseHistoryVersions: Array<Version> = [
       '支持自定义网站favicon',
     ],
     type: 'FEATURE',
-    dotColor: '#52C419',
+    dotColor: '#7aaf60',
   },
   {
     version: '1.2.6',
@@ -91,14 +91,14 @@ const releaseHistoryVersions: Array<Version> = [
     date: '2023-01-11',
     items: ['🐛 fix 浏览器多窗口保存配置不一致问题'],
     type: 'FEATURE',
-    dotColor: '#52C419',
+    dotColor: '#e80a80',
   },
   {
     version: '1.2.8',
     date: '2023-02-03',
     items: ['🐛 fix 引导步骤显示问题', '增加产品吐槽论坛'],
     type: 'FEATURE',
-    dotColor: '#52C419',
+    dotColor: '#407193',
   },
   {
     version: '1.2.9',
@@ -106,6 +106,13 @@ const releaseHistoryVersions: Array<Version> = [
     items: ['🐛 fix 超级搜索不展示问题'],
     type: 'FEATURE',
     dotColor: '#52C419',
+  },
+  {
+    version: '1.2.10',
+    date: '2023-02-07',
+    items: ['快捷标签支持新增行'],
+    type: 'FEATURE',
+    dotColor: '#e520ec',
   },
 ];
 export default releaseHistoryVersions;

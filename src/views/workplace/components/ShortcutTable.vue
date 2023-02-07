@@ -1,65 +1,84 @@
 <template>
-  <div class="tableWrapper">
-    <a-table
-      column-resizable
-      :bordered="{ cell: true }"
-      :columns="shortcutColumns"
-      :data="shortcutData"
-      :pagination="false"
-      :draggable="{}"
-      hoverable
-      stripe
-      table-layout-fixed
-      @change="handleChange"
-    >
-      <template #name="{ rowIndex }">
-        <a-input
-          v-model="shortcutData[rowIndex].name"
-          :max-length="6"
-          show-word-limit
-          allow-clear
-          :disabled="!onlyRead"
-        />
-      </template>
-      <template #href="{ rowIndex }">
-        <a-input
-          v-model="shortcutData[rowIndex].href"
-          placeholder="https://json.cn"
-          :disabled="!onlyRead"
-          allow-clear
-        >
-          <template #prefix>
-            <icon-public />
-          </template>
-        </a-input>
-      </template>
-      <template #openType="{ rowIndex }">
-        <a-select
-          v-model="shortcutData[rowIndex].openType"
-          :disabled="!onlyRead"
-        >
-          <a-option
-            v-for="index in openWindowType"
-            :key="index.code"
-            :label="index.name"
-            :value="index.code"
+  <a-scrollbar style="height: 400px; overflow: auto">
+    <div class="tableWrapper">
+      <a-table
+        column-resizable
+        :bordered="{ cell: true }"
+        :columns="shortcutColumns"
+        :data="shortcutData"
+        :pagination="false"
+        :draggable="{}"
+        hoverable
+        stripe
+        table-layout-fixed
+        @change="handleChange"
+      >
+        <template #name="{ rowIndex }">
+          <a-input
+            v-model="shortcutData[rowIndex].name"
+            :max-length="6"
+            show-word-limit
+            allow-clear
+            :disabled="!onlyRead"
+          />
+        </template>
+        <template #href="{ rowIndex }">
+          <a-input
+            v-model="shortcutData[rowIndex].href"
+            placeholder="https://json.cn"
+            :disabled="!onlyRead"
+            allow-clear
           >
-            {{ index.name }}
-          </a-option>
-        </a-select>
-      </template>
-      <template #show="{ rowIndex }">
-        <a-switch
-          v-model="shortcutData[rowIndex].show"
-          type="round"
-          :disabled="!onlyRead"
-        >
-          <template #checked> 展示 </template>
-          <template #unchecked> 隐藏 </template>
-        </a-switch>
-      </template>
-    </a-table>
-  </div>
+            <template #prefix>
+              <icon-public />
+            </template>
+          </a-input>
+        </template>
+        <template #openType="{ rowIndex }">
+          <a-select
+            v-model="shortcutData[rowIndex].openType"
+            :disabled="!onlyRead"
+          >
+            <a-option
+              v-for="index in openWindowType"
+              :key="index.code"
+              :label="index.name"
+              :value="index.code"
+            >
+              {{ index.name }}
+            </a-option>
+          </a-select>
+        </template>
+        <template #show="{ rowIndex }">
+          <a-space>
+            <a-switch
+              v-model="shortcutData[rowIndex].show"
+              type="round"
+              :disabled="!onlyRead"
+            >
+              <template #checked> 展示 </template>
+              <template #unchecked> 隐藏 </template>
+            </a-switch>
+            <a-button
+              size="mini"
+              type="primary"
+              status="danger"
+              :disabled="!onlyRead"
+              @click="delShortCut(rowIndex)"
+              >删除</a-button
+            >
+            <a-button
+              size="mini"
+              type="primary"
+              :disabled="!onlyRead"
+              @click="addShortCut"
+              >新增</a-button
+            >
+          </a-space>
+        </template>
+      </a-table>
+    </div>
+  </a-scrollbar>
 </template>
 
 <script lang="ts">
@@ -68,6 +87,7 @@
   import ShortcutModel from '@/model/ShortcutModel';
   import deepClone from '@/api/lodashs';
   import { setShortcut } from '@/api/toolList';
+  import { Message } from '@arco-design/web-vue';
 
   export default defineComponent({
     name: 'ShortcutTable',
@@ -127,9 +147,30 @@
         setShortcut(shortcutData);
         return shortcutData;
       }
+
+      function delShortCut(index: number) {
+        if (shortcutData.length <= 4) {
+          Message.error(
+            '请保留最少4个标签,如果你想隐藏导航标签,可以选择隐藏按钮 😊'
+          );
+        } else {
+          shortcutData.splice(index, 1);
+        }
+      }
+
+      function addShortCut() {
+        shortcutData.push({
+          name: '',
+          href: '',
+          openType: '',
+          show: false,
+        });
+      }
       return {
         handleChange,
+        addShortCut,
         saveAction,
+        delShortCut,
         shortcutData,
         openWindowType,
         shortcutColumns,
@@ -154,9 +195,6 @@
 
   a:hover {
     color: cornflowerblue;
-  }
-  .tableWrapper {
-    height: 400px;
   }
   :deep(.arco-input[disabled]) {
     -webkit-text-fill-color: #929396;
