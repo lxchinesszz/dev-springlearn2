@@ -29,16 +29,17 @@
             <a-menu-item>
               <a-menu-item
                 @click="openUrl('https://support.qq.com/products/424496')"
-                >兔小巢</a-menu-item
+              >兔小巢
+              </a-menu-item
               >
             </a-menu-item>
           </a-menu-item-group>
           <a-menu-item-group title="主题设置">
             <a-menu-item>
-              <a-menu-item @click="showThemeSwitch"> 主题 </a-menu-item>
+              <a-menu-item @click="showThemeSwitch"> 主题</a-menu-item>
             </a-menu-item>
             <a-menu-item>
-              <a-menu-item @click="showSettingView"> 设置 </a-menu-item>
+              <a-menu-item @click="showSettingView"> 设置</a-menu-item>
             </a-menu-item>
           </a-menu-item-group>
         </a-sub-menu>
@@ -88,6 +89,18 @@
             >
               <a-tooltip content="点击复制配置文件到粘贴板">
                 <icon-copy />
+              </a-tooltip>
+            </a-button>
+            <a-button
+              shape="circle"
+              size="small"
+              class="importBtn"
+              status="warning"
+              type="primary"
+              @click="importSettingByClipboard"
+            >
+              <a-tooltip content="从粘贴板导入配置文件">
+                <icon-experiment />
               </a-tooltip>
             </a-button>
             <a-button
@@ -253,269 +266,297 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, h, reactive, ref } from 'vue';
-  import ShortcutTable from '@/views/workplace/components/ShortcutTable.vue';
-  import SearchEngineTable from '@/views/workplace/components/SearchEngineTable.vue';
-  import CategoryToolTable from '@/views/workplace/components/CategoryToolTable.vue';
-  import ThemeSetting from '@/views/workplace/components/ThemeSetting.vue';
-  import SettingModel from '@/model/SettingModel';
-  import { Message, Modal } from '@arco-design/web-vue';
-  import { IconFaceSmileFill } from '@arco-design/web-vue/es/icon';
-  import {
-    copyConfig,
-    saveLocal,
-    restLocalSourceData,
-    fetchSourceData,
-  } from '@/api/toolList';
-  import { readerAsync } from '@/api/lodashs';
-  import releaseHistoryVersions from '@/api/version';
-  import WidgetPluginStore from '@/views/workplace/components/WidgetPluginStore.vue';
-  import _ from 'lodash';
-  import ShortcutModel from '@/model/ShortcutModel';
-  import ThemeSwitch from '@/views/workplace/components/ThemeSwitch.vue';
+import { defineComponent, h, reactive, ref } from "vue";
+import ShortcutTable from "@/views/workplace/components/ShortcutTable.vue";
+import SearchEngineTable from "@/views/workplace/components/SearchEngineTable.vue";
+import CategoryToolTable from "@/views/workplace/components/CategoryToolTable.vue";
+import ThemeSetting from "@/views/workplace/components/ThemeSetting.vue";
+import SettingModel from "@/model/SettingModel";
+import { Message, Modal } from "@arco-design/web-vue";
+import { IconFaceSmileFill } from "@arco-design/web-vue/es/icon";
+import {
+  copyConfig,
+  saveLocal,
+  restLocalSourceData,
+  fetchSourceData, clipboard
+} from "@/api/toolList";
+import { readerAsync } from "@/api/lodashs";
+import releaseHistoryVersions from "@/api/version";
+import WidgetPluginStore from "@/views/workplace/components/WidgetPluginStore.vue";
+import _ from "lodash";
+import ShortcutModel from "@/model/ShortcutModel";
+import ThemeSwitch from "@/views/workplace/components/ThemeSwitch.vue";
 
-  export default defineComponent({
-    name: 'WorkerHeader',
-    components: {
-      ShortcutTable,
-      SearchEngineTable,
-      CategoryToolTable,
-      ThemeSetting,
-      WidgetPluginStore,
-      ThemeSwitch,
-    },
-    // props: {
-    //   dataSource: SettingModel,
-    // },
-    emits: ['export', 'import', 'ds'],
-    setup(props, ctx) {
-      const releaseHistoryVisible = ref(false);
-      const searchEngineSetting = ref(null);
-      const shortcutSetting = ref(null);
-      const themeSetting = ref(null);
-      const themeStyleSetting = ref(null);
-      const themeStyleSetting2 = ref(null);
-      const widgetSetting = ref(null);
-      const categorySetting = ref(null);
-      const calendarView = ref(false);
-      const onlyRead = ref(false);
-      const visibleSetting = ref(false);
-      let dataSource: SettingModel = reactive(fetchSourceData());
-      const shortcutList: Array<ShortcutModel> = _.filter(
-        dataSource.shortcut,
-        (p) => {
-          return p?.show;
-        }
-      );
-      const showSettingView = () => {
-        const oldVersion = dataSource.version;
-        dataSource = fetchSourceData();
-        const newVersion = dataSource.version;
-        if (oldVersion !== newVersion) {
-          Message.warning({
-            content:
-              '当前配置已发生变更,强制保存可能会导致数据丢失,准备刷新页面。',
-            duration: 3000,
-          });
-          setTimeout(() => {
-            window.location.reload();
-          }, 3000);
-        } else {
-          visibleSetting.value = true;
-        }
-      };
-      const rhv = reactive(releaseHistoryVersions);
-      const lastVersion = ref(
-        _.sortBy(releaseHistoryVersions, (s) => s.date).reverse()[0]
-      );
-      console.log('当前版本 v', lastVersion.value.version);
+export default defineComponent({
+  name: "WorkerHeader",
+  components: {
+    ShortcutTable,
+    SearchEngineTable,
+    CategoryToolTable,
+    ThemeSetting,
+    WidgetPluginStore,
+    ThemeSwitch
+  },
+  // props: {
+  //   dataSource: SettingModel,
+  // },
+  emits: ["export", "import", "ds"],
+  setup(props, ctx) {
+    const releaseHistoryVisible = ref(false);
+    const searchEngineSetting = ref(null);
+    const shortcutSetting = ref(null);
+    const themeSetting = ref(null);
+    const themeStyleSetting = ref(null);
+    const themeStyleSetting2 = ref(null);
+    const widgetSetting = ref(null);
+    const categorySetting = ref(null);
+    const calendarView = ref(false);
+    const onlyRead = ref(false);
+    const visibleSetting = ref(false);
+    let dataSource: SettingModel = reactive(fetchSourceData());
+    const shortcutList: Array<ShortcutModel> = _.filter(
+      dataSource.shortcut,
+      (p) => {
+        return p?.show;
+      }
+    );
+    const showSettingView = () => {
+      const oldVersion = dataSource.version;
+      dataSource = fetchSourceData();
+      const newVersion = dataSource.version;
+      if (oldVersion !== newVersion) {
+        Message.warning({
+          content:
+            "当前配置已发生变更,强制保存可能会导致数据丢失,准备刷新页面。",
+          duration: 3000
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      } else {
+        visibleSetting.value = true;
+      }
+    };
+    const rhv = reactive(releaseHistoryVersions);
+    const lastVersion = ref(
+      _.sortBy(releaseHistoryVersions, (s) => s.date).reverse()[0]
+    );
+    console.log("当前版本 v", lastVersion.value.version);
 
-      const themeSwitch = ref(false);
+    const themeSwitch = ref(false);
 
-      const themeApply = () => {
-        themeSwitch.value = false;
-        // 主题配置保存
-        if (themeStyleSetting.value?.saveAction()) {
-          Message.success({
-            content: '主题应用中!',
-          });
-          setTimeout(() => {
-            window.location.reload();
-          }, 100);
-        }
-      };
-
-      const applySetting = () => {
+    const themeApply = () => {
+      themeSwitch.value = false;
+      // 主题配置保存
+      if (themeStyleSetting.value?.saveAction()) {
         Message.success({
-          content: '你的配置已重新生成,正在应用中!',
+          content: "主题应用中!"
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 100);
+      }
+    };
+
+    const applySetting = () => {
+      Message.success({
+        content: "你的配置已重新生成,正在应用中!"
+      });
+      setTimeout(() => {
+        visibleSetting.value = false;
+        // 主题配置保存
+        console.log(themeSetting.value?.saveAction());
+        console.log(shortcutSetting.value?.saveAction());
+        console.log(searchEngineSetting.value?.saveAction());
+        console.log(categorySetting.value?.saveAction());
+        console.log(widgetSetting.value?.saveAction());
+        themeStyleSetting2.value?.saveAction();
+        window.location.reload();
+      }, 100);
+    };
+    const openUrl = (url: string, openType = "_blank") => {
+      console.log("openType", openType);
+      console.log("openUrl", url, openType);
+      if (url) {
+        window.open(url, openType);
+      }
+    };
+    const uploadElementRef = ref(null);
+    const uploadAction = () => {
+      uploadElementRef.value.dispatchEvent(new MouseEvent("click"));
+    };
+
+    // 从粘贴板导入配置文件
+    const importSettingByClipboard = () => {
+      navigator.clipboard.readText().then(x => {
+        const sm: SettingModel = JSON.parse(x);
+        saveLocal(sm);
+        Message.info({
+          content: "你的配置已导出成功,正在应用中!",
+          icon: () => h(IconFaceSmileFill),
+          duration: 1000
         });
         setTimeout(() => {
           visibleSetting.value = false;
-          // 主题配置保存
-          console.log(themeSetting.value?.saveAction());
-          console.log(shortcutSetting.value?.saveAction());
-          console.log(searchEngineSetting.value?.saveAction());
-          console.log(categorySetting.value?.saveAction());
-          console.log(widgetSetting.value?.saveAction());
-          themeStyleSetting2.value?.saveAction();
           window.location.reload();
-        }, 100);
-      };
-      const openUrl = (url: string, openType = '_blank') => {
-        console.log('openType', openType);
-        console.log('openUrl', url, openType);
-        if (url) {
-          window.open(url, openType);
-        }
-      };
-      const uploadElementRef = ref(null);
-      const uploadAction = () => {
-        uploadElementRef.value.dispatchEvent(new MouseEvent('click'));
-      };
-      const uploadFileAction = () => {
-        const settingFile: File = uploadElementRef.value.files[0];
-        readerAsync(settingFile, {
-          callback(fileContent: any) {
-            const sm: SettingModel = JSON.parse(fileContent);
-            saveLocal(sm);
-            Message.info({
-              content: '你的配置已导出成功,正在应用中!',
-              icon: () => h(IconFaceSmileFill),
-              duration: 1000,
-            });
-            setTimeout(() => {
-              visibleSetting.value = false;
-              window.location.reload();
-            }, 300);
-          },
-        });
-      };
-      const openCalendarView = () => {
-        calendarView.value = true;
-      };
+        }, 300);
+      });
+    };
 
-      const switchDataSourceAction = () => {
-        ctx.emit('ds');
-      };
-
-      const resetConfig = () => {
-        Modal.error({
-          title: `请确认你的操作`,
-          content: `当前操作会重置数据,并恢复数据到初始化的默认配置,你确定要这么操作吗 ?`,
-          okText: '确认删除',
-          cancelText: '我在想想',
-          titleAlign: 'start',
-          escToClose: true,
-          onOk: () => {
-            restLocalSourceData();
+    const uploadFileAction = () => {
+      const settingFile: File = uploadElementRef.value.files[0];
+      readerAsync(settingFile, {
+        callback(fileContent: any) {
+          const sm: SettingModel = JSON.parse(fileContent);
+          saveLocal(sm);
+          Message.info({
+            content: "你的配置已导出成功,正在应用中!",
+            icon: () => h(IconFaceSmileFill),
+            duration: 1000
+          });
+          setTimeout(() => {
             visibleSetting.value = false;
             window.location.reload();
-          },
-        });
-      };
-      const showThemeSwitch = () => {
-        themeSwitch.value = true;
-      };
+          }, 300);
+        }
+      });
+    };
+    const openCalendarView = () => {
+      calendarView.value = true;
+    };
 
-      return {
-        dataSource,
-        themeStyleSetting2,
-        themeStyleSetting,
-        themeApply,
-        showThemeSwitch,
-        themeSwitch,
-        shortcutList,
-        lastVersion,
-        widgetSetting,
-        resetConfig,
-        switchDataSourceAction,
-        categorySetting,
-        uploadFileAction,
-        uploadElementRef,
-        uploadAction,
-        copyConfig,
-        searchEngineSetting,
-        shortcutSetting,
-        themeSetting,
-        visibleSetting,
-        showSettingView,
-        handleOk: applySetting,
-        releaseHistoryVisible,
-        onlyRead,
-        openUrl,
-        calendarView,
-        openCalendarView,
-        rhv,
-      };
-    },
-  });
+    const switchDataSourceAction = () => {
+      ctx.emit("ds");
+    };
+
+    const resetConfig = () => {
+      Modal.error({
+        title: `请确认你的操作`,
+        content: `当前操作会重置数据,并恢复数据到初始化的默认配置,你确定要这么操作吗 ?`,
+        okText: "确认删除",
+        cancelText: "我在想想",
+        titleAlign: "start",
+        escToClose: true,
+        onOk: () => {
+          restLocalSourceData();
+          visibleSetting.value = false;
+          window.location.reload();
+        }
+      });
+    };
+    const showThemeSwitch = () => {
+      themeSwitch.value = true;
+    };
+
+    return {
+      dataSource,
+      themeStyleSetting2,
+      themeStyleSetting,
+      themeApply,
+      showThemeSwitch,
+      themeSwitch,
+      shortcutList,
+      lastVersion,
+      widgetSetting,
+      resetConfig,
+      switchDataSourceAction,
+      categorySetting,
+      uploadFileAction,
+      uploadElementRef,
+      uploadAction,
+      copyConfig,
+      searchEngineSetting,
+      shortcutSetting,
+      themeSetting,
+      visibleSetting,
+      showSettingView,
+      handleOk: applySetting,
+      releaseHistoryVisible,
+      onlyRead,
+      openUrl,
+      calendarView,
+      openCalendarView,
+      rhv,
+      importSettingByClipboard
+    };
+  }
+});
 </script>
 
 <style scoped>
-  :deep(.arco-menu-selected) {
+:deep(.arco-menu-selected) {
     color: var(--color-text-2) !important;
-  }
-  :deep(.arco-menu-selected:active) {
+}
+
+:deep(.arco-menu-selected:active) {
     background-color: rgb(0 0 0 / 5%);
-  }
-  :deep(.arco-menu-item:hover) {
+}
+
+:deep(.arco-menu-item:hover) {
     background-color: rgb(0 0 0 / 5%);
-  }
-  :deep(.arco-menu-pop:hover) {
+}
+
+:deep(.arco-menu-pop:hover) {
     background-color: rgb(0 0 0 / 5%);
-  }
-  :deep(.arco-menu-light) {
+}
+
+:deep(.arco-menu-light) {
     background-color: rgb(0 0 0 / 0);
-  }
-  :deep(.arco-menu-item) {
+}
+
+:deep(.arco-menu-item) {
     background-color: rgb(0 0 0 / 0);
-  }
-  :deep(.arco-menu-pop) {
+}
+
+:deep(.arco-menu-pop) {
     background-color: rgb(0 0 0 / 0);
-  }
-  :deep(.arco-modal-wrapper) {
+}
+
+:deep(.arco-modal-wrapper) {
     opacity: 0.01;
-  }
-  :deep(.op-calendar-pc-left) {
+}
+
+:deep(.op-calendar-pc-left) {
     border: none;
     padding: 0;
     box-shadow: none;
     border-radius: 0px;
-  }
+}
 
-  :deep(.op-calendar-pc-right) {
+:deep(.op-calendar-pc-right) {
     border: none;
     box-shadow: none;
     border-radius: 0px;
-  }
+}
 
-  #header {
+#header {
     padding: 0;
     display: flex;
     justify-content: space-between;
     align-content: center;
     width: 100%;
-  }
+}
 
-  .menuContainer {
+.menuContainer {
     flex-grow: 1;
     text-align: right;
-  }
+}
 
-  .headerLeft {
+.headerLeft {
     /*flex-grow: 1;*/
     margin-left: 12rem;
-  }
-  .navLogo {
+}
+
+.navLogo {
     margin-left: 8%;
     width: 120px;
     height: 3rem;
     /*background-image: url('https://img.springlearn.cn/geek.png');*/
-  }
+}
 
-  .importBtn {
+.importBtn {
     min-width: 24px;
     height: 24px;
     border-radius: 25%;
-  }
+}
 </style>

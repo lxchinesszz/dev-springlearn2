@@ -114,5 +114,12 @@ const releaseHistoryVersions: Array<Version> = [
     type: 'FEATURE',
     dotColor: '#e520ec',
   },
+  {
+    version: '1.2.11',
+    date: '2023-06-21',
+    items: ['浏览器自适应布局'],
+    type: 'FEATURE',
+    dotColor: '#e520ec',
+  },
 ];
 export default releaseHistoryVersions;

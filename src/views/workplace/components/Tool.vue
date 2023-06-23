@@ -1,45 +1,45 @@
 <template>
   <div class="toolCard">
     <div class="toolIcon" style="color: #504f4f">
-      <a-trigger
-        trigger="hover"
-        position="top"
-        :popup-offset="25"
-        show-arrow
-        align-point
-      >
-        <ELink :href="toolInfo.link">
-          <a-avatar v-if="imgVisible" :size="55" shape="circle">
-            <img alt="avatar" :src="toolInfo.icon" @error="switchIconText" />
-          </a-avatar>
-          <a-avatar
-            v-else
-            :size="55"
-            :style="{
-              backgroundColor: bgColor,
-              color: '#fff',
-            }"
-          >
-            {{ iconText }}</a-avatar
-          >
-        </ELink>
-        <template #content>
-          <div
-            style="height: 100%; overflow-y: scroll; overflow-x: hidden"
-            class="animated fadeIn"
-          >
-            <a-card
-              :style="{ width: '360px' }"
-              :title="info.title"
-              hoverable
-              :bordered="false"
-            >
-              <iframe :src="toolInfo.link" frameborder="0" scrolling="no">
-              </iframe>
-            </a-card>
-          </div>
-        </template>
-      </a-trigger>
+      <!--      <a-trigger-->
+      <!--        trigger="hover"-->
+      <!--        position="top"-->
+      <!--        :popup-offset="25"-->
+      <!--        show-arrow-->
+      <!--        align-point-->
+      <!--      >-->
+      <ELink :href="toolInfo.link">
+        <a-avatar v-if="imgVisible" :size="55" shape="circle">
+          <img alt="avatar" :src="toolInfo.icon" @error="switchIconText" />
+        </a-avatar>
+        <a-avatar
+          v-else
+          :size="55"
+          :style="{
+            backgroundColor: bgColor,
+            color: '#fff',
+          }"
+        >
+          {{ iconText }}
+        </a-avatar>
+      </ELink>
+<!--      <template #content>-->
+<!--        <div-->
+<!--          style="height: 100%; overflow-y: scroll; overflow-x: hidden"-->
+<!--          class="animated fadeIn"-->
+<!--        >-->
+<!--          <a-card-->
+<!--            :style="{ width: '360px' }"-->
+<!--            :title="info.title"-->
+<!--            hoverable-->
+<!--            :bordered="false"-->
+<!--          >-->
+<!--            <iframe :src="toolInfo.link" frameborder="0" scrolling="no">-->
+<!--            </iframe>-->
+<!--          </a-card>-->
+<!--        </div>-->
+<!--      </template>-->
+      <!--      </a-trigger>-->
     </div>
     <div class="toolDescWrapper">
       <div class="toolTitle">
@@ -48,8 +48,8 @@
             {{ toolInfo.title }}
           </ELink>
         </div>
-        <div v-if="toolInfo.source === 1" class="locationGw"> 国外 </div>
-        <div v-else class="location"> 国内 </div>
+        <div v-if="toolInfo.source === 1" class="locationGw"> 国外</div>
+        <div v-else class="location"> 国内</div>
       </div>
       <div class="toolDesc">
         <ELink :href="toolInfo.link">
@@ -97,6 +97,7 @@
       const iconText = ref(props.info.title.substr(0, 2).toUpperCase());
       // 默认背景
       const imgVisible = ref(!props.dataSource?.theme.closeIcon);
+
       function switchIconText() {
         console.log(toolInfo.title, 'Icon加载失败,已动态生成Icon');
         imgVisible.value = false;
@@ -117,6 +118,7 @@
     background-color: white;
     color: #9c9c9c;
   }
+
   .toolCard {
     display: flex;
     flex-direction: row;
@@ -128,13 +130,16 @@
     box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
     transition: box-shadow 0.3s ease, transform 0.2s ease;
   }
+
   .toolDesc {
     margin-top: 5px;
   }
+
   .toolTitle {
     display: flex;
     flex-direction: row;
     align-items: center;
+
     .free {
       display: inline-block;
       -webkit-transform: scale(0.8);
@@ -146,6 +151,7 @@
       border-radius: 2px;
       background-color: #f1f1f1;
     }
+
     .location {
       background-color: #f1f1f1;
       display: inline-block;
@@ -157,6 +163,7 @@
       padding: 0 4px;
       border-radius: 2px;
     }
+
     .locationGw {
       background-color: #c94f4f;
       display: inline-block;
@@ -169,14 +176,17 @@
       border-radius: 2px;
     }
   }
+
   @media screen and (min-width: 1440px) {
     .toolDescWrapper {
       text-align: left;
       margin-left: 5px;
+
       .toolTitle {
         font-weight: bolder;
         font-size: 1.1rem;
       }
+
       .toolDesc {
         color: #504f4f;
         font-size: 0.5rem;
@@ -188,10 +198,12 @@
     .toolDescWrapper {
       text-align: left;
       margin-left: 5px;
+
       .toolTitle {
         font-weight: bolder;
         font-size: 1.1rem;
       }
+
       .toolDesc {
         font-size: 0.5rem;
       }

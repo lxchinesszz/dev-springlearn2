@@ -14,17 +14,22 @@
       ></Search>
       <!--    工具流-->
       <div id="tool" class="toolContainerFlow">
-        <div
-          v-for="(tool, index) in toolGroupData.toolList"
-          :key="index"
-          class="toolList"
+        <a-grid
+          style="width: 100%"
+          :cols="{ xs: 1, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 }"
         >
-          <ToolDrawer
-            :data-source="sourceData"
-            :name="tool.toolGroupName"
-            :tool-list="filterInvalidTool(tool.toolList)"
-          ></ToolDrawer>
-        </div>
+          <a-grid-item
+            v-for="(tool, index) in toolGroupData.toolList"
+            :key="index"
+            class="toolList"
+          >
+            <ToolDrawer
+              :data-source="sourceData"
+              :name="tool.toolGroupName"
+              :tool-list="filterInvalidTool(tool.toolList)"
+            ></ToolDrawer>
+          </a-grid-item>
+        </a-grid>
       </div>
     </a-layout-content>
   </a-layout>
@@ -123,6 +128,7 @@
   const searchList: Array<SearchEngineModel> = deepClone(
     sourceData.searchEngineList
   );
+
   // 切换分类工具组
   function selectCategory(index: number) {
     toolGroupData.categoryName = categories[index].categoryName;
@@ -207,7 +213,6 @@
 
   .toolList {
     position: relative;
-    width: 49.5vw;
     height: auto;
     margin: 0.25vw;
   }
@@ -247,7 +252,9 @@
       height: 100vh;
       position: absolute;
     }
+
     width: 100vw;
+
     .themeSettingFloatWrapper {
       position: absolute;
       right: 10rem;
@@ -255,6 +262,7 @@
       z-index: 1000;
     }
   }
+
   .logoWrapper {
     position: fixed;
     z-index: 10000;
