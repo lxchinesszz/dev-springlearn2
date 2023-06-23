@@ -1,0 +1,35 @@
+#supperWrapper[data-v-441a7e39]{position:relative}
+
+#supperSearchWrapper[data-v-441a7e39]{display:flex;flex-direction:row;justify-content:space-between;width:100%;height:48px;border-radius:12px}
+
+#supperSearchWrapper[data-v-441a7e39]:hover{box-shadow:0 20px 40px #245bdb14}
+
+#supperSearchWrapper .searchBtn[data-v-441a7e39]{display:flex;align-items:center;justify-content:center;width:10%;height:100%;margin-left:-1px;color:#fff;font-weight:500;font-size:18px;line-height:26px;background:linear-gradient(90deg,#4e83fd,#3370ff);border-top-right-radius:12px;border-bottom-right-radius:12px;cursor:pointer}
+
+#supperSearchWrapper .searchBtn[data-v-441a7e39]:hover{animation:gradient 15s ease-in-out infinite;animation:bganimation-441a7e39 15s ease-in-out infinite}
+
+.supperSearch[data-v-441a7e39]{display:flex;flex-direction:row;flex-grow:1;align-content:center;align-items:center;justify-content:space-between;width:90%;height:100%;font-size:14px;text-indent:15px;background-color:#fff;border-top-left-radius:12px;border-bottom-left-radius:12px}
+
+.supperSearch[data-v-441a7e39]:hover{transition:border 9s}
+
+.supperSearch .search-icon[data-v-441a7e39]{display:flex;align-items:center;justify-content:center;width:10%;height:100%;color:#3974ff;font-size:14px;background-color:#3974ff}
+
+.supperSearch .searchInput[data-v-441a7e39]{width:99%;height:100%}
+
+.supperSearch .searchInput input[data-v-441a7e39]{width:100%;height:100%;font-size:16px;background:none;border:none;outline:none}@keyframes bganimation-441a7e39{0%{background-position:0% 50%}
+
+50%{background-position:100% 50%}
+
+100%{background-position:0% 50%}}
+
+#supperTipWrapper[data-v-441a7e39]{position:absolute;width:90%;max-height:60vh;margin-top:4px;padding:0 20px;overflow:auto;text-align:left;background-color:#fff;border-radius:8px;box-shadow:0 10px 20px #245bdb14}
+
+#supperTipWrapper[data-v-441a7e39]:hover{box-shadow:0 20px 40px #245bdb14}
+
+#supperTipWrapper .tipItemWrapper[data-v-441a7e39]{display:flex;flex-direction:column;margin:15px 0;overflow:scroll}
+
+#supperTipWrapper .tipItemWrapper .tipItemTitle[data-v-441a7e39]{display:inline-block;width:auto;font-weight:bolder;font-size:1.2rem}
+
+#supperTipWrapper .tipItemWrapper .tipItemList[data-v-441a7e39]{margin-top:15px}
+
+.searchTipItemHover[data-v-441a7e39]{color:red!important}
