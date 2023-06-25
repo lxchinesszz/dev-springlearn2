@@ -16,7 +16,7 @@
         <template #name="{ rowIndex }">
           <a-input
             v-model="shortcutData[rowIndex].name"
-            :max-length="6"
+            :max-length="16"
             show-word-limit
             allow-clear
             :disabled="!onlyRead"

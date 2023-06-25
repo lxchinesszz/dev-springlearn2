@@ -18,27 +18,28 @@
           :style="{
             backgroundColor: bgColor,
             color: '#fff',
+            fontSize: '1.5rem',
           }"
         >
           {{ iconText }}
         </a-avatar>
       </ELink>
-<!--      <template #content>-->
-<!--        <div-->
-<!--          style="height: 100%; overflow-y: scroll; overflow-x: hidden"-->
-<!--          class="animated fadeIn"-->
-<!--        >-->
-<!--          <a-card-->
-<!--            :style="{ width: '360px' }"-->
-<!--            :title="info.title"-->
-<!--            hoverable-->
-<!--            :bordered="false"-->
-<!--          >-->
-<!--            <iframe :src="toolInfo.link" frameborder="0" scrolling="no">-->
-<!--            </iframe>-->
-<!--          </a-card>-->
-<!--        </div>-->
-<!--      </template>-->
+      <!--      <template #content>-->
+      <!--        <div-->
+      <!--          style="height: 100%; overflow-y: scroll; overflow-x: hidden"-->
+      <!--          class="animated fadeIn"-->
+      <!--        >-->
+      <!--          <a-card-->
+      <!--            :style="{ width: '360px' }"-->
+      <!--            :title="info.title"-->
+      <!--            hoverable-->
+      <!--            :bordered="false"-->
+      <!--          >-->
+      <!--            <iframe :src="toolInfo.link" frameborder="0" scrolling="no">-->
+      <!--            </iframe>-->
+      <!--          </a-card>-->
+      <!--        </div>-->
+      <!--      </template>-->
       <!--      </a-trigger>-->
     </div>
     <div class="toolDescWrapper">
@@ -86,6 +87,7 @@
       },
       bgColor: {
         type: String,
+        default: '#3c6eff',
       },
     },
     setup(props) {
