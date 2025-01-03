@@ -1,0 +1,1 @@
+{"version":3,"file":"FuseToolResult.js","sourceRoot":"","sources":["FuseToolResult.ts"],"names":[],"mappings":"AAEA,MAAM,CAAC,OAAO,OAAO,cAAc;IAOjC,YAAY,YAAoB,EAAE,aAAqB,EAAE,IAAkB;QACzE,IAAI,CAAC,YAAY,GAAG,YAAY,CAAC;QACjC,IAAI,CAAC,aAAa,GAAG,aAAa,CAAC;QACnC,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;IACnB,CAAC;CACF"}

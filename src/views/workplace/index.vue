@@ -27,6 +27,9 @@
               :data-source="sourceData"
               :name="tool.toolGroupName"
               :tool-list="filterInvalidTool(tool.toolList)"
+              :category-index="currentCategoryIndex"
+              :group-index="index"
+              @refresh="refreshTools"
             ></ToolDrawer>
           </a-grid-item>
         </a-grid>
@@ -129,8 +132,12 @@
     sourceData.searchEngineList
   );
 
-  // 切换分类工具组
+  // 添加当前分类索引的响应式变量
+  const currentCategoryIndex = ref(0);
+
+  // 修改选择分类的方法
   function selectCategory(index: number) {
+    currentCategoryIndex.value = index;
     toolGroupData.categoryName = categories[index].categoryName;
     toolGroupData.toolList = categories[index].toolList;
   }
@@ -173,6 +180,13 @@
   const simpleThemeSetting = () => {
     workHeaderRef.value.showSettingView();
   };
+
+  // 刷新工具列表
+  const refreshTools = () => {
+    const newSourceData = fetchSourceData();
+    toolGroupData.toolList = newSourceData.categories[currentCategoryIndex.value].toolList;
+  };
+
   onMounted(() => {
     const driverInfo: Device = device();
     console.log('当前设备信息:', driverInfo);

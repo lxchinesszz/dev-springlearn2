@@ -447,6 +447,23 @@
     padding: 10px;
     cursor: pointer;
     border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+    
+    &:hover {
+      color: #f9cd04;
+      transform: translateY(-2px);
+      
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #ffd100, transparent);
+      }
+    }
   }
 
   .searchTargetCardHover {
@@ -455,12 +472,9 @@
     border-top-width: 0;
     border-bottom-width: 2px;
     border-bottom-style: solid;
-    transition: all 0.4s ease-in-out 0s;
-  }
-
-  .searchTargetCard:hover {
+    transition: all 0.4s ease-in-out;
     color: #f9cd04;
-    box-sizing: border-box;
+    transform: translateY(-2px);
   }
 
   .searchSource {

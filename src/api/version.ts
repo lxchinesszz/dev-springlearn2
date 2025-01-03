@@ -121,5 +121,12 @@ const releaseHistoryVersions: Array<Version> = [
     type: 'FEATURE',
     dotColor: '#e520ec',
   },
+  {
+    version: '1.2.12',
+    date: '2025-01-03',
+    items: ['新增快捷添加网址', '当收藏地址大于6个进行折叠'],
+    type: 'FEATURE',
+    dotColor: '#e520ec',
+  },
 ];
 export default releaseHistoryVersions;

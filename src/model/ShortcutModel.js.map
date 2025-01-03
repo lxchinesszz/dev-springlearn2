@@ -1,0 +1,1 @@
+{"version":3,"file":"ShortcutModel.js","sourceRoot":"","sources":["ShortcutModel.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,OAAO,OAAO,aAAa;IAOhC,YAAY,IAAY,EAAE,IAAY,EAAE,QAAgB;QACtD,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;QACjB,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;QACjB,IAAI,CAAC,QAAQ,GAAG,QAAQ,CAAC;IAC3B,CAAC;CACF"}

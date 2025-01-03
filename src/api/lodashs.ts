@@ -5,6 +5,9 @@ import _ from 'lodash';
  * @param t
  */
 export default function deepClone<T>(t: T): T {
+  if (t === undefined || t === null) {
+    return t;
+  }
   return JSON.parse(JSON.stringify(t));
 }
 
