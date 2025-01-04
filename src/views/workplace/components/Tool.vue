@@ -8,11 +8,11 @@
           shape="circle"
           :style="{
             background: '#fff',
-            border: '1px solid rgba(0, 0, 0, 0.06)'
+            border: '1px solid rgba(0, 0, 0, 0.06)',
           }"
         >
-          <img 
-            :src="toolInfo.icon" 
+          <img
+            :src="toolInfo.icon"
             :alt="toolInfo.title"
             style="width: 100%; height: 100%; object-fit: contain"
             @error="switchIconText"
@@ -30,7 +30,7 @@
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            border: 'none'
+            border: 'none',
           }"
         >
           {{ iconText }}
@@ -49,10 +49,19 @@
         <div class="tool-actions" @click.stop>
           <a-button-group size="mini">
             <a-button @click="handleEdit">
-              <template #icon><icon-edit /></template>
+              <template #icon>
+                <icon-edit />
+              </template>
+            </a-button>
+            <a-button @click="addShoucang">
+              <template #icon>
+                <icon-star-fill />
+              </template>
             </a-button>
             <a-button status="danger" @click="handleDelete">
-              <template #icon><icon-delete /></template>
+              <template #icon>
+                <icon-delete />
+              </template>
             </a-button>
           </a-button-group>
         </div>
@@ -100,7 +109,7 @@
   const emit = defineEmits(['refresh']);
 
   interface ToolInfo extends CategoryTool {
-    id: string;
+    id?: string;
     title: string;
     desc: string;
     link: string;
@@ -171,7 +180,7 @@
 
   // 安全地设置精简ICON
   const iconText = ref(getDefaultIconText(props.toolInfo?.title));
-  
+
   // 修改图片错误处理逻辑
   const imgError = ref(false);
 
@@ -222,12 +231,14 @@
   // 保存编辑
   const saveEdit = () => {
     const sourceData = fetchSourceData();
-    const toolGroup = sourceData.categories[props.categoryIndex]?.toolList[props.groupIndex];
+    const toolGroup =
+      sourceData.categories[props.categoryIndex]?.toolList[props.groupIndex];
     if (!toolGroup) return;
 
     const tool = toolGroup.toolList?.find((t: any) => {
-      return t.title === props.toolInfo?.title && 
-             t.link === props.toolInfo?.link;
+      return (
+        t.title === props.toolInfo?.title && t.link === props.toolInfo?.link
+      );
     });
 
     if (tool) {
@@ -250,6 +261,45 @@
     editVisible.value = false;
   };
 
+  const addShoucang = () => {
+    const sourceData = fetchSourceData();
+    // 获取当前分类
+    const category = sourceData.categories[props.categoryIndex];
+    if (!category) return;
+
+    // 获取当前工具组
+    const toolGroup = category.toolList[props.groupIndex];
+    if (!toolGroup) return;
+
+    // 在工具组中查找并删除工具
+    const index = toolGroup.toolList.findIndex((t: any) => {
+      return (
+        t.title === props.toolInfo?.title && t.link === props.toolInfo?.link
+      );
+    });
+
+    const tl = toolGroup.toolList[index];
+
+    sourceData.categories.forEach((cate) => {
+      if (cate.categoryName === '常用') {
+        // 如果有数据取第一个，没有数据就新建一个
+        if (!cate.toolList.length) {
+          cate.toolList.push({
+            toolGroupName: '常用',
+            toolList: [],
+          });
+        }
+        const categoryToolGroup = cate.toolList[0];
+        categoryToolGroup.toolList.push(tl);
+      }
+    });
+
+    setCategory(sourceData.categories);
+    Message.success('收藏成功');
+    // 触发父组件更新
+    emit('refresh');
+  };
+
   // 删除工具
   const handleDelete = () => {
     Modal.confirm({
@@ -267,15 +317,15 @@
 
         // 在工具组中查找并删除工具
         const index = toolGroup.toolList.findIndex((t: any) => {
-          return t.title === props.toolInfo?.title && 
-                 t.link === props.toolInfo?.link;
+          return (
+            t.title === props.toolInfo?.title && t.link === props.toolInfo?.link
+          );
         });
 
         if (index > -1) {
           toolGroup.toolList.splice(index, 1);
           setCategory(sourceData.categories);
           Message.success('删除成功');
-
           // 触发父组件更新
           emit('refresh');
         }
@@ -419,6 +469,7 @@
 
   :deep(.arco-btn) {
     transition: all 0.2s ease;
+
     &:hover {
       transform: scale(1.05);
     }

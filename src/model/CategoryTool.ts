@@ -5,7 +5,7 @@ export default class CategoryTool {
 
   public link: string;
 
-  public icon: string;
+  public icon: string | undefined;
 
   public source: number;
 

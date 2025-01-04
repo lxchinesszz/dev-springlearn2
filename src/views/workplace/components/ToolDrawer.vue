@@ -18,19 +18,21 @@
       </a-divider>
     </div>
     <div class="tool-panel">
-      <a-grid 
-        :cols="{ 
-          xs: 1, 
-          sm: 1, 
-          md: 2, 
-          lg: 2, 
-          xl: 2, 
-          xxl: 3 
-        }" 
-        :colGap="16" 
+      <a-grid
+        :cols="{
+          xs: 1,
+          sm: 1,
+          md: 2,
+          lg: 2,
+          xl: 2,
+          xxl: 3,
+        }"
         :rowGap="16"
       >
-        <template v-for="(info, index) in displayedTools" :key="JSON.stringify(info)">
+        <template
+          v-for="(info, index) in displayedTools"
+          :key="JSON.stringify(info)"
+        >
           <a-grid-item>
             <Tool
               :bg-color="dynamicIconColor(index)"
@@ -45,15 +47,17 @@
           </a-grid-item>
         </template>
         <a-grid-item v-if="hasMoreTools">
-          <div 
-            class="collapse-card animated" 
+          <div
+            class="collapse-card animated"
             :class="dataSource.theme.toolGroupAnimate"
             @click="toggleExpand"
           >
             <div class="collapse-content">
               <icon-plus v-if="!isExpanded" />
               <icon-minus v-else />
-              <span>{{ isExpanded ? '收起' : `展开更多(${remainingCount})`}}</span>
+              <span>{{
+                isExpanded ? '收起' : `展开更多(${remainingCount})`
+              }}</span>
             </div>
           </div>
         </a-grid-item>
@@ -104,10 +108,10 @@
 
   export default defineComponent({
     name: 'ToolDrawer',
-    components: { 
+    components: {
       Tool,
       IconPlus,
-      IconMinus
+      IconMinus,
     },
     props: {
       dataSource: SettingModel,
@@ -138,13 +142,13 @@
         icon: '',
         source: 0,
         id: '',
-        iconTextBackgroundColor: '#3c6eff'
+        iconTextBackgroundColor: '#3c6eff',
       });
 
       const displayedTools = computed(() => {
         if (!props.toolList) return [];
-        return isExpanded.value 
-          ? props.toolList 
+        return isExpanded.value
+          ? props.toolList
           : props.toolList.slice(0, MAX_VISIBLE_TOOLS);
       });
 
@@ -181,7 +185,7 @@
           icon: '',
           source: 0,
           id: Date.now().toString(),
-          iconTextBackgroundColor: '#3c6eff'
+          iconTextBackgroundColor: '#3c6eff',
         });
         addToolVisible.value = true;
       }
@@ -191,20 +195,20 @@
           Message.error('请填写必填项');
           return;
         }
-        
+
         const sourceData = fetchSourceData();
         const category = sourceData.categories[props.categoryIndex];
         if (!category) return;
-        
+
         const toolGroup = category.toolList[props.groupIndex];
         if (!toolGroup) return;
-        
+
         toolGroup.toolList.push({ ...newTool });
-        
+
         setCategory(sourceData.categories);
         Message.success('添加成功');
         addToolVisible.value = false;
-        
+
         emit('refresh');
       }
 
@@ -223,7 +227,7 @@
         hasMoreTools,
         remainingCount,
         isExpanded,
-        toggleExpand
+        toggleExpand,
       };
     },
   });
@@ -231,7 +235,11 @@
 
 <style lang="less" scoped>
   .tool-drawer {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.1));
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.1)
+    );
     border-radius: 16px;
     padding: 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
@@ -267,13 +275,13 @@
     padding: 0;
     border-radius: 4px;
     transition: all 0.3s ease;
-    
+
     &:hover {
       background: rgba(255, 255, 255, 0.15);
       transform: translateY(-1px);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
-    
+
     :deep(.arco-icon) {
       margin: 0;
       font-size: 14px;
@@ -294,24 +302,24 @@
     width: 100%;
     height: 100%;
     padding: 12px 4px;
-    
+
     :deep(.arco-grid) {
       margin: -8px -12px;
     }
-    
+
     :deep(.arco-grid-item) {
       padding: 8px 12px;
       transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      
+
       .toolCard {
         transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         transform-origin: center center;
         will-change: transform, box-shadow;
       }
-      
+
       &:hover {
         transform: translateY(-2px) scale(1.02);
-        
+
         .toolCard {
           box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         }
@@ -322,7 +330,11 @@
   .collapse-card {
     height: 100%;
     min-height: 140px;
-    background: linear-gradient(135deg, rgba(60, 110, 255, 0.1), rgba(92, 159, 255, 0.1));
+    background: linear-gradient(
+      135deg,
+      rgba(60, 110, 255, 0.1),
+      rgba(92, 159, 255, 0.1)
+    );
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -332,7 +344,11 @@
     transition: all 0.3s ease;
 
     &:hover {
-      background: linear-gradient(135deg, rgba(60, 110, 255, 0.15), rgba(92, 159, 255, 0.15));
+      background: linear-gradient(
+        135deg,
+        rgba(60, 110, 255, 0.15),
+        rgba(92, 159, 255, 0.15)
+      );
       border-color: rgba(60, 110, 255, 0.3);
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
@@ -374,12 +390,12 @@
   :deep(.arco-input-wrapper) {
     border-radius: 8px;
     transition: all 0.3s ease;
-    
+
     &:hover {
       border-color: #4080ff;
       box-shadow: 0 0 0 2px rgba(64, 128, 255, 0.1);
     }
-    
+
     &.arco-input-focus {
       border-color: #4080ff;
       box-shadow: 0 0 0 2px rgba(64, 128, 255, 0.2);
@@ -390,31 +406,31 @@
     .arco-modal-header {
       padding: 20px 24px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-      
+
       .arco-modal-title {
         font-size: 18px;
         font-weight: 600;
         color: #1d2129;
       }
     }
-    
+
     .arco-modal-content {
       padding: 24px;
     }
-    
+
     .arco-modal-footer {
       padding: 16px 24px;
       border-top: 1px solid rgba(0, 0, 0, 0.06);
-      
+
       .arco-btn {
         padding: 6px 16px;
         border-radius: 6px;
         font-weight: 500;
-        
+
         &.arco-btn-primary {
           background: linear-gradient(135deg, #4080ff, #5c9fff);
           border: none;
-          
+
           &:hover {
             background: linear-gradient(135deg, #3570e6, #4a8ff0);
           }
@@ -461,7 +477,7 @@
       margin: 6px;
       padding: 12px;
     }
-    
+
     .tool-panel {
       :deep(.arco-grid) {
         margin: -6px -8px;

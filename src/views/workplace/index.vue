@@ -13,7 +13,7 @@
         @change-category="selectCategory"
       ></Search>
       <!--    工具流-->
-      <div id="tool" class="toolContainerFlow">
+      <div v-if="!commonPage" id="tool" class="toolContainerFlow">
         <a-grid
           style="width: 100%"
           :cols="{ xs: 1, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 }"
@@ -31,6 +31,57 @@
               :group-index="index"
               @refresh="refreshTools"
             ></ToolDrawer>
+          </a-grid-item>
+        </a-grid>
+      </div>
+      <div v-else id="tool" class="toolContainerFlow">
+        <a-grid
+          style="width: 100%"
+          v-for="(tool, index) in toolCommonGroupData.toolList"
+          :cols="{ xs: 1, sm: 2, md: 6, lg: 6, xl: 6, xxl: 6 }"
+          :key="index"
+          class="toolList"
+        >
+          <a-grid-item
+            v-for="(tl, index) in tool.toolList"
+            :key="tl.link"
+            class="tool-card"
+            @click="handleToolClick(tl)"
+          >
+            <div class="tool-card__content">
+              <div class="tool-card__icon">
+                <img
+                  v-if="tl.icon"
+                  :src="tl.icon"
+                  :alt="tl.title"
+                  @error="tl.icon = undefined"
+                />
+                <a-avatar
+                  v-else
+                  :size="55"
+                  shape="circle"
+                  :style="{
+                    backgroundColor: '#fbfbfb',
+                    color: '#000000',
+                    fontSize: '24px',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: 'none',
+                  }"
+                >
+                  {{ tl.title ? tl.title.charAt(0).toUpperCase() : '?' }}
+                </a-avatar>
+              </div>
+              <div class="tool-card__info" style="text-align: left">
+                <h3 class="tool-card__title">{{ tl.title }}</h3>
+                <p class="tool-card__desc">{{ tl.desc }}</p>
+              </div>
+              <div class="tool-card__delete" @click.stop="handleDelete(index)">
+                <icon-delete />
+              </div>
+            </div>
           </a-grid-item>
         </a-grid>
       </div>
@@ -94,6 +145,7 @@
   import { onMounted, reactive, ref, provide } from 'vue';
   import {
     fetchSourceData,
+    setCategory,
     isNewUser,
     saveLocal,
     fusePlugin,
@@ -110,6 +162,7 @@
   import { device, Device } from '@/hooks/device';
   import { useRouter } from 'vue-router';
   import { useFavicon, useTitle } from '@vueuse/core';
+  import { Message } from '@arco-design/web-vue';
 
   // 向子组件注入fuse数据
   provide<FusePlugin>('fuse', fusePlugin());
@@ -128,6 +181,9 @@
   const categories: Array<CategoryModel> = deepClone(sourceData.categories);
   // 初始化数据
   const toolGroupData: CategoryModel = reactive(deepClone(categories[0]));
+
+  const toolCommonGroupData: CategoryModel = reactive(deepClone(categories[0]));
+
   const searchList: Array<SearchEngineModel> = deepClone(
     sourceData.searchEngineList
   );
@@ -135,10 +191,17 @@
   // 添加当前分类索引的响应式变量
   const currentCategoryIndex = ref(0);
 
+  const commonPage = ref(true);
+
   // 修改选择分类的方法
   function selectCategory(index: number) {
     currentCategoryIndex.value = index;
     toolGroupData.categoryName = categories[index].categoryName;
+    if (toolGroupData.categoryName === '常用') {
+      commonPage.value = true;
+    } else {
+      commonPage.value = false;
+    }
     toolGroupData.toolList = categories[index].toolList;
   }
 
@@ -184,7 +247,35 @@
   // 刷新工具列表
   const refreshTools = () => {
     const newSourceData = fetchSourceData();
-    toolGroupData.toolList = newSourceData.categories[currentCategoryIndex.value].toolList;
+    toolCommonGroupData.toolList = newSourceData.categories[0].toolList;
+    toolGroupData.toolList =
+      newSourceData.categories[currentCategoryIndex.value].toolList;
+  };
+
+  const handleToolClick = (tool: CategoryTool) => {
+    if (tool.link) {
+      window.open(tool.link, '_blank');
+    }
+  };
+
+  // 安全地设置精简ICON
+
+  // 修改图片错误处理逻辑
+  const imgError = ref(false);
+
+  const handleDelete = (index) => {
+    // 这里添加删除逻辑
+    sourceData.categories.forEach((cate) => {
+      if (cate.categoryName === '常用') {
+        // 如果有数据取第一个，没有数据就新建一个
+        cate.toolList.forEach((subCate) => {
+          subCate.toolList.splice(index, 1);
+        });
+      }
+    });
+    setCategory(sourceData.categories);
+    refreshTools();
+    Message.success('保存成功');
   };
 
   onMounted(() => {
@@ -283,5 +374,86 @@
     left: 5vw;
     width: 120px;
     height: 3rem;
+  }
+
+  .tool-card {
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+      .tool-card__delete {
+        opacity: 1;
+      }
+    }
+
+    &__content {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    &__icon {
+      width: 48px;
+      height: 48px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+    }
+
+    &__info {
+      flex: 1;
+    }
+
+    &__title {
+      margin: 0 0 4px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #1d2129;
+    }
+
+    &__desc {
+      margin: 0;
+      font-size: 14px;
+      color: #86909c;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    &__delete {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      opacity: 0;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        color: #f53f3f;
+      }
+    }
   }
 </style>
